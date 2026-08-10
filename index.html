@@ -132,6 +132,52 @@
       background-size:200px; animation:grain .15s steps(1) infinite;
     }
     @keyframes grain { 0%{transform:translate(0,0);} 25%{transform:translate(-3px,2px);} 50%{transform:translate(2px,-3px);} 75%{transform:translate(-1px,3px);} 100%{transform:translate(3px,-1px);} }
+
+    /* MOBILE OPTIMIZATIONS */
+    @media (max-width: 600px) {
+      #main-title {
+        font-size: clamp(44px, 10vw, 72px) !important;
+      }
+      #clock-wrap {
+        top: 16px !important;
+        left: 16px !important;
+      }
+      #clock {
+        font-size: 12px !important;
+      }
+      #date-display {
+        font-size: 9px !important;
+      }
+      #online-badge {
+        top: 16px !important;
+        padding: 4px 10px !important;
+      }
+      #online-count {
+        font-size: 10px !important;
+      }
+      #player-card {
+        bottom: 24px !important;
+        width: 220px !important; /* Slightly more compact on mobile */
+        padding: 10px 12px 10px !important;
+      }
+      #t-title {
+        font-size: 10px !important;
+      }
+      #t-artist {
+        font-size: 8px !important;
+      }
+      #controls {
+        gap: 12px !important;
+      }
+      #play-btn {
+        width: 30px !important;
+        height: 30px !important;
+      }
+      #play-btn svg {
+        width: 14px !important;
+        height: 14px !important;
+      }
+    }
   </style>
 </head>
 <body>

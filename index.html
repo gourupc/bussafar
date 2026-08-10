@@ -560,12 +560,41 @@
       }
     }
 
+
+    /* Update OS Media Session (Lock Screen & Background Controls) */
+    function updateMediaSession(track) {
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: track.title,
+          artist: track.artist,
+          album: 'बस सफर',
+          artwork: [
+            { src: 'https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp', sizes: '256x256', type: 'image/webp' }
+          ]
+        });
+
+        navigator.mediaSession.setActionHandler('play', () => {
+          if (ytPlayer) { ytPlayer.playVideo(); updatePlayIcon(true); }
+        });
+        navigator.mediaSession.setActionHandler('pause', () => {
+          if (ytPlayer) { ytPlayer.pauseVideo(); updatePlayIcon(false); }
+        });
+        navigator.mediaSession.setActionHandler('previoustrack', () => {
+          prevTrack();
+        });
+        navigator.mediaSession.setActionHandler('nexttrack', () => {
+          nextTrack();
+        });
+      }
+    }
+
     function loadTrack(idx, autoplay = true) {
       currentTrackIdx = idx;
       const track = tracks[currentTrackIdx];
       
       document.getElementById('t-title').textContent = track.title;
       document.getElementById('t-artist').textContent = track.artist;
+      updateMediaSession(track);
 
       if (ytPlayer && ytPlayer.loadVideoById) {
         if (autoplay) {

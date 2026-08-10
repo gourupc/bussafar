@@ -489,7 +489,6 @@
             "artist": "Kumar Sanu,\u00a0Alka Yagnik",
             "yt_id": "HubRXgH0Erc"
       }
-]
     ];
 
     let currentTrackIdx = 0;
@@ -623,6 +622,9 @@
         ytPlayer.setVolume(v);
       }
     }
+
+    // Load first track details immediately on page load
+    loadTrack(0, false);
   </script>
 </body>
 </html>

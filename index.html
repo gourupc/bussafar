@@ -97,15 +97,38 @@
       width:360px;
     }
     #spotify-player {
+      position:relative;
       width:360px;
       height:80px;
       border-radius:12px;
       overflow:hidden;
       box-shadow:0 12px 40px rgba(0,0,0,0.75), 0 0 0 1px rgba(255, 255, 255, 0.08);
-      background:#121212;
+      background:#181818;
     }
     #spotify-player iframe {
       display:block; border:none; border-radius:12px;
+    }
+
+    /* VISUAL MASK OVERLAYS TO HIDE PRIVATE SPOTIFY branding & (+ / ...) BUTTONS */
+    .spotify-mask-logo {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 44px;
+      height: 40px;
+      background: #181818; /* Matches the Spotify player background color exactly */
+      z-index: 10;
+      pointer-events: none;
+    }
+    .spotify-mask-ctrl {
+      position: absolute;
+      bottom: 0;
+      right: 48px;
+      width: 90px;
+      height: 42px;
+      background: #181818; /* Matches the Spotify player background color exactly */
+      z-index: 10;
+      pointer-events: none;
     }
 
     /* GRAIN */
@@ -160,7 +183,7 @@
       <h1 id="main-title">बस सफर</h1>
     </div>
 
-    <!-- Spotify Embed Player set to compact 80px height (hides track list & bottom bar with + / ... buttons) -->
+    <!-- Spotify Embed Player with visual masking overlays -->
     <div id="spotify-wrap">
       <div id="spotify-player">
         <iframe
@@ -171,6 +194,8 @@
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           allowfullscreen>
         </iframe>
+        <div class="spotify-mask-logo"></div>
+        <div class="spotify-mask-ctrl"></div>
       </div>
     </div>
 
@@ -178,6 +203,7 @@
 
   <script>
     /* ── Clock ── */
+    // Clock updates
     function updateClock() {
       const now = new Date();
       const h = now.getHours(), m = now.getMinutes();

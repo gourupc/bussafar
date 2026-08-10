@@ -79,59 +79,48 @@
       letter-spacing:-.01em;
     }
 
-    /* ══ PREMIUM CUSTOM MUSIC PLAYER ══ */
+    /* ══ PREMIUM MUSIC PLAYER CARD (REDUCED 50% - NO POSTER) ══ */
     #player-card {
       position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
-      width:360px;
+      width:250px; /* Reduced width by 50% */
       background: rgba(10, 10, 20, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
+      border-radius: 16px;
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
-      padding: 14px 16px 16px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.05);
+      padding: 12px 14px 12px;
+      box-shadow: 0 16px 48px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.05);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
-    #track-info-row { display:flex; align-items:center; gap:12px; }
-    #art {
-      width:52px; height:52px; border-radius:10px; object-fit:cover;
-      background:#111; flex-shrink:0;
-      box-shadow:0 4px 16px rgba(0,0,0,.5);
-    }
+    #track-info-row { display:flex; align-items:center; justify-content:center; text-align:center; }
     #track-details { flex:1; min-width:0; }
-    #t-title { font-size:13px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    #t-artist { font-size:11px; color:var(--muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    #t-title { font-size:11px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    #t-artist { font-size:9px; color:var(--muted); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
     /* Progress seeker */
     #prog-wrap { width: 100%; }
-    #prog-bg { width:100%; height:4px; background:rgba(255,255,255,.12); border-radius:999px; cursor:pointer; position:relative; }
+    #prog-bg { width:100%; height:3px; background:rgba(255,255,255,.12); border-radius:999px; cursor:pointer; position:relative; }
     #prog-bar { height:100%; background:var(--accent); border-radius:999px; width:0%; transition:width 0.1s linear; pointer-events:none; }
-    #time-row { display:flex; justify-content:space-between; margin-top:4px; }
-    #time-row span { font-size:10px; color:var(--muted); }
+    #time-row { display:flex; justify-content:space-between; margin-top:3px; }
+    #time-row span { font-size:9px; color:var(--muted); }
 
     /* Control buttons */
-    #controls { display:flex; align-items:center; justify-content:center; gap:20px; }
-    .btn { background:none; border:none; cursor:pointer; color:var(--muted); transition:color .18s,transform .18s; padding:4px; display:flex; align-items:center; justify-content:center; }
+    #controls { display:flex; align-items:center; justify-content:center; gap:16px; }
+    .btn { background:none; border:none; cursor:pointer; color:var(--muted); transition:color .18s,transform .18s; padding:3px; display:flex; align-items:center; justify-content:center; }
     .btn:hover { color:var(--text); transform:scale(1.12); }
     #play-btn {
-      width:42px; height:42px; border-radius:50%;
+      width:34px; height:34px; border-radius:50%;
       background:var(--accent); border:none; cursor:pointer;
       display:flex; align-items:center; justify-content:center;
       transition:background .2s,transform .18s;
-      box-shadow:0 4px 16px rgba(30,215,96,.35);
+      box-shadow:0 3px 12px rgba(30,215,96,.30);
       color: #000;
     }
     #play-btn:hover { background:#1fdf65; transform:scale(1.07); }
     #play-btn svg { fill: #000; color: #000; }
-
-    /* Volume control */
-    #vol-row { display:flex; align-items:center; gap:8px; width: 100%; }
-    #vol-row svg { color:var(--muted); flex-shrink:0; }
-    #vol-slider { flex:1; -webkit-appearance:none; appearance:none; height:3px; background:rgba(255,255,255,.12); border-radius:999px; outline:none; cursor:pointer; }
-    #vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:10px; height:10px; border-radius:50%; background:var(--accent); cursor:pointer; }
 
     /* HIDDEN YOUTUBE PLAYER CONTAINER */
     #yt-player-container { position: absolute; width: 1px; height: 1px; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; }
@@ -185,10 +174,8 @@
     <!-- ══ PREMIUM MUSIC PLAYER CARD ══ -->
     <div id="player-card">
       <div id="track-info-row">
-        <!-- Vinyl Art Style placeholder -->
-        <img id="art" src="https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp" alt="Album Art"/>
         <div id="track-details">
-          <div id="t-title">Loading tracklist...</div>
+          <div id="t-title">Loading...</div>
           <div id="t-artist">—</div>
         </div>
       </div>
@@ -205,19 +192,14 @@
 
       <div id="controls">
         <button class="btn" onclick="prevTrack()" title="Previous">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
         </button>
         <button id="play-btn" onclick="togglePlay()" title="Play/Pause">
-          <svg id="play-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </button>
         <button class="btn" onclick="nextTrack()" title="Next">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 3.9V8.1L8.5 12zM16 6h2v12h-2z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2.5-6 5.5 3.9V8.1L8.5 12zM16 6h2v12h-2z"/></svg>
         </button>
-      </div>
-
-      <div id="vol-row">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-        <input id="vol-slider" type="range" min="0" max="100" value="80" oninput="setVolume(this.value)"/>
       </div>
     </div>
 
@@ -255,239 +237,239 @@
     /* ── Tracklist Data (Scraped from your Spotify playlist) ── */
     const tracks = [
       {
-            "title": "Pyar Deewana Hota Hai Kishore Lofi",
-            "artist": "Kishore Kumar",
-            "yt_id": "9LPrp85-CAc"
+        "title": "Pyar Deewana Hota Hai Kishore Lofi",
+        "artist": "Kishore Kumar",
+        "yt_id": "9LPrp85-CAc"
       },
       {
-            "title": "Hawa Hawai",
-            "artist": "Kavita Krishnamurthy,\u00a0Laxmikant\u2013Pyarelal,\u00a0Javed Akhtar",
-            "yt_id": "mK_tEaaX7vM"
+        "title": "Hawa Hawai",
+        "artist": "Kavita Krishnamurthy, Laxmikant–Pyarelal, Javed Akhtar",
+        "yt_id": "mK_tEaaX7vM"
       },
       {
-            "title": "Chura Liya Hai Tumne Jo Dil Ko",
-            "artist": "Asha Bhosle,\u00a0Mohammed Rafi,\u00a0R. D. Burman",
-            "yt_id": "mQfCEq0KSaI"
+        "title": "Chura Liya Hai Tumne Jo Dil Ko",
+        "artist": "Asha Bhosle, Mohammed Rafi, R. D. Burman",
+        "yt_id": "mQfCEq0KSaI"
       },
       {
-            "title": "Raat Ke Hamsafar",
-            "artist": "Asha Bhosle,\u00a0Mohammed Rafi",
-            "yt_id": "gaiLaqFiHkg"
+        "title": "Raat Ke Hamsafar",
+        "artist": "Asha Bhosle, Mohammed Rafi",
+        "yt_id": "gaiLaqFiHkg"
       },
       {
-            "title": "Bahon Mein Chale Aao",
-            "artist": "Lata Mangeshkar,\u00a0R. D. Burman",
-            "yt_id": "wxknUq6PrpE"
+        "title": "Bahon Mein Chale Aao",
+        "artist": "Lata Mangeshkar, R. D. Burman",
+        "yt_id": "wxknUq6PrpE"
       },
       {
-            "title": "Yeh Sham Mastani",
-            "artist": "Kishore Kumar,\u00a0R. D. Burman",
-            "yt_id": "3YhfnTnB8M8"
+        "title": "Yeh Sham Mastani",
+        "artist": "Kishore Kumar, R. D. Burman",
+        "yt_id": "3YhfnTnB8M8"
       },
       {
-            "title": "Ek Ajnabee Haseena Se",
-            "artist": "Kishore Kumar,\u00a0R. D. Burman",
-            "yt_id": "vS_JXshiu68"
+        "title": "Ek Ajnabee Haseena Se",
+        "artist": "Kishore Kumar, R. D. Burman",
+        "yt_id": "vS_JXshiu68"
       },
       {
-            "title": "Maine Pyar Tumhi Se Kiya Hai",
-            "artist": "Anuradha Paudwal,\u00a0Kumar Sanu",
-            "yt_id": "ICOU-QJMfAs"
+        "title": "Maine Pyar Tumhi Se Kiya Hai",
+        "artist": "Anuradha Paudwal, Kumar Sanu",
+        "yt_id": "ICOU-QJMfAs"
       },
       {
-            "title": "Gazab Ka Hai Din",
-            "artist": "Alka Yagnik,\u00a0Udit Narayan",
-            "yt_id": "DNZAtorsGZM"
+        "title": "Gazab Ka Hai Din",
+        "artist": "Alka Yagnik, Udit Narayan",
+        "yt_id": "DNZAtorsGZM"
       },
       {
-            "title": "Ae Mere Humsafar",
-            "artist": "Alka Yagnik,\u00a0Udit Narayan",
-            "yt_id": "12ISmhUJf84"
+        "title": "Ae Mere Humsafar",
+        "artist": "Alka Yagnik, Udit Narayan",
+        "yt_id": "12ISmhUJf84"
       },
       {
-            "title": "Pehla Nasha",
-            "artist": "Udit Narayan,\u00a0Sadhana Sargam",
-            "yt_id": "ODu7OyAqK-Q"
+        "title": "Pehla Nasha",
+        "artist": "Udit Narayan, Sadhana Sargam",
+        "yt_id": "ODu7OyAqK-Q"
       },
       {
-            "title": "Dekha Ek Khwab",
-            "artist": "Lata Mangeshkar,\u00a0Kishore Kumar",
-            "yt_id": "qJy5GFoQSPg"
+        "title": "Dekha Ek Khwab",
+        "artist": "Lata Mangeshkar, Kishore Kumar",
+        "yt_id": "qJy5GFoQSPg"
       },
       {
-            "title": "Pal Pal Dil Ke Paas - From \"Blackmail\"",
-            "artist": "Kishore Kumar",
-            "yt_id": "3LZAUjeIwcI"
+        "title": "Pal Pal Dil Ke Paas - From \"Blackmail\"",
+        "artist": "Kishore Kumar",
+        "yt_id": "3LZAUjeIwcI"
       },
       {
-            "title": "Ek Ladki Ko Dekha",
-            "artist": "Kumar Sanu,\u00a0R. D. Burman",
-            "yt_id": "htMvfOfixuM"
+        "title": "Ek Ladki Ko Dekha",
+        "artist": "Kumar Sanu, R. D. Burman",
+        "yt_id": "htMvfOfixuM"
       },
       {
-            "title": "Tujhko Na Dekhun",
-            "artist": "Udit Narayan,\u00a0Sunidhi Chauhan",
-            "yt_id": "Fx7ztNslNSI"
+        "title": "Tujhko Na Dekhun",
+        "artist": "Udit Narayan, Sunidhi Chauhan",
+        "yt_id": "Fx7ztNslNSI"
       },
       {
-            "title": "Tujhe Dekha To",
-            "artist": "Lata Mangeshkar,\u00a0Kumar Sanu",
-            "yt_id": "EYA-aTnbKIQ"
+        "title": "Tujhe Dekha To",
+        "artist": "Lata Mangeshkar, Kumar Sanu",
+        "yt_id": "EYA-aTnbKIQ"
       },
       {
-            "title": "Mere Khwabon Mein",
-            "artist": "Lata Mangeshkar",
-            "yt_id": "xF3gsIssLvM"
+        "title": "Mere Khwabon Mein",
+        "artist": "Lata Mangeshkar",
+        "yt_id": "xF3gsIssLvM"
       },
       {
-            "title": "Tere Naam (From \"Tere Naam\")",
-            "artist": "Udit Narayan,\u00a0Alka Yagnik",
-            "yt_id": "kN0_SKPjFVA"
+        "title": "Tere Naam (From \"Tere Naam\")",
+        "artist": "Udit Narayan, Alka Yagnik",
+        "yt_id": "kN0_SKPjFVA"
       },
       {
-            "title": "Saajanji Ghar Aaye",
-            "artist": "Jatin-Lalit,\u00a0Kumar Sanu,\u00a0Alka Yagnik,\u00a0Kavita Krishnamurthy",
-            "yt_id": "8XtXLVylOoU"
+        "title": "Saajanji Ghar Aaye",
+        "artist": "Jatin-Lalit, Kumar Sanu, Alka Yagnik, Kavita Krishnamurthy",
+        "yt_id": "8XtXLVylOoU"
       },
       {
-            "title": "Is Tarah Aashiqui Ka - Kumar Sanu Version",
-            "artist": "Kumar Sanu",
-            "yt_id": "X4J_Wcz7UFc"
+        "title": "Is Tarah Aashiqui Ka - Kumar Sanu Version",
+        "artist": "Kumar Sanu",
+        "yt_id": "X4J_Wcz7UFc"
       },
       {
-            "title": "Tu Pyar Hai Kisi Aur Ka",
-            "artist": "Anuradha Paudwal,\u00a0Kumar Sanu",
-            "yt_id": "DJHwuJZ2uYg"
+        "title": "Tu Pyar Hai Kisi Aur Ka",
+        "artist": "Anuradha Paudwal, Kumar Sanu",
+        "yt_id": "DJHwuJZ2uYg"
       },
       {
-            "title": "Bahut Pyar Karte Hai - Female Version",
-            "artist": "Anuradha Paudwal",
-            "yt_id": "ycj1FwxiZwc"
+        "title": "Bahut Pyar Karte Hai - Female Version",
+        "artist": "Anuradha Paudwal",
+        "yt_id": "ycj1FwxiZwc"
       },
       {
-            "title": "Dil Laga Liya Maine",
-            "artist": "Nadeem Shravan,\u00a0Alka Yagnik,\u00a0Udit Narayan,\u00a0Sameer Anjaan",
-            "yt_id": "CHRMRsVu4do"
+        "title": "Dil Laga Liya Maine",
+        "artist": "Nadeem Shravan, Alka Yagnik, Udit Narayan, Sameer Anjaan",
+        "yt_id": "CHRMRsVu4do"
       },
       {
-            "title": "Hum to Dil Se Haare",
-            "artist": "Udit Narayan,\u00a0Alka Yagnik",
-            "yt_id": "yKAQj8nBn-s"
+        "title": "Hum to Dil Se Haare",
+        "artist": "Udit Narayan, Alka Yagnik",
+        "yt_id": "yKAQj8nBn-s"
       },
       {
-            "title": "Tumhein Apna Banane Ki Kasam Khai Hai",
-            "artist": "Kumar Sanu",
-            "yt_id": "6Ma7xfGTAhc"
+        "title": "Tumhein Apna Banane Ki Kasam Khai Hai",
+        "artist": "Kumar Sanu",
+        "yt_id": "6Ma7xfGTAhc"
       },
       {
-            "title": "Teri Dulhan Sajaungi (From \"Barsaat\")",
-            "artist": "Alka Yagnik,\u00a0Kailash Kher,\u00a0Priyanka Chopra,\u00a0Nadeem Shravan",
-            "yt_id": "DXfQzEzpQTU"
+        "title": "Teri Dulhan Sajaungi (From \"Barsaat\")",
+        "artist": "Alka Yagnik, Kailash Kher, Priyanka Chopra, Nadeem Shravan",
+        "yt_id": "DXfQzEzpQTU"
       },
       {
-            "title": "Dil Hai Ke Manta Nahin",
-            "artist": "Anuradha Paudwal,\u00a0Kumar Sanu",
-            "yt_id": "C9efe0rjDlE"
+        "title": "Dil Hai Ke Manta Nahin",
+        "artist": "Anuradha Paudwal, Kumar Sanu",
+        "yt_id": "C9efe0rjDlE"
       },
       {
-            "title": "Hum Tumko Nigahon Mein",
-            "artist": "Udit Narayan,\u00a0Shreya Ghoshal",
-            "yt_id": "MbIRbYjLdqM"
+        "title": "Hum Tumko Nigahon Mein",
+        "artist": "Udit Narayan, Shreya Ghoshal",
+        "yt_id": "MbIRbYjLdqM"
       },
       {
-            "title": "Dil Kehta Hai",
-            "artist": "Udit Narayan,\u00a0Alka Yagnik,\u00a0Altaf Raja",
-            "yt_id": "bOcuNN_K7Ag"
+        "title": "Dil Kehta Hai",
+        "artist": "Udit Narayan, Alka Yagnik, Altaf Raja",
+        "yt_id": "bOcuNN_K7Ag"
       },
       {
-            "title": "Zindagi Ban Gaye Ho Tum",
-            "artist": "Alka Yagnik,\u00a0Udit Narayan",
-            "yt_id": "gejEimJIdWc"
+        "title": "Zindagi Ban Gaye Ho Tum",
+        "artist": "Alka Yagnik, Udit Narayan",
+        "yt_id": "gejEimJIdWc"
       },
       {
-            "title": "Jo Bhi Kasmein",
-            "artist": "Nadeem Shravan,\u00a0Alka Yagnik,\u00a0Udit Narayan,\u00a0Sameer Anjaan",
-            "yt_id": "B72_HsUR0Vc"
+        "title": "Jo Bhi Kasmein",
+        "artist": "Nadeem Shravan, Alka Yagnik, Udit Narayan, Sameer Anjaan",
+        "yt_id": "B72_HsUR0Vc"
       },
       {
-            "title": "Main Agar Saamne",
-            "artist": "Nadeem Shravan,\u00a0Alka Yagnik,\u00a0Abhijeet,\u00a0Sameer Anjaan",
-            "yt_id": "hKdMHhhcVOg"
+        "title": "Main Agar Saamne",
+        "artist": "Nadeem Shravan, Alka Yagnik, Abhijeet, Sameer Anjaan",
+        "yt_id": "hKdMHhhcVOg"
       },
       {
-            "title": "Is Pyar Se Meri Taraf Na Dekho - Duet Version",
-            "artist": "Kumar Sanu,\u00a0Alka Yagnik",
-            "yt_id": "mW4WRtL6GxM"
+        "title": "Is Pyar Se Meri Taraf Na Dekho - Duet Version",
+        "artist": "Kumar Sanu, Alka Yagnik",
+        "yt_id": "mW4WRtL6GxM"
       },
       {
-            "title": "Sochenge Tumhe Pyar",
-            "artist": "Kumar Sanu",
-            "yt_id": "x5eYr7voNiY"
+        "title": "Sochenge Tumhe Pyar",
+        "artist": "Kumar Sanu",
+        "yt_id": "x5eYr7voNiY"
       },
       {
-            "title": "Mujhse Mohabbat Ka",
-            "artist": "Kumar Sanu,\u00a0Alka Yagnik",
-            "yt_id": "9NUxzYiNG9s"
+        "title": "Mujhse Mohabbat Ka",
+        "artist": "Kumar Sanu, Alka Yagnik",
+        "yt_id": "9NUxzYiNG9s"
       },
       {
-            "title": "Na Kajare Ki Dhar",
-            "artist": "Pankaj Udhas,\u00a0Sadhana Sargam",
-            "yt_id": "C_wxaIOPMZk"
+        "title": "Na Kajare Ki Dhar",
+        "artist": "Pankaj Udhas, Sadhana Sargam",
+        "yt_id": "C_wxaIOPMZk"
       },
       {
-            "title": "Chand Se Parda",
-            "artist": "Kumar Sanu",
-            "yt_id": "Sl8tK6PLmmQ"
+        "title": "Chand Se Parda",
+        "artist": "Kumar Sanu",
+        "yt_id": "Sl8tK6PLmmQ"
       },
       {
-            "title": "Milne Ki Tum Koshish Karna",
-            "artist": "Asha Bhosle,\u00a0Kumar Sanu",
-            "yt_id": "D6cDHaeunRg"
+        "title": "Milne Ki Tum Koshish Karna",
+        "artist": "Asha Bhosle, Kumar Sanu",
+        "yt_id": "D6cDHaeunRg"
       },
       {
-            "title": "Too Shayar Hai Main Teri Shayari (From \"Saajan\")",
-            "artist": "Alka Yagnik",
-            "yt_id": "rTGSWaD-2Lg"
+        "title": "Too Shayar Hai Main Teri Shayari (From \"Saajan\")",
+        "artist": "Alka Yagnik",
+        "yt_id": "rTGSWaD-2Lg"
       },
       {
-            "title": "Chura Ke Dil Mera",
-            "artist": "Kumar Sanu,\u00a0Alka Yagnik",
-            "yt_id": "u79aLbPyd_0"
+        "title": "Chura Ke Dil Mera",
+        "artist": "Kumar Sanu, Alka Yagnik",
+        "yt_id": "u79aLbPyd_0"
       },
       {
-            "title": "Tumse Milne Ko Dil",
-            "artist": "Alka Yagnik,\u00a0Kumar Sanu",
-            "yt_id": "_dLXszk6jic"
+        "title": "Tumse Milne Ko Dil",
+        "artist": "Alka Yagnik, Kumar Sanu",
+        "yt_id": "_dLXszk6jic"
       },
       {
-            "title": "Paas Woh Aane Lage (From \"Main Khiladi Tu Anari\")",
-            "artist": "Kumar Sanu,\u00a0Alka Yagnik",
-            "yt_id": "plB0ytzIlqI"
+        "title": "Paas Woh Aane Lage (From \"Main Khiladi Tu Anari\")",
+        "artist": "Kumar Sanu, Alka Yagnik",
+        "yt_id": "plB0ytzIlqI"
       },
       {
-            "title": "Bahut Jatate Ho Pyar",
-            "artist": "Alka Yagnik,\u00a0Mohammed Aziz",
-            "yt_id": "P7P2zqzEYRY"
+        "title": "Bahut Jatate Ho Pyar",
+        "artist": "Alka Yagnik, Mohammed Aziz",
+        "yt_id": "P7P2zqzEYRY"
       },
       {
-            "title": "Kahin Pyaar Na Ho Jaaye",
-            "artist": "Alka Yagnik,\u00a0Kumar Sanu",
-            "yt_id": "28mOd_0sSBg"
+        "title": "Kahin Pyaar Na Ho Jaaye",
+        "artist": "Alka Yagnik, Kumar Sanu",
+        "yt_id": "28mOd_0sSBg"
       },
       {
-            "title": "Pucho Zara Pucho",
-            "artist": "Alka Yagnik,\u00a0Kumar Sanu",
-            "yt_id": "OhmE3h5i0M8"
+        "title": "Pucho Zara Pucho",
+        "artist": "Alka Yagnik, Kumar Sanu",
+        "yt_id": "OhmE3h5i0M8"
       },
       {
-            "title": "Pehli Pehli Baar Jab",
-            "artist": "Kumar Sanu",
-            "yt_id": "2xPvgHxGzOg"
+        "title": "Pehli Pehli Baar Jab",
+        "artist": "Kumar Sanu",
+        "yt_id": "2xPvgHxGzOg"
       },
       {
-            "title": "Tumsa Koi Pyaara",
-            "artist": "Kumar Sanu,\u00a0Alka Yagnik",
-            "yt_id": "HubRXgH0Erc"
+        "title": "Tumsa Koi Pyaara",
+        "artist": "Kumar Sanu, Alka Yagnik",
+        "yt_id": "HubRXgH0Erc"
       }
     ];
 
@@ -538,7 +520,6 @@
       
       document.getElementById('t-title').textContent = track.title;
       document.getElementById('t-artist').textContent = track.artist;
-      document.getElementById('art').src = "https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp";
 
       if (ytPlayer && ytPlayer.loadVideoById) {
         if (autoplay) {

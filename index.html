@@ -144,6 +144,10 @@
       background: rgba(255, 255, 255, 0.12);
       border-color: rgba(255, 255, 255, 0.25);
     }
+    .active-shuffle {
+      color: var(--accent) !important;
+      filter: drop-shadow(0 0 6px rgba(30, 215, 96, 0.6));
+    }
     .pill-btn.active {
       background: rgba(168, 85, 247, 0.25);
       border-color: rgba(168, 85, 247, 0.8);
@@ -266,6 +270,9 @@
       </div>
 
       <div id="controls">
+        <button id="shuffle-btn" class="btn active-shuffle" onclick="toggleShuffle()" title="Shuffle (Non-repeating)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+        </button>
         <button class="btn" onclick="prevTrack()" title="Previous">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
         </button>
@@ -318,6 +325,38 @@
     let ytPlayer = null;
     let progressInterval = null;
     let isSlowed = false;
+    let isShuffle = true;
+    let playlistQueue = [];
+    let queueIndex = 0;
+
+    function buildShuffleQueue(firstIndex = 0) {
+      if (tracks.length === 0) return;
+      let indices = Array.from({length: tracks.length}, (_, i) => i);
+      for (let i = indices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]];
+      }
+      if (firstIndex !== undefined && firstIndex >= 0) {
+        const found = indices.indexOf(firstIndex);
+        if (found !== -1) {
+          indices.splice(found, 1);
+          indices.unshift(firstIndex);
+        }
+      }
+      playlistQueue = indices;
+      queueIndex = 0;
+    }
+
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+      const btn = document.getElementById('shuffle-btn');
+      if (btn) {
+        btn.classList.toggle('active-shuffle', isShuffle);
+      }
+      if (isShuffle) {
+        buildShuffleQueue(currentTrackIdx);
+      }
+    }
 
     function toggleSlowed() {
       isSlowed = !isSlowed;
@@ -442,14 +481,31 @@
 
     function nextTrack() {
       if (tracks.length === 0) return;
-      const nextIdx = (currentTrackIdx + 1) % tracks.length;
-      loadTrack(nextIdx, true);
+      if (isShuffle) {
+        queueIndex++;
+        if (queueIndex >= playlistQueue.length) {
+          buildShuffleQueue();
+        }
+        currentTrackIdx = playlistQueue[queueIndex];
+      } else {
+        currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
+      }
+      loadTrack(currentTrackIdx, true);
     }
 
     function prevTrack() {
       if (tracks.length === 0) return;
-      const prevIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
-      loadTrack(prevIdx, true);
+      if (isShuffle) {
+        if (queueIndex > 0) {
+          queueIndex--;
+          currentTrackIdx = playlistQueue[queueIndex];
+        } else {
+          currentTrackIdx = playlistQueue[0];
+        }
+      } else {
+        currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
+      }
+      loadTrack(currentTrackIdx, true);
     }
 
     function updatePlayIcon(isPlaying) {
@@ -511,6 +567,7 @@
         const res = await fetch('tracks.json?v=' + Date.now());
         tracks = await res.json();
         if (tracks.length > 0) {
+          buildShuffleQueue(0);
           loadTrack(0, false);
         }
       } catch (e) {

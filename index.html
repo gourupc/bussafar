@@ -281,244 +281,7 @@
     setInterval(updateCount, 3200);
 
     /* ── Tracklist Data (Scraped from your Spotify playlist) ── */
-    const tracks = [
-      {
-        "title": "Pyar Deewana Hota Hai Kishore Lofi",
-        "artist": "Kishore Kumar",
-        "yt_id": "9LPrp85-CAc"
-      },
-      {
-        "title": "Hawa Hawai",
-        "artist": "Kavita Krishnamurthy, Laxmikant–Pyarelal, Javed Akhtar",
-        "yt_id": "mK_tEaaX7vM"
-      },
-      {
-        "title": "Chura Liya Hai Tumne Jo Dil Ko",
-        "artist": "Asha Bhosle, Mohammed Rafi, R. D. Burman",
-        "yt_id": "mQfCEq0KSaI"
-      },
-      {
-        "title": "Raat Ke Hamsafar",
-        "artist": "Asha Bhosle, Mohammed Rafi",
-        "yt_id": "gaiLaqFiHkg"
-      },
-      {
-        "title": "Bahon Mein Chale Aao",
-        "artist": "Lata Mangeshkar, R. D. Burman",
-        "yt_id": "wxknUq6PrpE"
-      },
-      {
-        "title": "Yeh Sham Mastani",
-        "artist": "Kishore Kumar, R. D. Burman",
-        "yt_id": "3YhfnTnB8M8"
-      },
-      {
-        "title": "Ek Ajnabee Haseena Se",
-        "artist": "Kishore Kumar, R. D. Burman",
-        "yt_id": "vS_JXshiu68"
-      },
-      {
-        "title": "Maine Pyar Tumhi Se Kiya Hai",
-        "artist": "Anuradha Paudwal, Kumar Sanu",
-        "yt_id": "ICOU-QJMfAs"
-      },
-      {
-        "title": "Gazab Ka Hai Din",
-        "artist": "Alka Yagnik, Udit Narayan",
-        "yt_id": "DNZAtorsGZM"
-      },
-      {
-        "title": "Ae Mere Humsafar",
-        "artist": "Alka Yagnik, Udit Narayan",
-        "yt_id": "12ISmhUJf84"
-      },
-      {
-        "title": "Pehla Nasha",
-        "artist": "Udit Narayan, Sadhana Sargam",
-        "yt_id": "ODu7OyAqK-Q"
-      },
-      {
-        "title": "Dekha Ek Khwab",
-        "artist": "Lata Mangeshkar, Kishore Kumar",
-        "yt_id": "qJy5GFoQSPg"
-      },
-      {
-        "title": "Pal Pal Dil Ke Paas - From \"Blackmail\"",
-        "artist": "Kishore Kumar",
-        "yt_id": "3LZAUjeIwcI"
-      },
-      {
-        "title": "Ek Ladki Ko Dekha",
-        "artist": "Kumar Sanu, R. D. Burman",
-        "yt_id": "htMvfOfixuM"
-      },
-      {
-        "title": "Tujhko Na Dekhun",
-        "artist": "Udit Narayan, Sunidhi Chauhan",
-        "yt_id": "Fx7ztNslNSI"
-      },
-      {
-        "title": "Tujhe Dekha To",
-        "artist": "Lata Mangeshkar, Kumar Sanu",
-        "yt_id": "EYA-aTnbKIQ"
-      },
-      {
-        "title": "Mere Khwabon Mein",
-        "artist": "Lata Mangeshkar",
-        "yt_id": "xF3gsIssLvM"
-      },
-      {
-        "title": "Tere Naam (From \"Tere Naam\")",
-        "artist": "Udit Narayan, Alka Yagnik",
-        "yt_id": "kN0_SKPjFVA"
-      },
-      {
-        "title": "Saajanji Ghar Aaye",
-        "artist": "Jatin-Lalit, Kumar Sanu, Alka Yagnik, Kavita Krishnamurthy",
-        "yt_id": "8XtXLVylOoU"
-      },
-      {
-        "title": "Is Tarah Aashiqui Ka - Kumar Sanu Version",
-        "artist": "Kumar Sanu",
-        "yt_id": "X4J_Wcz7UFc"
-      },
-      {
-        "title": "Tu Pyar Hai Kisi Aur Ka",
-        "artist": "Anuradha Paudwal, Kumar Sanu",
-        "yt_id": "DJHwuJZ2uYg"
-      },
-      {
-        "title": "Bahut Pyar Karte Hai - Female Version",
-        "artist": "Anuradha Paudwal",
-        "yt_id": "ycj1FwxiZwc"
-      },
-      {
-        "title": "Dil Laga Liya Maine",
-        "artist": "Nadeem Shravan, Alka Yagnik, Udit Narayan, Sameer Anjaan",
-        "yt_id": "CHRMRsVu4do"
-      },
-      {
-        "title": "Hum to Dil Se Haare",
-        "artist": "Udit Narayan, Alka Yagnik",
-        "yt_id": "yKAQj8nBn-s"
-      },
-      {
-        "title": "Tumhein Apna Banane Ki Kasam Khai Hai",
-        "artist": "Kumar Sanu",
-        "yt_id": "6Ma7xfGTAhc"
-      },
-      {
-        "title": "Teri Dulhan Sajaungi (From \"Barsaat\")",
-        "artist": "Alka Yagnik, Kailash Kher, Priyanka Chopra, Nadeem Shravan",
-        "yt_id": "DXfQzEzpQTU"
-      },
-      {
-        "title": "Dil Hai Ke Manta Nahin",
-        "artist": "Anuradha Paudwal, Kumar Sanu",
-        "yt_id": "C9efe0rjDlE"
-      },
-      {
-        "title": "Hum Tumko Nigahon Mein",
-        "artist": "Udit Narayan, Shreya Ghoshal",
-        "yt_id": "MbIRbYjLdqM"
-      },
-      {
-        "title": "Dil Kehta Hai",
-        "artist": "Udit Narayan, Alka Yagnik, Altaf Raja",
-        "yt_id": "bOcuNN_K7Ag"
-      },
-      {
-        "title": "Zindagi Ban Gaye Ho Tum",
-        "artist": "Alka Yagnik, Udit Narayan",
-        "yt_id": "gejEimJIdWc"
-      },
-      {
-        "title": "Jo Bhi Kasmein",
-        "artist": "Nadeem Shravan, Alka Yagnik, Udit Narayan, Sameer Anjaan",
-        "yt_id": "B72_HsUR0Vc"
-      },
-      {
-        "title": "Main Agar Saamne",
-        "artist": "Nadeem Shravan, Alka Yagnik, Abhijeet, Sameer Anjaan",
-        "yt_id": "hKdMHhhcVOg"
-      },
-      {
-        "title": "Is Pyar Se Meri Taraf Na Dekho - Duet Version",
-        "artist": "Kumar Sanu, Alka Yagnik",
-        "yt_id": "mW4WRtL6GxM"
-      },
-      {
-        "title": "Sochenge Tumhe Pyar",
-        "artist": "Kumar Sanu",
-        "yt_id": "x5eYr7voNiY"
-      },
-      {
-        "title": "Mujhse Mohabbat Ka",
-        "artist": "Kumar Sanu, Alka Yagnik",
-        "yt_id": "9NUxzYiNG9s"
-      },
-      {
-        "title": "Na Kajare Ki Dhar",
-        "artist": "Pankaj Udhas, Sadhana Sargam",
-        "yt_id": "C_wxaIOPMZk"
-      },
-      {
-        "title": "Chand Se Parda",
-        "artist": "Kumar Sanu",
-        "yt_id": "Sl8tK6PLmmQ"
-      },
-      {
-        "title": "Milne Ki Tum Koshish Karna",
-        "artist": "Asha Bhosle, Kumar Sanu",
-        "yt_id": "D6cDHaeunRg"
-      },
-      {
-        "title": "Too Shayar Hai Main Teri Shayari (From \"Saajan\")",
-        "artist": "Alka Yagnik",
-        "yt_id": "rTGSWaD-2Lg"
-      },
-      {
-        "title": "Chura Ke Dil Mera",
-        "artist": "Kumar Sanu, Alka Yagnik",
-        "yt_id": "u79aLbPyd_0"
-      },
-      {
-        "title": "Tumse Milne Ko Dil",
-        "artist": "Alka Yagnik, Kumar Sanu",
-        "yt_id": "_dLXszk6jic"
-      },
-      {
-        "title": "Paas Woh Aane Lage (From \"Main Khiladi Tu Anari\")",
-        "artist": "Kumar Sanu, Alka Yagnik",
-        "yt_id": "plB0ytzIlqI"
-      },
-      {
-        "title": "Bahut Jatate Ho Pyar",
-        "artist": "Alka Yagnik, Mohammed Aziz",
-        "yt_id": "P7P2zqzEYRY"
-      },
-      {
-        "title": "Kahin Pyaar Na Ho Jaaye",
-        "artist": "Alka Yagnik, Kumar Sanu",
-        "yt_id": "28mOd_0sSBg"
-      },
-      {
-        "title": "Pucho Zara Pucho",
-        "artist": "Alka Yagnik, Kumar Sanu",
-        "yt_id": "OhmE3h5i0M8"
-      },
-      {
-        "title": "Pehli Pehli Baar Jab",
-        "artist": "Kumar Sanu",
-        "yt_id": "2xPvgHxGzOg"
-      },
-      {
-        "title": "Tumsa Koi Pyaara",
-        "artist": "Kumar Sanu, Alka Yagnik",
-        "yt_id": "HubRXgH0Erc"
-      }
-    ];
-
+    let tracks = [];
     let currentTrackIdx = 0;
     let ytPlayer = null;
     let progressInterval = null;
@@ -528,7 +291,6 @@
       ytPlayer = new YT.Player('yt-player', {
         height: '100',
         width: '100',
-        videoId: tracks[currentTrackIdx].yt_id,
         playerVars: {
           'playsinline': 1,
           'controls': 0,
@@ -544,8 +306,10 @@
     }
 
     function onPlayerReady(event) {
-      loadTrack(currentTrackIdx, false);
       ytPlayer.setVolume(80);
+      if (tracks.length > 0) {
+        loadTrack(currentTrackIdx, false);
+      }
     }
 
     function onPlayerStateChange(event) {
@@ -559,7 +323,6 @@
         stopProgressBar();
       }
     }
-
 
     /* Update OS Media Session (Lock Screen & Background Controls) */
     function updateMediaSession(track) {
@@ -589,6 +352,7 @@
     }
 
     function loadTrack(idx, autoplay = true) {
+      if (tracks.length === 0) return;
       currentTrackIdx = idx;
       const track = tracks[currentTrackIdx];
       
@@ -607,7 +371,7 @@
     }
 
     function togglePlay() {
-      if (!ytPlayer) return;
+      if (!ytPlayer || tracks.length === 0) return;
       const state = ytPlayer.getPlayerState();
       if (state === YT.PlayerState.PLAYING) {
         ytPlayer.pauseVideo();
@@ -616,12 +380,16 @@
       }
     }
 
+    // Load next track
     function nextTrack() {
+      if (tracks.length === 0) return;
       const nextIdx = (currentTrackIdx + 1) % tracks.length;
       loadTrack(nextIdx, true);
     }
 
+    // Load prev track
     function prevTrack() {
+      if (tracks.length === 0) return;
       const prevIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
       loadTrack(prevIdx, true);
     }
@@ -666,7 +434,7 @@
     }
 
     function seek(e) {
-      if (!ytPlayer || !ytPlayer.getDuration) return;
+      if (!ytPlayer || !ytPlayer.getDuration || tracks.length === 0) return;
       const rect = e.currentTarget.getBoundingClientRect();
       const pct = (e.clientX - rect.left) / rect.width;
       const dur = ytPlayer.getDuration();
@@ -679,8 +447,25 @@
       }
     }
 
-    // Load first track details immediately on page load
-    loadTrack(0, false);
+    /* Fetch tracks.json dynamically */
+    async function fetchTracks() {
+      try {
+        const res = await fetch('tracks.json');
+        tracks = await res.json();
+        if (tracks.length > 0) {
+          loadTrack(0, false);
+          if (ytPlayer && ytPlayer.cueVideoById) {
+            ytPlayer.cueVideoById(tracks[0].yt_id);
+          }
+        }
+      } catch (e) {
+        document.getElementById('t-title').textContent = "Failed to load playlist";
+        console.error('Error fetching tracks.json:', e);
+      }
+    }
+
+    fetchTracks();
+
   </script>
 </body>
 </html>

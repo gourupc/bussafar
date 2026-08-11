@@ -391,7 +391,8 @@
         },
         events: {
           'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
+          'onStateChange': onPlayerStateChange,
+          'onError': onPlayerError
         }
       });
     }
@@ -401,6 +402,11 @@
       if (tracks.length > 0) {
         loadTrack(currentTrackIdx, false);
       }
+    }
+
+    function onPlayerError(event) {
+      console.warn('Playback error ' + event.data + ', automatically skipping to next track...');
+      nextTrack();
     }
 
     function onPlayerStateChange(event) {

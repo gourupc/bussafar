@@ -2,38 +2,31 @@ import os
 import json
 import urllib.request
 import urllib.parse
-import base64
 import re
 
-CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
-CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
 PLAYLIST_ID = '29aKY5vrd3S2CZweLp1JK3'
 
-def get_token():
-    auth = base64.b64encode(f'{CLIENT_ID}:{CLIENT_SECRET}'.encode()).decode()
-    data = urllib.parse.urlencode({'grant_type': 'client_credentials'}).encode()
-    req = urllib.request.Request(
-        'https://accounts.spotify.com/api/token', data=data,
-        headers={'Authorization': f'Basic {auth}', 'Content-Type': 'application/x-www-form-urlencoded'})
-    with urllib.request.urlopen(req) as r:
-        return json.loads(r.read())['access_token']
-
-def get_spotify_tracks(token):
+def get_spotify_tracks_public():
+    url = f'https://open.spotify.com/embed/playlist/{PLAYLIST_ID}'
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+    with urllib.request.urlopen(req) as response:
+        html = response.read().decode('utf-8')
+    
+    match = re.search(r'<script id="__NEXT_DATA__" type="application/json">([^<]+)</script>', html)
+    if not match:
+        raise Exception('Could not find __NEXT_DATA__ script tag in Spotify embed page.')
+    
+    data = json.loads(match.group(1))
+    props = data.get('props', {}).get('pageProps', {}).get('state', {}).get('data', {})
+    entity = props.get('entity', {})
+    track_list = entity.get('trackList', [])
+    
     tracks = []
-    url = f'https://api.spotify.com/v1/playlists/{PLAYLIST_ID}/tracks?limit=100'
-    while url:
-        req = urllib.request.Request(url, headers={'Authorization': f'Bearer {token}'})
-        with urllib.request.urlopen(req) as r:
-            res = json.loads(r.read())
-        for item in res.get('items', []):
-            t = item.get('track')
-            if not t:
-                continue
-            tracks.append({
-                'title': t.get('name'),
-                'artist': ', '.join(a['name'] for a in t.get('artists', []))
-            })
-        url = res.get('next')
+    for item in track_list:
+        tracks.append({
+            'title': item.get('title'),
+            'artist': item.get('subtitle')
+        })
     return tracks
 
 def get_youtube_id(query):
@@ -50,10 +43,6 @@ def get_youtube_id(query):
     return ''
 
 def main():
-    if not CLIENT_ID or not CLIENT_SECRET:
-        print('Error: SPOTIFY_CLIENT_ID or SPOTIFY_CLIENT_SECRET environment variables not set.')
-        return
-
     # Load existing tracks.json as cache
     cache = {}
     try:
@@ -64,9 +53,8 @@ def main():
     except Exception as e:
         print('No existing tracks.json cache found:', e)
 
-    print('Fetching tracks from Spotify...')
-    token = get_token()
-    spotify_tracks = get_spotify_tracks(token)
+    print('Fetching tracks from Spotify public embed page...')
+    spotify_tracks = get_spotify_tracks_public()
     print(f'Found {len(spotify_tracks)} tracks in Spotify playlist.')
 
     final_tracks = []

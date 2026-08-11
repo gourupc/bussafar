@@ -18,9 +18,6 @@ jobs:
           python-version: '3.10'
 
       - name: Run Sync Script
-        env:
-          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
         run: python sync_playlist.py
 
       - name: Commit and Push Changes

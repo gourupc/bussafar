@@ -283,7 +283,7 @@
 
   </div><!-- /hud -->
 
-  <!-- Load YouTube Iframe Player API -->
+    <!-- Load YouTube Iframe Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
@@ -312,7 +312,7 @@
     }
     setInterval(updateCount, 3200);
 
-        /* ── Tracklist Data (Scraped from your Spotify playlist) ── */
+    /* ── Tracklist Data ── */
     let tracks = [];
     let currentTrackIdx = 0;
     let ytPlayer = null;
@@ -379,8 +379,8 @@
     function updateMediaSession(track) {
       if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
-          title: track.title,
-          artist: track.artist + (isSlowed ? ' (Slowed & Reverb)' : ''),
+          title: track.title + (isSlowed ? ' (Slowed & Reverb)' : ''),
+          artist: track.artist,
           album: 'बस सफर',
           artwork: [
             { src: 'https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp', sizes: '256x256', type: 'image/webp' }
@@ -440,14 +440,12 @@
       }
     }
 
-    // Load next track
     function nextTrack() {
       if (tracks.length === 0) return;
       const nextIdx = (currentTrackIdx + 1) % tracks.length;
       loadTrack(nextIdx, true);
     }
 
-    // Load prev track
     function prevTrack() {
       if (tracks.length === 0) return;
       const prevIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
@@ -457,8 +455,8 @@
     function updatePlayIcon(isPlaying) {
       const icon = document.getElementById('play-icon');
       icon.innerHTML = isPlaying
-        ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>' // Pause
-        : '<path d="M8 5v14l11-7z"/>';                  // Play
+        ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'
+        : '<path d="M8 5v14l11-7z"/>';
     }
 
     /* Progress Seek Bar */
@@ -522,239 +520,6 @@
     }
 
     fetchTracks();
-
-  </script>
-
-  <script>
-    /* ── Clock ── */
-    function updateClock() {
-      const now = new Date();
-      const h = now.getHours(), m = now.getMinutes();
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      const hh = ((h%12)||12).toString().padStart(2,'0');
-      const mm = m.toString().padStart(2,'0');
-      document.getElementById('clock').textContent = hh+':'+mm+' '+ampm;
-      const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      document.getElementById('date-display').textContent =
-        days[now.getDay()]+', '+now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear();
-    }
-    updateClock();
-    setInterval(updateClock, 1000);
-
-    /* ── Online count ── */
-    let baseCount = 38 + Math.floor(Math.random()*12);
-    function updateCount() {
-      baseCount += (Math.random()>.5?1:-1) * Math.floor(Math.random()*3);
-      baseCount = Math.max(20, Math.min(baseCount, 85));
-      document.getElementById('online-count').textContent = baseCount+' online';
-    }
-    setInterval(updateCount, 3200);
-
-    /* ── Tracklist Data (Scraped from your Spotify playlist) ── */
-    let tracks = [];
-    let currentTrackIdx = 0;
-    let ytPlayer = null;
-    let progressInterval = null;
-    let isSlowed = false;
-
-    function toggleSlowed() {
-      isSlowed = !isSlowed;
-      const btn = document.getElementById('slowed-btn');
-      if (btn) {
-        btn.classList.toggle('active', isSlowed);
-        btn.innerHTML = isSlowed ? '✨ Slowed & Reverb (ON)' : '🌙 Slowed & Reverb';
-      }
-      applySlowedRate();
-    }
-
-    function applySlowedRate() {
-      if (ytPlayer && ytPlayer.setPlaybackRate) {
-        ytPlayer.setPlaybackRate(isSlowed ? 0.85 : 1.0);
-      }
-    }
-
-    /* Initialize YouTube Player API */
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('yt-player', {
-        height: '100',
-        width: '100',
-        playerVars: {
-          'playsinline': 1,
-          'controls': 0,
-          'rel': 0,
-          'showinfo': 0,
-          'disablekb': 1
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerReady(event) {
-      ytPlayer.setVolume(80);
-      if (tracks.length > 0) {
-        loadTrack(currentTrackIdx, false);
-      }
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.ENDED) {
-        nextTrack();
-      } else if (event.data === YT.PlayerState.PLAYING) {
-        updatePlayIcon(true);
-        startProgressBar();
-        applySlowedRate();
-      } else {
-        updatePlayIcon(false);
-        stopProgressBar();
-      }
-    }
-
-    /* Update OS Media Session (Lock Screen & Background Controls) */
-    function updateMediaSession(track) {
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: track.title,
-          artist: track.artist,
-          album: 'बस सफर',
-          artwork: [
-            { src: 'https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp', sizes: '256x256', type: 'image/webp' }
-          ]
-        });
-
-        navigator.mediaSession.setActionHandler('play', () => {
-          if (ytPlayer) { ytPlayer.playVideo(); updatePlayIcon(true); }
-        });
-        navigator.mediaSession.setActionHandler('pause', () => {
-          if (ytPlayer) { ytPlayer.pauseVideo(); updatePlayIcon(false); }
-        });
-        navigator.mediaSession.setActionHandler('previoustrack', () => {
-          prevTrack();
-        });
-        navigator.mediaSession.setActionHandler('nexttrack', () => {
-          nextTrack();
-        });
-      }
-    }
-
-    function loadTrack(idx, autoplay = true) {
-      if (tracks.length === 0) return;
-      currentTrackIdx = idx;
-      const track = tracks[currentTrackIdx];
-      
-      document.getElementById('t-title').textContent = track.title;
-      document.getElementById('t-artist').textContent = track.artist;
-      updateMediaSession(track);
-
-      if (ytPlayer && ytPlayer.loadVideoById) {
-        if (autoplay) {
-          ytPlayer.loadVideoById(track.yt_id);
-        } else {
-          ytPlayer.cueVideoById(track.yt_id);
-        }
-      }
-      resetProgressBar();
-    }
-
-    function togglePlay() {
-      if (!ytPlayer || tracks.length === 0) return;
-      const state = ytPlayer.getPlayerState();
-      if (state === YT.PlayerState.PLAYING) {
-        ytPlayer.pauseVideo();
-      } else {
-        ytPlayer.playVideo();
-      }
-    }
-
-    // Load next track
-    function nextTrack() {
-      if (tracks.length === 0) return;
-      const nextIdx = (currentTrackIdx + 1) % tracks.length;
-      loadTrack(nextIdx, true);
-    }
-
-    // Load prev track
-    function prevTrack() {
-      if (tracks.length === 0) return;
-      const prevIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
-      loadTrack(prevIdx, true);
-    }
-
-    function updatePlayIcon(isPlaying) {
-      const icon = document.getElementById('play-icon');
-      icon.innerHTML = isPlaying
-        ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>' // Pause
-        : '<path d="M8 5v14l11-7z"/>';                  // Play
-    }
-
-    /* Progress Seek Bar */
-    function formatTime(sec) {
-      const s = Math.floor(sec || 0);
-      return Math.floor(s/60) + ':' + (s%60).toString().padStart(2, '0');
-    }
-
-    function startProgressBar() {
-      stopProgressBar();
-      progressInterval = setInterval(() => {
-        if (ytPlayer && ytPlayer.getCurrentTime) {
-          const cur = ytPlayer.getCurrentTime();
-          const dur = ytPlayer.getDuration() || 1;
-          const pct = (cur / dur) * 100;
-          
-          document.getElementById('prog-bar').style.width = pct + '%';
-          document.getElementById('time-cur').textContent = formatTime(cur);
-          document.getElementById('time-tot').textContent = formatTime(dur);
-        }
-      }, 500);
-    }
-
-    function stopProgressBar() {
-      clearInterval(progressInterval);
-    }
-
-    function resetProgressBar() {
-      stopProgressBar();
-      document.getElementById('prog-bar').style.width = '0%';
-      document.getElementById('time-cur').textContent = '0:00';
-      document.getElementById('time-tot').textContent = '0:00';
-    }
-
-    function seek(e) {
-      if (!ytPlayer || !ytPlayer.getDuration || tracks.length === 0) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const pct = (e.clientX - rect.left) / rect.width;
-      const dur = ytPlayer.getDuration();
-      ytPlayer.seekTo(pct * dur, true);
-    }
-
-    function setVolume(v) {
-      if (ytPlayer && ytPlayer.setVolume) {
-        ytPlayer.setVolume(v);
-      }
-    }
-
-    /* Fetch tracks.json dynamically */
-    async function fetchTracks() {
-      try {
-        const res = await fetch('tracks.json');
-        tracks = await res.json();
-        if (tracks.length > 0) {
-          loadTrack(0, false);
-          if (ytPlayer && ytPlayer.cueVideoById) {
-            ytPlayer.cueVideoById(tracks[0].yt_id);
-          }
-        }
-      } catch (e) {
-        document.getElementById('t-title').textContent = "Failed to load playlist";
-        console.error('Error fetching tracks.json:', e);
-      }
-    }
-
-    fetchTracks();
-
   </script>
 </body>
 </html>

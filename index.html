@@ -358,6 +358,12 @@
       }
     }
 
+    function applyPlaybackRate() {
+      if (ytPlayer && ytPlayer.setPlaybackRate) {
+        ytPlayer.setPlaybackRate(isSlowed ? 0.95 : 1.0);
+      }
+    }
+
     function toggleSlowed() {
       isSlowed = !isSlowed;
       const btn = document.getElementById('slowed-btn');
@@ -365,6 +371,7 @@
         btn.classList.toggle('active', isSlowed);
         btn.innerHTML = isSlowed ? '✨ Slowed & Reverb (ON)' : '🌙 Slowed & Reverb';
       }
+      applyPlaybackRate();
       if (tracks.length > 0) {
         let isPlaying = false;
         let curTime = 0;
@@ -408,6 +415,7 @@
       } else if (event.data === YT.PlayerState.PLAYING) {
         updatePlayIcon(true);
         startProgressBar();
+        applyPlaybackRate();
       } else {
         updatePlayIcon(false);
         stopProgressBar();

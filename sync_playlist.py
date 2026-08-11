@@ -63,7 +63,7 @@ def main():
         yt_id = cache.get(key)
         
         if not yt_id:
-            query = f"{track['title']} {track['artist']} audio"
+            query = f"{track['title']} {track['artist']} official audio high quality"
             print(f'Searching YouTube for: {query}')
             yt_id = get_youtube_id(query)
         

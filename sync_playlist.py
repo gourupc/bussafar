@@ -43,13 +43,12 @@ def get_youtube_id(query):
     return ''
 
 def main():
-    # Load existing tracks.json as cache
     cache = {}
     try:
         with open('tracks.json', 'r') as f:
             existing = json.load(f)
             for track in existing:
-                cache[f"{track['title']}|{track['artist']}"] = track['yt_id']
+                cache[f"{track['title']}|{track['artist']}"] = track
     except Exception as e:
         print('No existing tracks.json cache found:', e)
 
@@ -60,18 +59,26 @@ def main():
     final_tracks = []
     for track in spotify_tracks:
         key = f"{track['title']}|{track['artist']}"
-        yt_id = cache.get(key)
+        entry = cache.get(key, {})
+        yt_id = entry.get('yt_id')
+        yt_slowed_id = entry.get('yt_slowed_id')
         
         if not yt_id:
             query = f"{track['title']} {track['artist']} high quality audio"
             print(f'Searching YouTube for: {query}')
             yt_id = get_youtube_id(query)
+
+        if not yt_slowed_id:
+            slowed_query = f"{track['title']} {track['artist']} slowed and reverb audio"
+            print(f'Searching YouTube for slowed: {slowed_query}')
+            yt_slowed_id = get_youtube_id(slowed_query) or yt_id
         
         if yt_id:
             final_tracks.append({
                 'title': track['title'],
                 'artist': track['artist'],
-                'yt_id': yt_id
+                'yt_id': yt_id,
+                'yt_slowed_id': yt_slowed_id or yt_id
             })
 
     # Save to tracks.json

@@ -569,8 +569,11 @@
         const res = await fetch('tracks.json?v=' + Date.now());
         tracks = await res.json();
         if (tracks.length > 0) {
-          buildShuffleQueue(0);
-          loadTrack(0, false);
+          // Always start with 'Ek Ajnabee Haseena Se'
+          let startIdx = tracks.findIndex(t => t.title && t.title.toLowerCase().includes('ek ajnabee haseena se'));
+          if (startIdx === -1) startIdx = 0;
+          buildShuffleQueue(startIdx);
+          loadTrack(startIdx, false);
         }
       } catch (e) {
         document.getElementById('t-title').textContent = "Failed to load playlist";

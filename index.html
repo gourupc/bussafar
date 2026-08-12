@@ -1044,6 +1044,15 @@
       }
     }
 
+    // Global background click play/pause (ignoring interactive HUD controls)
+    window.addEventListener('click', (e) => {
+      const interactiveSelector = '#player-card, #mode-switcher, #admin-modal, #admin-toggle-btn, #clock-wrap, #online-badge, button, input, a';
+      if (e.target.closest(interactiveSelector)) {
+        return;
+      }
+      togglePlay();
+    });
+
     fetchTracks();
   </script>
 </body>

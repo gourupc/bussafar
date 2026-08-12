@@ -667,13 +667,16 @@
       if ('mediaSession' in navigator) {
         let displayTitle = track.title + (isSlowed ? ' (Slowed & Reverb)' : '');
         let displayArtist = track.artist;
-        if (currentMode === 'club') {
+        if (currentMode === 'club' || currentMode === 'mic') {
           displayArtist = '';
           displayTitle = displayTitle
             .replace(/\s*-\s*Dj.*/gi, '')
             .replace(/\s*-\s*Remix.*/gi, '')
+            .replace(/\s*-\s*Acoustic.*/gi, '')
             .replace(/\s*\(Remix\)/gi, '')
             .replace(/\s*\(Deephouse Mix\)/gi, '')
+            .replace(/\s*\(Acoustic Cover\)/gi, '')
+            .replace(/\s*\(MTV Unplugged\)/gi, '')
             .replace(/\s*\(From [^\)]+\)/gi, '')
             .replace(/\s*\(Official [^\)]+\)/gi, '')
             .replace(/\s*\[[^\]]+\]/gi, '')
@@ -709,13 +712,16 @@
       const track = tracks[currentTrackIdx];
       
       let displayTitle = track.title + (isSlowed ? ' (Slowed & Reverb)' : '');
-      if (currentMode === 'club') {
+      if (currentMode === 'club' || currentMode === 'mic') {
         document.getElementById('t-artist').style.display = 'none';
         displayTitle = displayTitle
           .replace(/\s*-\s*Dj.*/gi, '')
           .replace(/\s*-\s*Remix.*/gi, '')
+          .replace(/\s*-\s*Acoustic.*/gi, '')
           .replace(/\s*\(Remix\)/gi, '')
           .replace(/\s*\(Deephouse Mix\)/gi, '')
+          .replace(/\s*\(Acoustic Cover\)/gi, '')
+          .replace(/\s*\(MTV Unplugged\)/gi, '')
           .replace(/\s*\(From [^\)]+\)/gi, '')
           .replace(/\s*\(Official [^\)]+\)/gi, '')
           .replace(/\s*\[[^\]]+\]/gi, '')

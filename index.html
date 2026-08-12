@@ -381,7 +381,7 @@
 <body>
 
   <!-- Background Video -->
-  <video id="bg-video" autoplay loop muted playsinline>
+  <video id="bg-video" loop muted playsinline>
     <source src="busdriver.mp4" type="video/mp4" />
   </video>
 
@@ -650,15 +650,22 @@
     }
 
     function onPlayerStateChange(event) {
+      const bgVideo = document.getElementById('bg-video');
       if (event.data === YT.PlayerState.ENDED) {
         nextTrack();
       } else if (event.data === YT.PlayerState.PLAYING) {
         updatePlayIcon(true);
         startProgressBar();
         applyPlaybackRate();
+        if (bgVideo && bgVideo.paused) {
+          bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
+        }
       } else {
         updatePlayIcon(false);
         stopProgressBar();
+        if (bgVideo && !bgVideo.paused) {
+          bgVideo.pause();
+        }
       }
     }
 

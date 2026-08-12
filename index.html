@@ -403,6 +403,21 @@
     function toggleMode() {
       currentMode = (currentMode === 'bus') ? 'club' : 'bus';
       
+      // Reset slowed mode when changing themes
+      isSlowed = false;
+      const btn = document.getElementById('slowed-btn');
+      if (btn) {
+        btn.classList.remove('active');
+        btn.innerHTML = '🌙 Slowed & Reverb';
+      }
+      applyPlaybackRate();
+
+      // Show/Hide slowed button container based on mode
+      const fxRow = document.getElementById('fx-row');
+      if (fxRow) {
+        fxRow.style.display = (currentMode === 'club') ? 'none' : 'flex';
+      }
+
       // Update UI theme styling
       document.body.classList.toggle('club-theme', currentMode === 'club');
       

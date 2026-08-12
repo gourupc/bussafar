@@ -90,6 +90,7 @@
 
     /* ADMIN SHORTCUT BUTTON */
     #admin-toggle-btn {
+      display: none !important; /* Hidden by default */
       position: absolute;
       top: 22px;
       right: 124px;
@@ -298,6 +299,7 @@
         font-size: 9px !important;
       }
       #admin-toggle-btn {
+      display: none !important; /* Hidden by default */
         top: 16px !important;
         right: 114px !important;
         padding: 4px 10px !important;
@@ -325,6 +327,11 @@
         width: 14px !important;
         height: 14px !important;
       }
+    }
+
+    @keyframes neonFlash {
+      0%, 100% { border-color: rgba(255,255,255,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+      50% { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
     }
   </style>
 </head>
@@ -361,7 +368,7 @@
     </div>
 
     <!-- Clock -->
-    <div id="clock-wrap">
+    <div id="clock-wrap" onclick="handleClockTap()" style="cursor:pointer;">
       <div id="clock">12:00 PM</div>
       <div id="date-display">Monday, 10 Aug 2026</div>
     </div>
@@ -528,7 +535,49 @@
       }
       
       // Reload corresponding playlist and start track 0
-      fetchTracks();
+      /* ── Secret Admin Activation (Type 1111 or Tap Clock 4 times) ── */
+    let keyBuffer = '';
+    let clockTapCount = 0;
+    let clockTapTimer = null;
+
+    function revealAdminButton() {
+      const btn = document.getElementById('admin-toggle-btn');
+      if (btn) {
+        btn.style.setProperty('display', 'flex', 'important');
+        btn.style.animation = 'neonFlash 0.5s ease-out 3';
+        // Auto-scroll or focus attention to it
+        console.log('Admin shortcut unlocked!');
+      }
+    }
+
+    // Desktop: Listen for typing 1111
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '1') {
+        keyBuffer += '1';
+        if (keyBuffer === '1111') {
+          revealAdminButton();
+          keyBuffer = '';
+        }
+      } else {
+        keyBuffer = '';
+      }
+    });
+
+    // Mobile/Universal: Tap Clock 4 times
+    function handleClockTap() {
+      clockTapCount++;
+      clearTimeout(clockTapTimer);
+      clockTapTimer = setTimeout(() => {
+        clockTapCount = 0;
+      }, 3000);
+      
+      if (clockTapCount === 4) {
+        revealAdminButton();
+        clockTapCount = 0;
+      }
+    }
+
+    fetchTracks();
     }
 
     function toggleSlowed() {
@@ -891,7 +940,49 @@
           alert(`Successfully added "${songTitle}"! The website will update in a few seconds.`);
           closeAdminModal();
           // Reload tracks list instantly
-          fetchTracks();
+          /* ── Secret Admin Activation (Type 1111 or Tap Clock 4 times) ── */
+    let keyBuffer = '';
+    let clockTapCount = 0;
+    let clockTapTimer = null;
+
+    function revealAdminButton() {
+      const btn = document.getElementById('admin-toggle-btn');
+      if (btn) {
+        btn.style.setProperty('display', 'flex', 'important');
+        btn.style.animation = 'neonFlash 0.5s ease-out 3';
+        // Auto-scroll or focus attention to it
+        console.log('Admin shortcut unlocked!');
+      }
+    }
+
+    // Desktop: Listen for typing 1111
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '1') {
+        keyBuffer += '1';
+        if (keyBuffer === '1111') {
+          revealAdminButton();
+          keyBuffer = '';
+        }
+      } else {
+        keyBuffer = '';
+      }
+    });
+
+    // Mobile/Universal: Tap Clock 4 times
+    function handleClockTap() {
+      clockTapCount++;
+      clearTimeout(clockTapTimer);
+      clockTapTimer = setTimeout(() => {
+        clockTapCount = 0;
+      }, 3000);
+      
+      if (clockTapCount === 4) {
+        revealAdminButton();
+        clockTapCount = 0;
+      }
+    }
+
+    fetchTracks();
         } else {
           const errData = await putRes.json();
           throw new Error(errData.message || 'Write failed.');
@@ -901,6 +992,48 @@
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Add Song';
+      }
+    }
+
+    /* ── Secret Admin Activation (Type 1111 or Tap Clock 4 times) ── */
+    let keyBuffer = '';
+    let clockTapCount = 0;
+    let clockTapTimer = null;
+
+    function revealAdminButton() {
+      const btn = document.getElementById('admin-toggle-btn');
+      if (btn) {
+        btn.style.setProperty('display', 'flex', 'important');
+        btn.style.animation = 'neonFlash 0.5s ease-out 3';
+        // Auto-scroll or focus attention to it
+        console.log('Admin shortcut unlocked!');
+      }
+    }
+
+    // Desktop: Listen for typing 1111
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '1') {
+        keyBuffer += '1';
+        if (keyBuffer === '1111') {
+          revealAdminButton();
+          keyBuffer = '';
+        }
+      } else {
+        keyBuffer = '';
+      }
+    });
+
+    // Mobile/Universal: Tap Clock 4 times
+    function handleClockTap() {
+      clockTapCount++;
+      clearTimeout(clockTapTimer);
+      clockTapTimer = setTimeout(() => {
+        clockTapCount = 0;
+      }, 3000);
+      
+      if (clockTapCount === 4) {
+        revealAdminButton();
+        clockTapCount = 0;
       }
     }
 

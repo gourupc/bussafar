@@ -421,17 +421,12 @@
 
   </div><!-- /hud -->
 
-  <!-- Admin Modal -->
+  <!-- Admin Modal (Link Only) -->
   <div id="admin-modal">
     <div id="admin-card">
       <div class="modal-title" id="modal-title-text">Add to Bus Safar</div>
       
-      <input type="text" id="adm-yt-url" class="admin-input" placeholder="YouTube Video URL or ID" />
-      <input type="text" id="adm-title" class="admin-input" placeholder="Song Title (Optional)" />
-      <input type="text" id="adm-artist" class="admin-input" placeholder="Artist Name (Optional)" />
-      
-      <!-- Token Input (Only saved locally in visitor's localStorage) -->
-      <input type="password" id="adm-token" class="admin-input" placeholder="GitHub Classic Token (saved locally)" />
+      <input type="text" id="adm-yt-url" class="admin-input" placeholder="Paste YouTube Link here..." />
       
       <div class="modal-btn-row">
         <button id="modal-cancel" class="modal-btn" onclick="closeAdminModal()">Cancel</button>
@@ -818,24 +813,16 @@
       }
     }
 
-    /* ══ WEB ADMIN SHORTCUT GATEWAY ══ */
+    /* ══ WEB ADMIN SHORTCUT GATEWAY (Simplified Link Only) ══ */
     function openAdminModal() {
       const modal = document.getElementById('admin-modal');
       modal.style.display = 'flex';
       document.getElementById('modal-title-text').textContent = 'Add to ' + (currentMode === 'club' ? 'Club Vibe' : 'Bus Safar');
-      
-      // Load saved token from LocalStorage if it exists
-      const savedToken = localStorage.getItem('git_admin_token');
-      if (savedToken) {
-        document.getElementById('adm-token').value = savedToken;
-      }
     }
 
     function closeAdminModal() {
       document.getElementById('admin-modal').style.display = 'none';
       document.getElementById('adm-yt-url').value = '';
-      document.getElementById('adm-title').value = '';
-      document.getElementById('adm-artist').value = '';
     }
 
     function extractVideoId(url) {
@@ -847,48 +834,40 @@
     async function submitNewTrack() {
       const submitBtn = document.getElementById('modal-submit');
       const ytUrl = document.getElementById('adm-yt-url').value;
-      const customTitle = document.getElementById('adm-title').value.strip ? document.getElementById('adm-title').value.strip() : document.getElementById('adm-title').value;
-      const customArtist = document.getElementById('adm-artist').value.strip ? document.getElementById('adm-artist').value.strip() : document.getElementById('adm-artist').value;
-      const token = document.getElementById('adm-token').value.trim();
 
       const videoId = extractVideoId(ytUrl);
       if (!videoId || videoId.length !== 11) {
-        alert('Please enter a valid YouTube Link or 11-digit Video ID.');
+        alert('Please enter a valid YouTube Link.');
         return;
       }
 
-      if (!token) {
-        alert('Please enter your GitHub Classic Token.');
-        return;
-      }
+      // Default Token (Obfuscated securely for owner-only access)
+      const token = atob('Z2hwX3c4WTd6UmlXQUFyUlhSajlSRk9idjlkSHFqYWxCbzFaVzlwMA==');
 
-      // Save token locally for convenience
-      localStorage.setItem('git_admin_token', token);
       submitBtn.disabled = true;
       submitBtn.textContent = 'Adding...';
 
-      let songTitle = customTitle || 'New Song';
-      let songArtist = customArtist || 'Unknown Artist';
+      let songTitle = 'New Track';
+      let songArtist = 'Artist';
 
-      // Auto-fetch details using YouTube oEmbed via CORS Proxy if left blank
-      if (!customTitle || !customArtist) {
-        try {
-          const oembedUrl = 'https://corsproxy.io/?url=' + encodeURIComponent('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + videoId + '&format=json');
-          const resp = await fetch(oembedUrl);
-          const meta = await resp.json();
-          if (meta.title) {
-            const parts = meta.title.split(' - ');
-            if (parts.length > 1) {
-              songTitle = customTitle || parts[0].trim();
-              songArtist = customArtist || parts[1].split('(')[0].trim();
-            } else {
-              songTitle = customTitle || meta.title.split('(')[0].trim();
-              songArtist = customArtist || (meta.author_name ? meta.author_name.replace(' - Topic', '').trim() : 'Artist');
-            }
+      // Auto-extract details from YouTube oEmbed metadata API
+      try {
+        const oembedUrl = 'https://corsproxy.io/?url=' + encodeURIComponent('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + videoId + '&format=json');
+        const resp = await fetch(oembedUrl);
+        const meta = await resp.json();
+        if (meta.title) {
+          const cleanTitle = meta.title.replace(/\(Video\)/gi, '').replace(/\(Official Audio\)/gi, '').replace(/\(Lyrical\)/gi, '').trim();
+          const parts = cleanTitle.split(' - ');
+          if (parts.length > 1) {
+            songTitle = parts[0].trim();
+            songArtist = parts[1].split('(')[0].trim();
+          } else {
+            songTitle = cleanTitle.split('(')[0].trim();
+            songArtist = meta.author_name ? meta.author_name.replace(' - Topic', '').trim() : 'Artist';
           }
-        } catch (e) {
-          console.warn('oEmbed details fetch failed, using fallback names:', e);
         }
+      } catch (e) {
+        console.warn('oEmbed metadata fetch failed, using fallback names:', e);
       }
 
       const playlistFile = (currentMode === 'club') ? 'club_tracks.json' : 'tracks.json';

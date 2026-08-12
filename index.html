@@ -88,6 +88,66 @@
       transform: scale(1.05);
     }
 
+    /* ADMIN SHORTCUT BUTTON */
+    #admin-toggle-btn {
+      position: absolute;
+      top: 22px;
+      right: 124px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      padding: 5px 12px;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.3s;
+      z-index: 100;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    #admin-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    /* ADMIN MODAL */
+    #admin-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: none; align-items: center; justify-content: center; z-index: 1000;
+    }
+    #admin-card {
+      background: rgba(15, 15, 25, 0.9);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px; padding: 20px; width: 300px;
+      display: flex; flex-direction: column; gap: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      color: #fff;
+    }
+    .modal-title { font-size: 13px; font-weight: 600; text-align: center; }
+    .admin-input {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 8px 12px; color: #fff;
+      font-size: 11px; outline: none; width: 100%;
+    }
+    .admin-input:focus { border-color: var(--accent); }
+    .modal-btn-row { display: flex; gap: 10px; margin-top: 6px; }
+    .modal-btn {
+      flex: 1; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: 600;
+      cursor: pointer; border: none; outline: none; transition: all 0.2s;
+    }
+    #modal-submit { background: var(--accent); color: #000; }
+    #modal-submit:hover { background: #1fdf65; transform: scale(1.02); }
+    #modal-cancel { background: rgba(255,255,255,0.08); color: var(--muted); border: 1px solid rgba(255,255,255,0.12); }
+    #modal-cancel:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
     /* Clock */
     #clock-wrap { position:absolute; top:22px; left:28px; display:flex; flex-direction:column; gap:2px; }
     #clock { font-size:15px; font-weight:500; color:var(--text); letter-spacing:.04em; text-shadow:0 1px 8px rgba(0,0,0,.7); }
@@ -237,6 +297,12 @@
         padding: 4px 10px !important;
         font-size: 9px !important;
       }
+      #admin-toggle-btn {
+        top: 16px !important;
+        right: 114px !important;
+        padding: 4px 10px !important;
+        font-size: 9px !important;
+      }
       #player-card {
         bottom: 24px !important;
         width: 220px !important;
@@ -286,6 +352,12 @@
     <div id="mode-toggle" onclick="toggleMode()">
       <span id="mode-icon">🪩</span>
       <span id="mode-text">Club Vibe</span>
+    </div>
+
+    <!-- Admin Shortcut (Top Right) -->
+    <div id="admin-toggle-btn" onclick="openAdminModal()">
+      <span>➕</span>
+      <span>Add Song</span>
     </div>
 
     <!-- Clock -->
@@ -341,6 +413,25 @@
     </div>
 
   </div><!-- /hud -->
+
+  <!-- Admin Modal -->
+  <div id="admin-modal">
+    <div id="admin-card">
+      <div class="modal-title" id="modal-title-text">Add to Bus Safar</div>
+      
+      <input type="text" id="adm-yt-url" class="admin-input" placeholder="YouTube Video URL or ID" />
+      <input type="text" id="adm-title" class="admin-input" placeholder="Song Title (Optional)" />
+      <input type="text" id="adm-artist" class="admin-input" placeholder="Artist Name (Optional)" />
+      
+      <!-- Token Input (Only saved locally in visitor's localStorage) -->
+      <input type="password" id="adm-token" class="admin-input" placeholder="GitHub Classic Token (saved locally)" />
+      
+      <div class="modal-btn-row">
+        <button id="modal-cancel" class="modal-btn" onclick="closeAdminModal()">Cancel</button>
+        <button id="modal-submit" class="modal-btn" onclick="submitNewTrack()">Add Song</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Load YouTube Iframe Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
@@ -675,6 +766,141 @@
       } catch (e) {
         document.getElementById('t-title').textContent = "Failed to load playlist";
         console.error('Error fetching tracks:', e);
+      }
+    }
+
+    /* ══ WEB ADMIN SHORTCUT GATEWAY ══ */
+    function openAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      modal.style.display = 'flex';
+      document.getElementById('modal-title-text').textContent = 'Add to ' + (currentMode === 'club' ? 'Club Vibe' : 'Bus Safar');
+      
+      // Load saved token from LocalStorage if it exists
+      const savedToken = localStorage.getItem('git_admin_token');
+      if (savedToken) {
+        document.getElementById('adm-token').value = savedToken;
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').style.display = 'none';
+      document.getElementById('adm-yt-url').value = '';
+      document.getElementById('adm-title').value = '';
+      document.getElementById('adm-artist').value = '';
+    }
+
+    function extractVideoId(url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : url.trim();
+    }
+
+    async function submitNewTrack() {
+      const submitBtn = document.getElementById('modal-submit');
+      const ytUrl = document.getElementById('adm-yt-url').value;
+      const customTitle = document.getElementById('adm-title').value.strip ? document.getElementById('adm-title').value.strip() : document.getElementById('adm-title').value;
+      const customArtist = document.getElementById('adm-artist').value.strip ? document.getElementById('adm-artist').value.strip() : document.getElementById('adm-artist').value;
+      const token = document.getElementById('adm-token').value.trim();
+
+      const videoId = extractVideoId(ytUrl);
+      if (!videoId || videoId.length !== 11) {
+        alert('Please enter a valid YouTube Link or 11-digit Video ID.');
+        return;
+      }
+
+      if (!token) {
+        alert('Please enter your GitHub Classic Token.');
+        return;
+      }
+
+      // Save token locally for convenience
+      localStorage.setItem('git_admin_token', token);
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Adding...';
+
+      let songTitle = customTitle || 'New Song';
+      let songArtist = customArtist || 'Unknown Artist';
+
+      // Auto-fetch details using YouTube oEmbed via CORS Proxy if left blank
+      if (!customTitle || !customArtist) {
+        try {
+          const oembedUrl = 'https://corsproxy.io/?url=' + encodeURIComponent('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + videoId + '&format=json');
+          const resp = await fetch(oembedUrl);
+          const meta = await resp.json();
+          if (meta.title) {
+            const parts = meta.title.split(' - ');
+            if (parts.length > 1) {
+              songTitle = customTitle || parts[0].trim();
+              songArtist = customArtist || parts[1].split('(')[0].trim();
+            } else {
+              songTitle = customTitle || meta.title.split('(')[0].trim();
+              songArtist = customArtist || (meta.author_name ? meta.author_name.replace(' - Topic', '').trim() : 'Artist');
+            }
+          }
+        } catch (e) {
+          console.warn('oEmbed details fetch failed, using fallback names:', e);
+        }
+      }
+
+      const playlistFile = (currentMode === 'club') ? 'club_tracks.json' : 'tracks.json';
+      const owner = 'gourupc';
+      const repo = 'bussafar';
+      const filepath = playlistFile;
+      const githubApiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`;
+
+      try {
+        // Step 1: GET current file SHA and contents
+        const getRes = await fetch(githubApiUrl, {
+          headers: { 'Authorization': `token ${token}` }
+        });
+        
+        if (!getRes.ok) {
+          throw new Error('Failed to retrieve playlist file. Verify your repository permissions.');
+        }
+
+        const fileData = await getRes.json();
+        const fileSha = fileData.sha;
+        const currentTracks = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+
+        // Step 2: Append new track
+        const newTrack = {
+          title: songTitle,
+          artist: songArtist,
+          yt_id: videoId,
+          yt_slowed_id: videoId
+        };
+        
+        currentTracks.push(newTrack);
+
+        // Step 3: PUT updated contents to GitHub
+        const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentTracks, null, 2))));
+        const putRes = await fetch(githubApiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Add "${songTitle}" to ${currentMode === 'club' ? 'Club Vibe' : 'Bus Safar'} via Web Admin`,
+            content: updatedBase64,
+            sha: fileSha
+          })
+        });
+
+        if (putRes.ok) {
+          alert(`Successfully added "${songTitle}"! The website will update in a few seconds.`);
+          closeAdminModal();
+          // Reload tracks list instantly
+          fetchTracks();
+        } else {
+          const errData = await putRes.json();
+          throw new Error(errData.message || 'Write failed.');
+        }
+      } catch (err) {
+        alert('GitHub Commit Error: ' + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Add Song';
       }
     }
 

@@ -19,6 +19,18 @@
     }
     html, body { width:100%; height:100%; overflow:hidden; background:#000; font-family:'Inter',sans-serif; }
 
+    /* CLUB VIBE NEON THEME */
+    body.club-theme {
+      --accent: #d946ef;
+      --glass-bg: rgba(15, 5, 25, 0.80);
+    }
+    body.club-theme .glow-orange {
+      background: radial-gradient(circle, #d946ef 0%, transparent 70%) !important;
+    }
+    body.club-theme .glow-indigo {
+      background: radial-gradient(circle, #06b6d4 0%, transparent 70%) !important;
+    }
+
     /* VIDEO BACKGROUND */
     #bg-video {
       position:fixed; inset:0; width:100%; height:100%;
@@ -48,6 +60,34 @@
     #hud { position:fixed; inset:0; z-index:10; pointer-events:none; }
     #hud > * { pointer-events:auto; }
 
+    /* MODE TOGGLE */
+    #mode-toggle {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      padding: 5px 12px;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    #mode-toggle:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
     /* Clock */
     #clock-wrap { position:absolute; top:22px; left:28px; display:flex; flex-direction:column; gap:2px; }
     #clock { font-size:15px; font-weight:500; color:var(--text); letter-spacing:.04em; text-shadow:0 1px 8px rgba(0,0,0,.7); }
@@ -69,22 +109,23 @@
     #title-wrap {
       position:absolute; top:42%; left:50%; transform:translate(-50%,-50%);
       text-align:center; pointer-events:none;
+      width: 100%;
       animation:titleIn 1.1s cubic-bezier(.22,.61,.36,1) both;
     }
     @keyframes titleIn { from{opacity:0;transform:translate(-50%,-44%) scale(.92);} to{opacity:1;transform:translate(-50%,-50%) scale(1);} }
     #main-title {
       font-family:'Tiro Devanagari Hindi',serif;
-      font-size:clamp(72px,12vw,160px); font-weight:400; color:#fff; line-height:1.05;
+      font-size:clamp(60px,12vw,160px); font-weight:400; color:#fff; line-height:1.05;
       text-shadow:0 2px 40px rgba(0,0,0,.9),0 0 80px rgba(249,115,22,.25);
       letter-spacing:-.01em;
     }
 
-    /* ══ PREMIUM MUSIC PLAYER CARD (REDUCED 50% - NO POSTER) ══ */
+    /* ══ PREMIUM MUSIC PLAYER CARD ══ */
     #player-card {
       position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
-      width:250px; /* Reduced width by 50% */
-      background: rgba(10, 10, 20, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      width:250px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
       border-radius: 16px;
       backdrop-filter: blur(28px);
       -webkit-backdrop-filter: blur(28px);
@@ -93,6 +134,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      transition: background 0.3s;
     }
 
     #track-info-row { display:flex; align-items:center; justify-content:center; text-align:center; }
@@ -122,6 +164,11 @@
     #play-btn:hover { background:#1fdf65; transform:scale(1.07); }
     #play-btn svg { fill: #000; color: #000; }
 
+    .active-shuffle {
+      color: var(--accent) !important;
+      filter: drop-shadow(0 0 6px rgba(30, 215, 96, 0.6));
+    }
+
     /* SLOWED & REVERB TOGGLE */
     #fx-row { display:flex; justify-content:center; }
     .pill-btn {
@@ -144,7 +191,6 @@
       background: rgba(255, 255, 255, 0.12);
       border-color: rgba(255, 255, 255, 0.25);
     }
-    
     .pill-btn.active {
       background: rgba(168, 85, 247, 0.25);
       border-color: rgba(168, 85, 247, 0.8);
@@ -166,7 +212,7 @@
     /* MOBILE OPTIMIZATIONS */
     @media (max-width: 600px) {
       #main-title {
-        font-size: clamp(44px, 10vw, 72px) !important;
+        font-size: clamp(40px, 10vw, 72px) !important;
       }
       #clock-wrap {
         top: 16px !important;
@@ -185,9 +231,15 @@
       #online-count {
         font-size: 10px !important;
       }
+      #mode-toggle {
+        top: 16px !important;
+        right: 16px !important;
+        padding: 4px 10px !important;
+        font-size: 9px !important;
+      }
       #player-card {
         bottom: 24px !important;
-        width: 220px !important; /* Slightly more compact on mobile */
+        width: 220px !important;
         padding: 10px 12px 10px !important;
       }
       #t-title {
@@ -229,6 +281,12 @@
   </div>
 
   <div id="hud">
+
+    <!-- Mode Toggle (Top Right) -->
+    <div id="mode-toggle" onclick="toggleMode()">
+      <span id="mode-icon">🪩</span>
+      <span id="mode-text">Club Vibe</span>
+    </div>
 
     <!-- Clock -->
     <div id="clock-wrap">
@@ -284,7 +342,7 @@
 
   </div><!-- /hud -->
 
-    <!-- Load YouTube Iframe Player API -->
+  <!-- Load YouTube Iframe Player API -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
@@ -322,6 +380,7 @@
     let isShuffle = true;
     let playlistQueue = [];
     let queueIndex = 0;
+    let currentMode = 'bus'; // 'bus' or 'club'
 
     function buildShuffleQueue(firstIndex = 0) {
       if (tracks.length === 0) return;
@@ -341,21 +400,29 @@
       queueIndex = 0;
     }
 
-    function toggleShuffle() {
-      isShuffle = !isShuffle;
-      const btn = document.getElementById('shuffle-btn');
-      if (btn) {
-        btn.classList.toggle('active-shuffle', isShuffle);
+    function toggleMode() {
+      currentMode = (currentMode === 'bus') ? 'club' : 'bus';
+      
+      // Update UI theme styling
+      document.body.classList.toggle('club-theme', currentMode === 'club');
+      
+      // Update main title (Hindi translation for Club Vibe / Bus Safar)
+      document.getElementById('main-title').textContent = (currentMode === 'club') ? 'क्लब वाइब' : 'बस सफर';
+      
+      // Update toggle button text
+      document.getElementById('mode-icon').textContent = (currentMode === 'club') ? '🚌' : '🪩';
+      document.getElementById('mode-text').textContent = (currentMode === 'club') ? 'Bus Safar' : 'Club Vibe';
+      
+      // Update background video
+      const bgVideo = document.getElementById('bg-video');
+      if (bgVideo) {
+        bgVideo.src = (currentMode === 'club') ? 'club.mp4' : 'busdriver.mp4';
+        bgVideo.load();
+        bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
       }
-      if (isShuffle) {
-        buildShuffleQueue(currentTrackIdx);
-      }
-    }
-
-    function applyPlaybackRate() {
-      if (ytPlayer && ytPlayer.setPlaybackRate) {
-        ytPlayer.setPlaybackRate(isSlowed ? 0.95 : 1.0);
-      }
+      
+      // Reload corresponding playlist and start track 0
+      fetchTracks();
     }
 
     function toggleSlowed() {
@@ -374,6 +441,12 @@
           curTime = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
         }
         loadTrack(currentTrackIdx, isPlaying, curTime);
+      }
+    }
+
+    function applyPlaybackRate() {
+      if (ytPlayer && ytPlayer.setPlaybackRate) {
+        ytPlayer.setPlaybackRate(isSlowed ? 0.95 : 1.0);
       }
     }
 
@@ -428,7 +501,7 @@
         navigator.mediaSession.metadata = new MediaMetadata({
           title: track.title + (isSlowed ? ' (Slowed & Reverb)' : ''),
           artist: track.artist,
-          album: 'बस सफर',
+          album: (currentMode === 'club') ? 'क्लब वाइब' : 'बस सफर',
           artwork: [
             { src: 'https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp', sizes: '256x256', type: 'image/webp' }
           ]
@@ -569,21 +642,24 @@
       }
     }
 
-    /* Fetch tracks.json dynamically */
+    /* Fetch tracks dynamically based on Mode */
     async function fetchTracks() {
       try {
-        const res = await fetch('tracks.json?v=' + Date.now());
+        const playlistFile = (currentMode === 'club') ? 'club_tracks.json' : 'tracks.json';
+        const res = await fetch(playlistFile + '?v=' + Date.now());
         tracks = await res.json();
         if (tracks.length > 0) {
-          // Always start with 'Ek Ajnabee Haseena Se'
-          let startIdx = tracks.findIndex(t => t.title && t.title.toLowerCase().includes('ek ajnabee haseena se'));
-          if (startIdx === -1) startIdx = 0;
+          let startIdx = 0;
+          if (currentMode === 'bus') {
+            startIdx = tracks.findIndex(t => t.title && t.title.toLowerCase().includes('ek ajnabee haseena se'));
+            if (startIdx === -1) startIdx = 0;
+          }
           buildShuffleQueue(startIdx);
           loadTrack(startIdx, false);
         }
       } catch (e) {
         document.getElementById('t-title').textContent = "Failed to load playlist";
-        console.error('Error fetching tracks.json:', e);
+        console.error('Error fetching tracks:', e);
       }
     }
 

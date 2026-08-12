@@ -30,6 +30,28 @@
     body.club-theme .glow-indigo {
       background: radial-gradient(circle, #06b6d4 0%, transparent 70%) !important;
     }
+    body.club-theme .mode-btn.active {
+      background: var(--accent);
+      color: #000 !important;
+      box-shadow: 0 2px 10px rgba(217,70,239,0.35);
+    }
+
+    /* OPEN MIC AMBER/GOLD THEME */
+    body.mic-theme {
+      --accent: #f59e0b;
+      --glass-bg: rgba(20, 15, 10, 0.70);
+    }
+    body.mic-theme .glow-orange {
+      background: radial-gradient(circle, #f59e0b 0%, transparent 70%) !important;
+    }
+    body.mic-theme .glow-indigo {
+      background: radial-gradient(circle, #f43f5e 0%, transparent 70%) !important;
+    }
+    body.mic-theme .mode-btn.active {
+      background: var(--accent);
+      color: #000 !important;
+      box-shadow: 0 2px 10px rgba(245,158,11,0.35);
+    }
 
     /* VIDEO BACKGROUND */
     #bg-video {
@@ -60,40 +82,50 @@
     #hud { position:fixed; inset:0; z-index:10; pointer-events:none; }
     #hud > * { pointer-events:auto; }
 
-    /* MODE TOGGLE */
-    #mode-toggle {
+    /* MODE SWITCHER (SEGMENTED CONTROL) */
+    #mode-switcher {
       position: absolute;
       top: 22px;
       right: 28px;
       display: flex;
-      align-items: center;
-      gap: 6px;
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       border-radius: 999px;
-      padding: 5px 12px;
-      cursor: pointer;
+      padding: 3px;
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 100;
-      color: var(--text);
-      font-size: 11px;
-      font-weight: 500;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
-    #mode-toggle:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
+    .mode-btn {
+      background: none;
+      border: none;
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .mode-btn:hover {
+      color: #fff;
+    }
+    .mode-btn.active {
+      background: var(--accent);
+      color: #000 !important;
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(30,215,96,0.35);
     }
 
     /* ADMIN SHORTCUT BUTTON */
     #admin-toggle-btn {
-      display: none !important; /* Hidden by default */
       position: absolute;
       top: 22px;
-      right: 124px;
+      right: 350px; /* Positioned left of switcher */
       display: flex;
       align-items: center;
       gap: 5px;
@@ -110,6 +142,7 @@
       font-size: 11px;
       font-weight: 500;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      display: none !important; /* Hidden by default */
     }
     #admin-toggle-btn:hover {
       background: rgba(255, 255, 255, 0.15);
@@ -270,6 +303,11 @@
     }
     @keyframes grain { 0%{transform:translate(0,0);} 25%{transform:translate(-3px,2px);} 50%{transform:translate(2px,-3px);} 75%{transform:translate(-1px,3px);} 100%{transform:translate(3px,-1px);} }
 
+    @keyframes neonFlash {
+      0%, 100% { border-color: rgba(255,255,255,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+      50% { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+    }
+
     /* MOBILE OPTIMIZATIONS */
     @media (max-width: 600px) {
       #main-title {
@@ -292,16 +330,20 @@
       #online-count {
         font-size: 10px !important;
       }
-      #mode-toggle {
+      #mode-switcher {
         top: 16px !important;
         right: 16px !important;
-        padding: 4px 10px !important;
-        font-size: 9px !important;
+      }
+      .mode-btn {
+        padding: 5px 8px !important;
+        font-size: 10px !important;
+      }
+      .btn-text {
+        display: none !important;
       }
       #admin-toggle-btn {
-      display: none !important; /* Hidden by default */
         top: 16px !important;
-        right: 114px !important;
+        right: 140px !important;
         padding: 4px 10px !important;
         font-size: 9px !important;
       }
@@ -328,11 +370,6 @@
         height: 14px !important;
       }
     }
-
-    @keyframes neonFlash {
-      0%, 100% { border-color: rgba(255,255,255,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-      50% { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
-    }
   </style>
 </head>
 <body>
@@ -355,10 +392,11 @@
 
   <div id="hud">
 
-    <!-- Mode Toggle (Top Right) -->
-    <div id="mode-toggle" onclick="toggleMode()">
-      <span id="mode-icon">🪩</span>
-      <span id="mode-text">Club Vibe</span>
+    <!-- Segmented Mode Switcher (Top Right) -->
+    <div id="mode-switcher">
+      <button class="mode-btn active" id="btn-bus" onclick="setMode('bus')"><span>🚌</span> <span class="btn-text">Bus Safar</span></button>
+      <button class="mode-btn" id="btn-club" onclick="setMode('club')"><span>🪩</span> <span class="btn-text">Club Vibe</span></button>
+      <button class="mode-btn" id="btn-mic" onclick="setMode('mic')"><span>🎤</span> <span class="btn-text">Open Mic</span></button>
     </div>
 
     <!-- Admin Shortcut (Top Right) -->
@@ -473,7 +511,7 @@
     let isShuffle = true;
     let playlistQueue = [];
     let queueIndex = 0;
-    let currentMode = 'bus'; // 'bus' or 'club'
+    let currentMode = 'bus'; // 'bus', 'club', 'mic'
 
     function buildShuffleQueue(firstIndex = 0) {
       if (tracks.length === 0) return;
@@ -493,86 +531,59 @@
       queueIndex = 0;
     }
 
-    function toggleMode() {
-      currentMode = (currentMode === 'bus') ? 'club' : 'bus';
+    function setMode(mode) {
+      currentMode = mode;
       
+      // Update active switcher buttons styling
+      document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + mode).classList.add('active');
+
       // Reset slowed mode when changing themes
       isSlowed = false;
-      const btn = document.getElementById('slowed-btn');
-      if (btn) {
-        btn.classList.remove('active');
-        btn.innerHTML = '🌙 Slowed & Reverb';
+      const slowedBtn = document.getElementById('slowed-btn');
+      if (slowedBtn) {
+        slowedBtn.classList.remove('active');
+        slowedBtn.innerHTML = '🌙 Slowed & Reverb';
       }
       applyPlaybackRate();
 
-      // Show/Hide slowed button container based on mode
+      // Show/Hide slowed button container based on mode (Hide for club, Show for bus and mic)
       const fxRow = document.getElementById('fx-row');
       if (fxRow) {
         fxRow.style.display = (currentMode === 'club') ? 'none' : 'flex';
       }
 
       // Update UI theme styling
-      document.body.classList.toggle('club-theme', currentMode === 'club');
+      document.body.classList.remove('club-theme', 'mic-theme');
+      if (currentMode === 'club') {
+        document.body.classList.add('club-theme');
+      } else if (currentMode === 'mic') {
+        document.body.classList.add('mic-theme');
+      }
       
-      // Update main title (Hindi translation for Club Vibe / Bus Safar)
-      document.getElementById('main-title').textContent = (currentMode === 'club') ? 'क्लब वाइब' : 'बस सफर';
-      
-      // Update toggle button text
-      document.getElementById('mode-icon').textContent = (currentMode === 'club') ? '🚌' : '🪩';
-      document.getElementById('mode-text').textContent = (currentMode === 'club') ? 'Bus Safar' : 'Club Vibe';
+      // Update main title (Hindi translation)
+      const titles = {
+        'bus': 'बस सफर',
+        'club': 'क्लब वाइब',
+        'mic': 'ओपन माइक'
+      };
+      document.getElementById('main-title').textContent = titles[currentMode];
       
       // Update background video
       const bgVideo = document.getElementById('bg-video');
       if (bgVideo) {
-        bgVideo.src = (currentMode === 'club') ? 'club.mp4' : 'busdriver.mp4';
+        const videos = {
+          'bus': 'busdriver.mp4',
+          'club': 'club.mp4',
+          'mic': 'mic.mp4'
+        };
+        bgVideo.src = videos[currentMode];
         bgVideo.load();
         bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
       }
       
       // Reload corresponding playlist and start track 0
-      /* ── Secret Admin Activation (Type 1111 or Tap Clock 4 times) ── */
-    let keyBuffer = '';
-    let clockTapCount = 0;
-    let clockTapTimer = null;
-
-    function revealAdminButton() {
-      const btn = document.getElementById('admin-toggle-btn');
-      if (btn) {
-        btn.style.setProperty('display', 'flex', 'important');
-        btn.style.animation = 'neonFlash 0.5s ease-out 3';
-        // Auto-scroll or focus attention to it
-        console.log('Admin shortcut unlocked!');
-      }
-    }
-
-    // Desktop: Listen for typing 1111
-    window.addEventListener('keydown', (e) => {
-      if (e.key === '1') {
-        keyBuffer += '1';
-        if (keyBuffer === '1111') {
-          revealAdminButton();
-          keyBuffer = '';
-        }
-      } else {
-        keyBuffer = '';
-      }
-    });
-
-    // Mobile/Universal: Tap Clock 4 times
-    function handleClockTap() {
-      clockTapCount++;
-      clearTimeout(clockTapTimer);
-      clockTapTimer = setTimeout(() => {
-        clockTapCount = 0;
-      }, 3000);
-      
-      if (clockTapCount === 4) {
-        revealAdminButton();
-        clockTapCount = 0;
-      }
-    }
-
-    fetchTracks();
+      fetchTracks();
     }
 
     function toggleSlowed() {
@@ -665,7 +676,7 @@
         navigator.mediaSession.metadata = new MediaMetadata({
           title: displayTitle,
           artist: displayArtist,
-          album: (currentMode === 'club') ? 'क्लब वाइब' : 'बस सफर',
+          album: (currentMode === 'club') ? 'क्लब वाइब' : (currentMode === 'mic' ? 'ओपन माइक' : 'बस सफर'),
           artwork: [
             { src: 'https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp', sizes: '256x256', type: 'image/webp' }
           ]
@@ -825,8 +836,12 @@
     /* Fetch tracks dynamically based on Mode */
     async function fetchTracks() {
       try {
-        const playlistFile = (currentMode === 'club') ? 'club_tracks.json' : 'tracks.json';
-        const res = await fetch(playlistFile + '?v=' + Date.now());
+        const playlistFiles = {
+          'bus': 'tracks.json',
+          'club': 'club_tracks.json',
+          'mic': 'mic_tracks.json'
+        };
+        const res = await fetch(playlistFiles[currentMode] + '?v=' + Date.now());
         tracks = await res.json();
         if (tracks.length > 0) {
           let startIdx = 0;
@@ -843,11 +858,12 @@
       }
     }
 
-    /* ══ WEB ADMIN SHORTCUT GATEWAY (Simplified Link Only) ══ */
+    /* ══ WEB ADMIN SHORTCUT GATEWAY ══ */
     function openAdminModal() {
       const modal = document.getElementById('admin-modal');
       modal.style.display = 'flex';
-      document.getElementById('modal-title-text').textContent = 'Add to ' + (currentMode === 'club' ? 'Club Vibe' : 'Bus Safar');
+      const names = { 'bus': 'Bus Safar', 'club': 'Club Vibe', 'mic': 'Open Mic' };
+      document.getElementById('modal-title-text').textContent = 'Add to ' + names[currentMode];
     }
 
     function closeAdminModal() {
@@ -900,10 +916,15 @@
         console.warn('oEmbed metadata fetch failed, using fallback names:', e);
       }
 
-      const playlistFile = (currentMode === 'club') ? 'club_tracks.json' : 'tracks.json';
+      const playlistFiles = {
+        'bus': 'tracks.json',
+        'club': 'club_tracks.json',
+        'mic': 'mic_tracks.json'
+      };
+      
       const owner = 'gourupc';
       const repo = 'bussafar';
-      const filepath = playlistFile;
+      const filepath = playlistFiles[currentMode];
       const githubApiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`;
 
       try {
@@ -932,6 +953,7 @@
 
         // Step 3: PUT updated contents to GitHub
         const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentTracks, null, 2))));
+        const names = { 'bus': 'Bus Safar', 'club': 'Club Vibe', 'mic': 'Open Mic' };
         const putRes = await fetch(githubApiUrl, {
           method: 'PUT',
           headers: {
@@ -939,7 +961,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: `Add "${songTitle}" to ${currentMode === 'club' ? 'Club Vibe' : 'Bus Safar'} via Web Admin`,
+            message: `Add "${songTitle}" to ${names[currentMode]} via Web Admin`,
             content: updatedBase64,
             sha: fileSha
           })
@@ -949,49 +971,7 @@
           alert(`Successfully added "${songTitle}"! The website will update in a few seconds.`);
           closeAdminModal();
           // Reload tracks list instantly
-          /* ── Secret Admin Activation (Type 1111 or Tap Clock 4 times) ── */
-    let keyBuffer = '';
-    let clockTapCount = 0;
-    let clockTapTimer = null;
-
-    function revealAdminButton() {
-      const btn = document.getElementById('admin-toggle-btn');
-      if (btn) {
-        btn.style.setProperty('display', 'flex', 'important');
-        btn.style.animation = 'neonFlash 0.5s ease-out 3';
-        // Auto-scroll or focus attention to it
-        console.log('Admin shortcut unlocked!');
-      }
-    }
-
-    // Desktop: Listen for typing 1111
-    window.addEventListener('keydown', (e) => {
-      if (e.key === '1') {
-        keyBuffer += '1';
-        if (keyBuffer === '1111') {
-          revealAdminButton();
-          keyBuffer = '';
-        }
-      } else {
-        keyBuffer = '';
-      }
-    });
-
-    // Mobile/Universal: Tap Clock 4 times
-    function handleClockTap() {
-      clockTapCount++;
-      clearTimeout(clockTapTimer);
-      clockTapTimer = setTimeout(() => {
-        clockTapCount = 0;
-      }, 3000);
-      
-      if (clockTapCount === 4) {
-        revealAdminButton();
-        clockTapCount = 0;
-      }
-    }
-
-    fetchTracks();
+          fetchTracks();
         } else {
           const errData = await putRes.json();
           throw new Error(errData.message || 'Write failed.');
@@ -1014,7 +994,6 @@
       if (btn) {
         btn.style.setProperty('display', 'flex', 'important');
         btn.style.animation = 'neonFlash 0.5s ease-out 3';
-        // Auto-scroll or focus attention to it
         console.log('Admin shortcut unlocked!');
       }
     }

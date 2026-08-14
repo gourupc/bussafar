@@ -204,7 +204,7 @@ def find_videos_in_json(obj, results):
         for item in obj:
             find_videos_in_json(item, results)
 
-def scrape_youtube_playlist(query, limit=35):
+def scrape_youtube_playlist(query):
     print(f"Searching YouTube for tracks: '{query}'")
     results = []
     try:
@@ -218,24 +218,7 @@ def scrape_youtube_playlist(query, limit=35):
             find_videos_in_json(data, results)
     except Exception as e:
         print(f"Error scraping YouTube tracks: {e}")
-
-    # Sort results by views count (highest first!) to get the biggest hits
-    results.sort(key=lambda x: x.get('views', 0), reverse=True)
-
-    # De-duplicate by yt_id and filter out mashups/remixes/jukeboxes
-    unique_results = []
-    seen_ids = set()
-    banned_terms = ['mashup', 'mash up', 'remix', 'mix', 'jukebox', 'nonstop', 'non-stop', 'vdj', 'dj', 'visual', 'playlist', 'full album', 'compilation', 'collection', '& more', 'and more', 'songs collection', 'full jukebox', 'special 2026', 'special 2025', 'special 2024']
-    for r in results:
-        title_lower = r['title'].lower()
-        has_banned = any(term in title_lower for term in banned_terms)
-        # Filter out obvious non-music results or channel/user items
-        if not has_banned and r['yt_id'] not in seen_ids and len(r['title']) < 180:
-            seen_ids.add(r['yt_id'])
-            unique_results.append(r)
-            
-    print(f"Scraped {len(unique_results[:limit])} unique tracks.")
-    return unique_results[:limit]
+    return results
 
 def main():
     repo_dir = os.path.dirname(os.path.abspath(__file__))
@@ -284,17 +267,94 @@ def main():
             if fest_id not in current_mode_ids:
                 print(f"Creating festival tab: {f['name']}...")
                 
-                # 1. Scrape 30-40 themed songs
-                scraped_tracks = scrape_youtube_playlist(f["search_query"])
-                if not scraped_tracks:
-                    print(f"Warning: No tracks found for {f['name']}. Using empty playlist.")
-                    scraped_tracks = []
+                # 1. Run multiple search queries to compile a large, diverse hit song list
+                queries_to_run = list(f.get("search_queries", []))
+                
+                # Generate 10 search queries to ensure we get a huge candidate pool (min 30 clean tracks)
+                name_clean = f["name"].lower()
+                devotional_themes = ['janmashtami', 'ganesh chaturthi', 'dussehra', 'dhanteras', 'diwali', 'vasant panchami', 'maha shivaratri', 'holika dahan']
+                
+                if name_clean in ['independence day', 'republic day']:
+                    queries_to_run.extend([
+                        f"{name_clean} hindi songs",
+                        f"{name_clean} bollywood songs",
+                        f"desh bhakti {name_clean} songs",
+                        "desh bhakti hindi songs",
+                        "desh bhakti geet",
+                        "patriotic bollywood hits",
+                        "desh bhakti song"
+                    ])
+                elif name_clean in devotional_themes:
+                    queries_to_run.extend([
+                        f"{name_clean} bhajan hits",
+                        f"{name_clean} aarti bhajan",
+                        f"{name_clean} devotional songs",
+                        f"bhajan shree {name_clean}",
+                        f"popular {name_clean} geet",
+                        f"devotional {name_clean} tracks",
+                        f"{name_clean} popular bhajan"
+                    ])
+                elif name_clean == 'holi':
+                    queries_to_run.extend([
+                        "holi popular songs",
+                        "holi special songs",
+                        "holi bollywood geet",
+                        "holi geet hits",
+                        "holi dhol hits",
+                        "holi hindi songs",
+                        "holi top hits"
+                    ])
+                else:
+                    # Default localized variations
+                    queries_to_run.extend([
+                        f"{name_clean} hindi songs",
+                        f"{name_clean} bollywood songs",
+                        f"{name_clean} special songs",
+                        f"best {name_clean} tracks",
+                        f"popular {name_clean} songs",
+                        f"{name_clean} hit tracks",
+                        f"{name_clean} celebration songs"
+                    ])
+                
+                raw_matches = []
+                for q in queries_to_run:  # Run all specified query variations
+                    raw_matches.extend(scrape_youtube_playlist(q))
+                
+                # Filter out Jukeboxes, Remixes, Shorts, and duplicates (strictly blocking dance/covers/school performances)
+                banned_terms = [
+                    'mashup', 'mash up', 'remix', 'mix', 'jukebox', 'nonstop', 'non-stop', 
+                    'vdj', 'dj', 'visual', 'playlist', 'full album', 'compilation', 
+                    'collection', '& more', 'and more', 'songs collection', 'full jukebox', 
+                    'special 2026', 'special 2025', 'special 2024',
+                    'dance', 'choreography', 'cover by', 'school performance', 'kids performance',
+                    'performance in', 'reaction', 'karaoke', 'lesson', 'tutorial'
+                ]
+                
+                scraped_tracks = []
+                seen_ids = set()
+                for r in raw_matches:
+                    yt_id = r.get('yt_id')
+                    if not yt_id or yt_id in seen_ids:
+                        continue
+                    
+                    title_lower = r['title'].lower()
+                    has_banned = any(term in title_lower for term in banned_terms)
+                    if not has_banned and len(r['title']) < 180:
+                        seen_ids.add(yt_id)
+                        scraped_tracks.append(r)
+                
+                # Sort the entire list by total view count (highest first!)
+                scraped_tracks.sort(key=lambda x: x.get('views', 0), reverse=True)
+                
+                # Enforce limit of 35-40 tracks (guarantees minimum 30 hit songs!)
+                final_playlist = scraped_tracks[:35]
+                print(f"Successfully compiled {len(final_playlist)} unique hit tracks for {f['name']}.")
                 
                 # 2. Write tracklist file
                 playlist_filename = f"{fest_id}_tracks.json"
                 playlist_path = os.path.join(repo_dir, playlist_filename)
                 with open(playlist_path, 'w') as pf:
-                    json.dump(scraped_tracks, pf, indent=2)
+                    json.dump(final_playlist, pf, indent=2)
                 
                 # 3. Get background visual (prioritizes Pexels loop, then Replicate AI, then fallback YouTube/Unsplash!)
                 bg_loop_id = None

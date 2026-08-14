@@ -12,8 +12,12 @@
       "glow_indigo": "#138808",
       "glass_bg": "rgba(15, 20, 15, 0.75)"
     },
-    "search_query": "patriotic bollywood songs",
-    "video_query": "india flag aesthetic lofi loop"
+    "video_query": "india flag aesthetic lofi loop",
+    "search_queries": [
+      "patriotic bollywood songs",
+      "desh bhakti hindi songs",
+      "15 august special songs"
+    ]
   },
   {
     "id": "rakshabandhan",
@@ -28,8 +32,12 @@
       "glow_indigo": "#ec4899",
       "glass_bg": "rgba(20, 10, 15, 0.70)"
     },
-    "search_query": "raksha bandhan bollywood songs",
-    "video_query": "raksha bandhan aesthetic lofi loop"
+    "video_query": "raksha bandhan aesthetic lofi loop",
+    "search_queries": [
+      "raksha bandhan bollywood songs",
+      "rakhi special hindi songs",
+      "bhaiya mere rakhi ke bandhan ko"
+    ]
   },
   {
     "id": "janmashtami",
@@ -44,8 +52,12 @@
       "glow_indigo": "#3b82f6",
       "glass_bg": "rgba(10, 15, 25, 0.70)"
     },
-    "search_query": "krishna bhajan popular hits",
-    "video_query": "krishna flute peacock aesthetic lofi loop"
+    "video_query": "krishna flute peacock aesthetic lofi loop",
+    "search_queries": [
+      "krishna bhajan popular hits",
+      "janmashtami special bhajans",
+      "shree krishna songs hindi"
+    ]
   },
   {
     "id": "ganeshchaturthi",
@@ -60,8 +72,12 @@
       "glow_indigo": "#eab308",
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
-    "search_query": "ganesha songs top hits",
-    "video_query": "ganesha animation aesthetic lofi loop"
+    "video_query": "ganesha animation aesthetic lofi loop",
+    "search_queries": [
+      "ganesha songs top hits",
+      "ganesh chaturthi bhajan",
+      "ganpati bappa songs hindi"
+    ]
   },
   {
     "id": "navratri",
@@ -76,8 +92,12 @@
       "glow_indigo": "#ef4444",
       "glass_bg": "rgba(25, 10, 10, 0.75)"
     },
-    "search_query": "garba songs gujarati top hits",
-    "video_query": "garba dance animation aesthetic lofi loop"
+    "video_query": "garba dance animation aesthetic lofi loop",
+    "search_queries": [
+      "garba songs gujarati top hits",
+      "dandiya raas songs",
+      "navratri special garba hits"
+    ]
   },
   {
     "id": "dussehra",
@@ -92,8 +112,12 @@
       "glow_indigo": "#eab308",
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
-    "search_query": "ram bhajan devotional songs",
-    "video_query": "lord rama bow arrow animation aesthetic lofi loop"
+    "video_query": "lord rama bow arrow animation aesthetic lofi loop",
+    "search_queries": [
+      "ram bhajan devotional songs",
+      "dussehra special bhajan",
+      "shree ram aarti bhajan"
+    ]
   },
   {
     "id": "karwachauth",
@@ -108,8 +132,12 @@
       "glow_indigo": "#f43f5e",
       "glass_bg": "rgba(25, 10, 15, 0.75)"
     },
-    "search_query": "romantic hindi songs popular hits",
-    "video_query": "moon night romantic sky aesthetic lofi loop"
+    "video_query": "moon night romantic sky aesthetic lofi loop",
+    "search_queries": [
+      "romantic hindi songs popular hits",
+      "karwa chauth special songs",
+      "romantic bollywood love songs"
+    ]
   },
   {
     "id": "dhanteras",
@@ -124,8 +152,12 @@
       "glow_indigo": "#ea580c",
       "glass_bg": "rgba(20, 18, 10, 0.70)"
     },
-    "search_query": "lakshmi aarti devotional bhajan",
-    "video_query": "gold coins wealth aesthetic lofi loop"
+    "video_query": "gold coins wealth aesthetic lofi loop",
+    "search_queries": [
+      "lakshmi aarti devotional bhajan",
+      "dhanteras laxmi puja songs",
+      "kuber mantra laxmi bhajan"
+    ]
   },
   {
     "id": "diwali",
@@ -140,8 +172,12 @@
       "glow_indigo": "#be185d",
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
-    "search_query": "diwali songs festive hits",
-    "video_query": "diwali lanterns clay lamps aesthetic lofi loop"
+    "video_query": "diwali lanterns clay lamps aesthetic lofi loop",
+    "search_queries": [
+      "diwali songs festive hits",
+      "deepawali lakshmi ganesh puja songs",
+      "diwali special bhajans"
+    ]
   },
   {
     "id": "bhaidooj",
@@ -156,8 +192,12 @@
       "glow_indigo": "#f43f5e",
       "glass_bg": "rgba(20, 10, 15, 0.70)"
     },
-    "search_query": "brother sister relationship bollywood songs",
-    "video_query": "brother sister love aesthetic lofi loop"
+    "video_query": "brother sister love aesthetic lofi loop",
+    "search_queries": [
+      "brother sister relationship bollywood songs",
+      "bhai dooj special songs",
+      "bhaiya mere rakhi ke bandhan"
+    ]
   },
   {
     "id": "chhathpuja",
@@ -172,8 +212,12 @@
       "glow_indigo": "#eab308",
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
-    "search_query": "chhath puja popular geet",
-    "video_query": "sunset river sun prayer aesthetic lofi loop"
+    "video_query": "sunset river sun prayer aesthetic lofi loop",
+    "search_queries": [
+      "chhath puja popular geet",
+      "sharda sinha chhath geet",
+      "chhath puja bhojpuri songs"
+    ]
   },
   {
     "id": "childrensday",
@@ -188,8 +232,12 @@
       "glow_indigo": "#ec4899",
       "glass_bg": "rgba(10, 20, 20, 0.70)"
     },
-    "search_query": "bachpan childhood child songs",
-    "video_query": "cute cartoon childhood memory aesthetic lofi loop"
+    "video_query": "cute cartoon childhood memory aesthetic lofi loop",
+    "search_queries": [
+      "bachpan childhood child songs",
+      "childrens day special songs",
+      "bachpan ke din bhool na jana"
+    ]
   },
   {
     "id": "christmas",
@@ -204,8 +252,12 @@
       "glow_indigo": "#10b981",
       "glass_bg": "rgba(10, 20, 15, 0.75)"
     },
-    "search_query": "classic christmas carols",
-    "video_query": "christmas cozy fireplace lofi loop"
+    "video_query": "christmas cozy fireplace lofi loop",
+    "search_queries": [
+      "classic christmas carols",
+      "christmas songs popular classics",
+      "merry christmas xmas carols"
+    ]
   },
   {
     "id": "newyearseve",
@@ -220,8 +272,12 @@
       "glow_indigo": "#06b6d4",
       "glass_bg": "rgba(15, 5, 25, 0.80)"
     },
-    "search_query": "popular dance party songs hits",
-    "video_query": "fireworks city skyline aesthetic lofi loop"
+    "video_query": "fireworks city skyline aesthetic lofi loop",
+    "search_queries": [
+      "popular dance party songs hits",
+      "new year eve party dance mix",
+      "bollywood party songs hits"
+    ]
   },
   {
     "id": "newyearsday",
@@ -236,8 +292,12 @@
       "glow_indigo": "#06b6d4",
       "glass_bg": "rgba(10, 15, 20, 0.75)"
     },
-    "search_query": "happy new year celebration songs",
-    "video_query": "happy new year sunrise chill lofi loop"
+    "video_query": "happy new year sunrise chill lofi loop",
+    "search_queries": [
+      "happy new year celebration songs",
+      "new year morning chill songs",
+      "happy new year hindi songs"
+    ]
   },
   {
     "id": "lohri",
@@ -252,8 +312,12 @@
       "glow_indigo": "#ef4444",
       "glass_bg": "rgba(20, 10, 10, 0.70)"
     },
-    "search_query": "lohri festival punjabi songs",
-    "video_query": "bonfire night aesthetic lofi loop"
+    "video_query": "bonfire night aesthetic lofi loop",
+    "search_queries": [
+      "lohri festival punjabi songs",
+      "lohri folk songs punjabi",
+      "bhangra giddha lohri songs"
+    ]
   },
   {
     "id": "makarsankranti",
@@ -268,8 +332,12 @@
       "glow_indigo": "#06b6d4",
       "glass_bg": "rgba(10, 18, 20, 0.70)"
     },
-    "search_query": "makar sankranti festival songs",
-    "video_query": "kites flying sky aesthetic lofi loop"
+    "video_query": "kites flying sky aesthetic lofi loop",
+    "search_queries": [
+      "makar sankranti festival songs",
+      "uttarayan gujarati songs",
+      "kite flying patang songs"
+    ]
   },
   {
     "id": "pongal",
@@ -284,8 +352,12 @@
       "glow_indigo": "#10b981",
       "glass_bg": "rgba(12, 20, 15, 0.70)"
     },
-    "search_query": "pongal tamil festival songs",
-    "video_query": "south india village nature aesthetic lofi loop"
+    "video_query": "south india village nature aesthetic lofi loop",
+    "search_queries": [
+      "pongal tamil festival songs",
+      "pongal festival hits",
+      "pongal special tamil songs"
+    ]
   },
   {
     "id": "republicday",
@@ -300,8 +372,12 @@
       "glow_indigo": "#138808",
       "glass_bg": "rgba(15, 20, 15, 0.75)"
     },
-    "search_query": "desh bhakti patriotic songs hits",
-    "video_query": "republic day india parade aesthetic lofi loop"
+    "video_query": "republic day india parade aesthetic lofi loop",
+    "search_queries": [
+      "patriotic desh bhakti songs hits",
+      "republic day songs hindi",
+      "26 january special songs"
+    ]
   },
   {
     "id": "vasantpanchami",
@@ -316,8 +392,12 @@
       "glow_indigo": "#ffffff",
       "glass_bg": "rgba(20, 20, 15, 0.70)"
     },
-    "search_query": "saraswati vandana devotional songs",
-    "video_query": "saraswati sarod veena aesthetic lofi loop"
+    "video_query": "saraswati sarod veena aesthetic lofi loop",
+    "search_queries": [
+      "saraswati vandana devotional songs",
+      "saraswati puja bhajans",
+      "saraswati aarti mantras"
+    ]
   },
   {
     "id": "mahashivaratri",
@@ -332,8 +412,12 @@
       "glow_indigo": "#4f46e5",
       "glass_bg": "rgba(15, 10, 25, 0.75)"
     },
-    "search_query": "shiv shankar bhajan hits",
-    "video_query": "lord shiva meditation cosmic aesthetic lofi loop"
+    "video_query": "lord shiva meditation cosmic aesthetic lofi loop",
+    "search_queries": [
+      "shiv shankar bhajan hits",
+      "mahadev shiv ji bhajan lofi",
+      "har har mahadev shiv bhajan"
+    ]
   },
   {
     "id": "holikadahan",
@@ -348,8 +432,12 @@
       "glow_indigo": "#f97316",
       "glass_bg": "rgba(20, 10, 10, 0.70)"
     },
-    "search_query": "holika dahan festival songs",
-    "video_query": "bonfire night aesthetic lofi loop"
+    "video_query": "bonfire night aesthetic lofi loop",
+    "search_queries": [
+      "holika dahan festival songs",
+      "holika dahan bhajan aarti",
+      "bhojpuri holika dahan songs"
+    ]
   },
   {
     "id": "holi",
@@ -364,8 +452,12 @@
       "glow_indigo": "#ec4899",
       "glass_bg": "rgba(25, 15, 20, 0.75)"
     },
-    "search_query": "holi songs bollywood classic hits",
-    "video_query": "holi colors aesthetic lofi loop"
+    "video_query": "holi colors aesthetic lofi loop",
+    "search_queries": [
+      "holi songs bollywood classic hits",
+      "holi special songs hindi",
+      "popular holi geet dhol hits"
+    ]
   },
   {
     "id": "gudipadwa",
@@ -380,8 +472,12 @@
       "glow_indigo": "#10b981",
       "glass_bg": "rgba(12, 20, 15, 0.70)"
     },
-    "search_query": "gudi padwa marathi festival songs",
-    "video_query": "gudi padwa maharashtra flag aesthetic lofi loop"
+    "video_query": "gudi padwa maharashtra flag aesthetic lofi loop",
+    "search_queries": [
+      "gudi padwa marathi festival songs",
+      "gudi padwa special marathi geet",
+      "marathi festival songs hits"
+    ]
   },
   {
     "id": "baisakhi",
@@ -396,8 +492,12 @@
       "glow_indigo": "#ea580c",
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
-    "search_query": "punjabi bhangra festival songs",
-    "video_query": "punjab wheat field dhol aesthetic lofi loop"
+    "video_query": "punjab wheat field dhol aesthetic lofi loop",
+    "search_queries": [
+      "punjabi bhangra festival songs",
+      "baisakhi special punjabi songs",
+      "baisakhi dhol bhangra dance"
+    ]
   },
   {
     "id": "ambedkarjayanti",
@@ -412,7 +512,11 @@
       "glow_indigo": "#ffffff",
       "glass_bg": "rgba(10, 15, 25, 0.70)"
     },
-    "search_query": "bhimrao ambedkar popular songs",
-    "video_query": "ambedkar statue writing constitution aesthetic lofi loop"
+    "video_query": "ambedkar statue writing constitution aesthetic lofi loop",
+    "search_queries": [
+      "bhimrao ambedkar popular songs",
+      "bhim geet marathi hindi",
+      "babasaheb ambedkar jayanti songs"
+    ]
   }
 ]

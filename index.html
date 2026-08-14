@@ -467,6 +467,9 @@
       </div>
 
       <div id="controls">
+        <button id="shuffle-btn" class="btn" onclick="toggleShuffle()" title="Shuffle" style="margin-right: 4px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.38 10.17l-1.42 1.41 4.17 4.17L20 17.5V20h-5.5l2.04-2.04-4.16-4.16z"/></svg>
+        </button>
         <button class="btn" onclick="prevTrack()" title="Previous">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
         </button>
@@ -535,7 +538,7 @@
     let bgYtPlayer = null;
     let progressInterval = null;
     let isSlowed = false;
-    let isShuffle = true;
+    let isShuffle = false;
     let playlistQueue = [];
     let queueIndex = 0;
     let currentMode = 'bus'; // default fallback ID
@@ -712,6 +715,17 @@
       } catch (e) {
         document.getElementById('t-title').textContent = "Failed to load playlist";
         console.error('Error fetching tracks:', e);
+      }
+    }
+
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+      const shuffleBtn = document.getElementById('shuffle-btn');
+      if (isShuffle) {
+        shuffleBtn.classList.add('active-shuffle');
+        buildShuffleQueue(currentTrackIdx);
+      } else {
+        shuffleBtn.classList.remove('active-shuffle');
       }
     }
 

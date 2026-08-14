@@ -55,7 +55,7 @@
       "glow_indigo": "#138808",
       "glass_bg": "rgba(15, 20, 15, 0.75)"
     },
-    "video_src": "independenceday.mp4",
+    "video_src": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1920&auto=format&fit=crop",
     "playlist_file": "independenceday_tracks.json",
     "show_slowed": false
   }

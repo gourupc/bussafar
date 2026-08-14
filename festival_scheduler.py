@@ -124,6 +124,26 @@ def get_youtube_video_id_for_loop(query):
     # Fallback to a high-quality aesthetic ambient background loop (rainy bus driver)
     return "busdriver.mp4"
 
+def parse_view_count(view_text):
+    if not view_text:
+        return 0
+    try:
+        view_text = str(view_text).lower().replace(",", "")
+        match = re.search(r'([0-9.]+)\s*(k|m|b)?\s*views?', view_text)
+        if match:
+            num = float(match.group(1))
+            suffix = match.group(2)
+            if suffix == 'k':
+                return int(num * 1000)
+            elif suffix == 'm':
+                return int(num * 1000000)
+            elif suffix == 'b':
+                return int(num * 1000000000)
+            return int(num)
+    except Exception:
+        pass
+    return 0
+
 def find_videos_in_json(obj, results):
     if isinstance(obj, dict):
         if 'videoId' in obj and 'title' in obj:
@@ -136,12 +156,24 @@ def find_videos_in_json(obj, results):
                     owner_runs = obj.get('shortBylineText', {}).get('runs', [])
                 artist = owner_runs[0]['text'].replace(' - Topic', '') if owner_runs else 'Artist'
                 
+                # Extract views
+                view_text = obj.get('viewCountText', {}).get('simpleText', '')
+                if not view_text:
+                    view_runs = obj.get('viewCountText', {}).get('runs', [])
+                    if view_runs:
+                        view_text = view_runs[0].get('text', '')
+                if not view_text:
+                    view_text = obj.get('shortViewCountText', {}).get('simpleText', '')
+                
+                views = parse_view_count(view_text)
+
                 if len(video_id) == 11 and title:
                     results.append({
                         'title': title,
                         'artist': artist,
                         'yt_id': video_id,
-                        'yt_slowed_id': video_id
+                        'yt_slowed_id': video_id,
+                        'views': views
                     })
             except Exception:
                 pass
@@ -166,6 +198,9 @@ def scrape_youtube_playlist(query, limit=35):
             find_videos_in_json(data, results)
     except Exception as e:
         print(f"Error scraping YouTube tracks: {e}")
+
+    # Sort results by views count (highest first!) to get the biggest hits
+    results.sort(key=lambda x: x.get('views', 0), reverse=True)
 
     # De-duplicate by yt_id
     unique_results = []

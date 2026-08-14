@@ -142,8 +142,10 @@ def main():
                 with open(playlist_path, 'w') as pf:
                     json.dump(scraped_tracks, pf, indent=2)
                 
-                # 3. Find background video loop (defaults to a scenic ambient loop if not found)
-                bg_loop_id = get_youtube_video_id_for_loop(f.get("video_query", f"{f['name']} aesthetic lofi loop"))
+                # 3. Find background video loop or use pre-configured URL (e.g. Unsplash)
+                bg_loop_id = f.get("video_src")
+                if not bg_loop_id:
+                    bg_loop_id = get_youtube_video_id_for_loop(f.get("video_query", f"{f['name']} aesthetic lofi loop"))
                 
                 # 4. Append new mode details
                 new_mode = {

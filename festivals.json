@@ -13,7 +13,8 @@
       "glass_bg": "rgba(15, 20, 15, 0.75)"
     },
     "search_query": "patriotic bollywood songs mashup",
-    "video_query": "india flag aesthetic lofi loop"
+    "video_query": "india flag aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1532372320572-cda25653a26d?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "rakshabandhan",
@@ -29,7 +30,8 @@
       "glass_bg": "rgba(20, 10, 15, 0.70)"
     },
     "search_query": "raksha bandhan bollywood songs mix",
-    "video_query": "raksha bandhan aesthetic lofi loop"
+    "video_query": "raksha bandhan aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "janmashtami",
@@ -45,7 +47,8 @@
       "glass_bg": "rgba(10, 15, 25, 0.70)"
     },
     "search_query": "krishna bhajan lofi beats mashup",
-    "video_query": "krishna flute peacock aesthetic lofi loop"
+    "video_query": "krishna flute peacock aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "ganeshchaturthi",
@@ -61,7 +64,8 @@
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
     "search_query": "ganesha songs dj remix mashup",
-    "video_query": "ganesha animation aesthetic lofi loop"
+    "video_query": "ganesha animation aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1567591424430-eb31de0b77c2?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "navratri",
@@ -77,7 +81,8 @@
       "glass_bg": "rgba(25, 10, 10, 0.75)"
     },
     "search_query": "garba dandiya non stop gujarati bollywood mix",
-    "video_query": "garba dance animation aesthetic lofi loop"
+    "video_query": "garba dance animation aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1599386034118-87b43617fa9e?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "dussehra",
@@ -93,7 +98,8 @@
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
     "search_query": "ram bhajan ramayan songs lofi",
-    "video_query": "lord rama bow arrow animation aesthetic lofi loop"
+    "video_query": "lord rama bow arrow animation aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1599386034118-87b43617fa9e?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "karwachauth",
@@ -109,7 +115,8 @@
       "glass_bg": "rgba(25, 10, 15, 0.75)"
     },
     "search_query": "romantic hindi songs lofi chill playlist",
-    "video_query": "moon night romantic sky aesthetic lofi loop"
+    "video_query": "moon night romantic sky aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1531263066760-b8c7b8d2affb?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "dhanteras",
@@ -125,7 +132,8 @@
       "glass_bg": "rgba(20, 18, 10, 0.70)"
     },
     "search_query": "lakshmi ganesh aarti bhajan mix",
-    "video_query": "gold coins wealth aesthetic lofi loop"
+    "video_query": "gold coins wealth aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "diwali",
@@ -141,7 +149,8 @@
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
     "search_query": "diwali festive bollywood songs bhajan lofi",
-    "video_query": "diwali lanterns clay lamps aesthetic lofi loop"
+    "video_query": "diwali lanterns clay lamps aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "bhaidooj",
@@ -157,7 +166,8 @@
       "glass_bg": "rgba(20, 10, 15, 0.70)"
     },
     "search_query": "brother sister love bollywood songs mix",
-    "video_query": "brother sister love aesthetic lofi loop"
+    "video_query": "brother sister love aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1568230349790-6574a8b3efef?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "chhathpuja",
@@ -173,7 +183,8 @@
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
     "search_query": "chhath puja bhojpuri geet sharda sinha",
-    "video_query": "sunset river sun prayer aesthetic lofi loop"
+    "video_query": "sunset river sun prayer aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "childrensday",
@@ -189,7 +200,8 @@
       "glass_bg": "rgba(10, 20, 20, 0.70)"
     },
     "search_query": "bachpan ke din old bollywood child songs",
-    "video_query": "cute cartoon childhood memory aesthetic lofi loop"
+    "video_query": "cute cartoon childhood memory aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1502086222222-298315ea2222?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "christmas",
@@ -205,7 +217,8 @@
       "glass_bg": "rgba(10, 20, 15, 0.75)"
     },
     "search_query": "christmas carols lofi chill beats",
-    "video_query": "christmas cozy fireplace lofi loop"
+    "video_query": "christmas cozy fireplace lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "newyearseve",
@@ -221,7 +234,8 @@
       "glass_bg": "rgba(15, 5, 25, 0.80)"
     },
     "search_query": "new year party dance songs mashup",
-    "video_query": "fireworks city skyline aesthetic lofi loop"
+    "video_query": "fireworks city skyline aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "newyearsday",
@@ -237,7 +251,8 @@
       "glass_bg": "rgba(10, 15, 20, 0.75)"
     },
     "search_query": "happy new year chill lofi morning mix",
-    "video_query": "happy new year sunrise chill lofi loop"
+    "video_query": "happy new year sunrise chill lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "lohri",
@@ -253,7 +268,8 @@
       "glass_bg": "rgba(20, 10, 10, 0.70)"
     },
     "search_query": "punjabi folk lohri festival songs",
-    "video_query": "bonfire night aesthetic lofi loop"
+    "video_query": "bonfire night aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1568574369787-cb3ef8882d6a?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "makarsankranti",
@@ -269,7 +285,8 @@
       "glass_bg": "rgba(10, 18, 20, 0.70)"
     },
     "search_query": "uttarayan gujarati kai po che songs",
-    "video_query": "kites flying sky aesthetic lofi loop"
+    "video_query": "kites flying sky aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-154495d1f2-a2f0c5f08429?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "pongal",
@@ -285,7 +302,8 @@
       "glass_bg": "rgba(12, 20, 15, 0.70)"
     },
     "search_query": "pongal tamil festival songs mix",
-    "video_query": "south india village nature aesthetic lofi loop"
+    "video_query": "south india village nature aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1568574386712-9d1a5b2c0023?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "republicday",
@@ -301,7 +319,8 @@
       "glass_bg": "rgba(15, 20, 15, 0.75)"
     },
     "search_query": "patriotic desh bhakti songs mix",
-    "video_query": "republic day india parade aesthetic lofi loop"
+    "video_query": "republic day india parade aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1532372320572-cda25653a26d?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "vasantpanchami",
@@ -317,7 +336,8 @@
       "glass_bg": "rgba(20, 20, 15, 0.70)"
     },
     "search_query": "saraswati vandana puja aarti songs",
-    "video_query": "saraswati sarod veena aesthetic lofi loop"
+    "video_query": "saraswati sarod veena aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1599120771296-908f9ac7ea8a?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "mahashivaratri",
@@ -333,7 +353,8 @@
       "glass_bg": "rgba(15, 10, 25, 0.75)"
     },
     "search_query": "shiv shankar bhajan damru lofi mix",
-    "video_query": "lord shiva meditation cosmic aesthetic lofi loop"
+    "video_query": "lord shiva meditation cosmic aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1608842241544-89090742d120?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "holikadahan",
@@ -349,7 +370,8 @@
       "glass_bg": "rgba(20, 10, 10, 0.70)"
     },
     "search_query": "holika dahan bhajan songs",
-    "video_query": "bonfire night aesthetic lofi loop"
+    "video_query": "bonfire night aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1568574369787-cb3ef8882d6a?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "holi",
@@ -365,7 +387,8 @@
       "glass_bg": "rgba(25, 15, 20, 0.75)"
     },
     "search_query": "holi mashup non stop bollywood color songs",
-    "video_query": "holi colors aesthetic lofi loop"
+    "video_query": "holi colors aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1568224068-a0e8c39355ce?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "gudipadwa",
@@ -381,7 +404,8 @@
       "glass_bg": "rgba(12, 20, 15, 0.70)"
     },
     "search_query": "marathi gudi padwa festival geet",
-    "video_query": "gudi padwa maharashtra flag aesthetic lofi loop"
+    "video_query": "gudi padwa maharashtra flag aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-156857430408-e96b9e8b6ff5?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "baisakhi",
@@ -397,7 +421,8 @@
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
     "search_query": "bhangra non stop punjabi dhol mix",
-    "video_query": "punjab wheat field dhol aesthetic lofi loop"
+    "video_query": "punjab wheat field dhol aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1568574414296-908f9ac7ea8a?q=80&w=1920&auto=format&fit=crop"
   },
   {
     "id": "ambedkarjayanti",
@@ -413,6 +438,7 @@
       "glass_bg": "rgba(10, 15, 25, 0.70)"
     },
     "search_query": "bhim song bhimraya songs mix",
-    "video_query": "ambedkar statue writing constitution aesthetic lofi loop"
+    "video_query": "ambedkar statue writing constitution aesthetic lofi loop",
+    "video_src": "https://images.unsplash.com/photo-1601966181353-c5f49297bbff?q=80&w=1920&auto=format&fit=crop"
   }
 ]

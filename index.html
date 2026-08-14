@@ -48,6 +48,19 @@
       display: block;
     }
 
+    /* AI GENERATED IMAGE BACKGROUND (KEN BURNS EFFECT) */
+    #bg-image {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      z-index: 0; display: none;
+      background-size: cover; background-position: center;
+      filter: brightness(0.60) saturate(1.15);
+      animation: kenBurns 28s ease-in-out infinite alternate;
+    }
+    @keyframes kenBurns {
+      0% { transform: scale(1) translate(0, 0); }
+      100% { transform: scale(1.12) translate(-15px, -8px); }
+    }
+
     /* VIDEO BACKGROUND (YOUTUBE STREAM) */
     #bg-yt-container {
       position: fixed; inset: 0; width: 100%; height: 100%;
@@ -391,6 +404,9 @@
     <div id="bg-yt-player"></div>
   </div>
 
+  <!-- AI Generated Background Image (Ken Burns Animation) -->
+  <div id="bg-image"></div>
+
   <div class="overlay-top"></div>
   <div class="overlay-bottom"></div>
   <div class="glow glow-orange"></div>
@@ -603,12 +619,31 @@
       // Update main title (Hindi translation)
       document.getElementById('main-title').textContent = mode.title_hindi;
       
-      // Update background video (handles local MP4 and YouTube video stream loop!)
+      // Update background layer (handles local MP4, AI-generated image, or YouTube stream loop!)
       const bgVideo = document.getElementById('bg-video');
       const bgYtContainer = document.getElementById('bg-yt-container');
+      const bgImage = document.getElementById('bg-image');
 
-      if (mode.video_src.endsWith('.mp4')) {
+      const isImage = (mode.video_src.endsWith('.png') || 
+                       mode.video_src.endsWith('.jpg') || 
+                       mode.video_src.endsWith('.jpeg') || 
+                       mode.video_src.endsWith('.webp') ||
+                       mode.video_src.includes('unsplash.com') ||
+                       mode.video_src.includes('images.unsplash.com'));
+
+      if (isImage) {
+        // Use AI-generated Image with Ken Burns animation
+        if (bgVideo) { bgVideo.style.display = 'none'; bgVideo.pause(); }
+        if (bgYtContainer) bgYtContainer.style.display = 'none';
+        if (bgYtPlayer && bgYtPlayer.pauseVideo) bgYtPlayer.pauseVideo();
+
+        if (bgImage) {
+          bgImage.style.display = 'block';
+          bgImage.style.backgroundImage = `url('${mode.video_src}?v=${Date.now()}')`;
+        }
+      } else if (mode.video_src.endsWith('.mp4')) {
         // Use local MP4 player
+        if (bgImage) bgImage.style.display = 'none';
         if (bgYtContainer) bgYtContainer.style.display = 'none';
         if (bgYtPlayer && bgYtPlayer.pauseVideo) bgYtPlayer.pauseVideo();
 
@@ -622,10 +657,8 @@
         }
       } else {
         // Use YouTube Video Stream background
-        if (bgVideo) {
-          bgVideo.style.display = 'none';
-          bgVideo.pause();
-        }
+        if (bgImage) bgImage.style.display = 'none';
+        if (bgVideo) { bgVideo.style.display = 'none'; bgVideo.pause(); }
         if (bgYtContainer) bgYtContainer.style.display = 'block';
 
         if (bgYtPlayer && bgYtPlayer.loadVideoById) {

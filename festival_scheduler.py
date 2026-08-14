@@ -424,7 +424,7 @@ def main():
                     has_ai = bool(re.search(r'\bai\b', title_lower))
                     
                     # Safe popularity check: must have at least 2,000 views to filter out home videos/spam
-                    is_popular = r.get('views', 0) >= 2000
+                    is_popular = r.get('views', 0) >= 15000
                     
                     # Channel/uploader blocklist to filter out non-music accounts (dance classes, tutorials, covers)
                     artist_lower = r.get('artist', '').lower()

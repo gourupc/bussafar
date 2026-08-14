@@ -45,18 +45,18 @@
     "show_slowed": false
   },
   {
-    "id": "rakshabandhan",
-    "title": "Raksha Bandhan",
-    "title_hindi": "\u0930\u0915\u094d\u0937\u093e\u092c\u0902\u0927\u0928",
-    "icon": "\ud83e\udd1d",
+    "id": "independenceday",
+    "title": "Independence Day",
+    "title_hindi": "\u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930\u0924\u093e \u0926\u093f\u0935\u0938",
+    "icon": "\ud83c\uddee\ud83c\uddf3",
     "theme": {
-      "accent": "#ec4899",
-      "glow_orange": "#fbbf24",
-      "glow_indigo": "#ec4899",
-      "glass_bg": "rgba(20, 10, 15, 0.70)"
+      "accent": "#ff9933",
+      "glow_orange": "#ff9933",
+      "glow_indigo": "#138808",
+      "glass_bg": "rgba(15, 20, 15, 0.75)"
     },
-    "video_src": "rakshabandhan.mp4",
-    "playlist_file": "rakshabandhan_tracks.json",
+    "video_src": "independenceday.mp4",
+    "playlist_file": "independenceday_tracks.json",
     "show_slowed": false
   }
 ]

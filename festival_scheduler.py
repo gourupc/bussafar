@@ -57,6 +57,50 @@ def generate_ai_video(prompt, token):
         print(f"Replicate API error: {e}")
     return None
 
+def download_file_with_headers(url, path):
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req) as response, open(path, 'wb') as out_file:
+        out_file.write(response.read())
+
+def get_pexels_loop_video(query):
+    print(f"Searching Pexels for background loop video: '{query}'")
+    search_url = "https://www.pexels.com/search/videos/" + urllib.parse.quote(query) + "/"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+    try:
+        req = urllib.request.Request(search_url, headers=headers)
+        html = urllib.request.urlopen(req, timeout=10).read().decode('utf-8')
+        
+        video_links = re.findall(r'href="/video/([a-zA-Z0-9\-]+/)"', html)
+        if not video_links:
+            return None
+        
+        first_video_url = "https://www.pexels.com/video/" + video_links[0]
+        v_req = urllib.request.Request(first_video_url, headers=headers)
+        v_html = urllib.request.urlopen(v_req, timeout=10).read().decode('utf-8')
+        
+        mp4_urls = re.findall(r'https://videos\.pexels\.com/video-files/[a-zA-Z0-9\-/\._]+\.mp4', v_html)
+        if not mp4_urls:
+            return None
+        
+        # Look for HD/Full HD landscapes
+        resolutions = ["_1920_1080_", "-hd_1920_1080_", "_1280_720_", "-hd_1280_720_", "-uhd_", "_3840_2160_"]
+        best_url = None
+        for res in resolutions:
+            for url in mp4_urls:
+                if res in url:
+                    best_url = url
+                    break
+            if best_url:
+                break
+        
+        if not best_url:
+            best_url = mp4_urls[0]
+        return best_url
+    except Exception as e:
+        print(f"Pexels scraper error: {e}")
+    return None
+
 def get_youtube_video_id_for_loop(query):
     print(f"Searching YouTube for background loop video: '{query}'")
     try:
@@ -194,28 +238,42 @@ def main():
                 with open(playlist_path, 'w') as pf:
                     json.dump(scraped_tracks, pf, indent=2)
                 
-                # 3. Find background video loop or use pre-configured URL (e.g. Unsplash)
-                bg_loop_id = f.get("video_src")
+                # 3. Get background visual (prioritizes Pexels loop, then Replicate AI, then fallback YouTube/Unsplash!)
+                bg_loop_id = None
                 
-                # Check for Replicate AI Video Generation Token
-                replicate_token = os.getenv("REPLICATE_API_TOKEN")
-                if replicate_token:
-                    # Attempt to generate video via Replicate AI
-                    generated_url = generate_ai_video(f.get("video_query", f"{f['name']} aesthetic lofi loop"), replicate_token)
-                    if generated_url:
-                        print(f"Successfully generated AI video: {generated_url}")
-                        # Download generated MP4 and save locally
-                        try:
-                            mp4_filename = f"{fest_id}.mp4"
-                            mp4_path = os.path.join(repo_dir, mp4_filename)
-                            print(f"Downloading generated video to: {mp4_filename}")
-                            urllib.request.urlretrieve(generated_url, mp4_path)
-                            bg_loop_id = mp4_filename
-                        except Exception as e:
-                            print(f"Failed to download generated AI video: {e}")
-
+                # Try fetching a gorgeous looping stock video from Pexels (100% free, no key!)
+                pexels_query = f.get("video_query", f"{f['name']} loop")
+                pexels_url = get_pexels_loop_video(pexels_query)
+                if pexels_url:
+                    try:
+                        mp4_filename = f"{fest_id}.mp4"
+                        mp4_path = os.path.join(repo_dir, mp4_filename)
+                        print(f"Downloading premium Pexels loop to: {mp4_filename}")
+                        download_file_with_headers(pexels_url, mp4_path)
+                        bg_loop_id = mp4_filename
+                    except Exception as e:
+                        print(f"Failed to download Pexels loop: {e}")
+                
+                # Check for Replicate AI Video Generation Token (Fallback if Pexels fails)
                 if not bg_loop_id:
-                    bg_loop_id = get_youtube_video_id_for_loop(f.get("video_query", f"{f['name']} aesthetic lofi loop"))
+                    replicate_token = os.getenv("REPLICATE_API_TOKEN")
+                    if replicate_token:
+                        generated_url = generate_ai_video(f.get("video_query", f"{f['name']} aesthetic lofi loop"), replicate_token)
+                        if generated_url:
+                            try:
+                                mp4_filename = f"{fest_id}.mp4"
+                                mp4_path = os.path.join(repo_dir, mp4_filename)
+                                print(f"Downloading generated AI video to: {mp4_filename}")
+                                download_file_with_headers(generated_url, mp4_path)
+                                bg_loop_id = mp4_filename
+                            except Exception as e:
+                                print(f"Failed to download generated AI video: {e}")
+
+                # If no video is resolved, use pre-configured Unsplash image or scrape YouTube
+                if not bg_loop_id:
+                    bg_loop_id = f.get("video_src")
+                    if not bg_loop_id:
+                        bg_loop_id = get_youtube_video_id_for_loop(f.get("video_query", f"{f['name']} aesthetic lofi loop"))
                 
                 # 4. Append new mode details
                 new_mode = {
@@ -242,6 +300,16 @@ def main():
                 if os.path.exists(playlist_path):
                     os.remove(playlist_path)
                     print(f"Deleted playlist file: {playlist_filename}")
+                
+                # Also delete downloaded video loop file if present
+                mp4_filename = f"{fest_id}.mp4"
+                mp4_path = os.path.join(repo_dir, mp4_filename)
+                if os.path.exists(mp4_path):
+                    try:
+                        os.remove(mp4_path)
+                        print(f"Deleted video loop file: {mp4_filename}")
+                    except Exception as e:
+                        print(f"Failed to delete video loop file: {e}")
                 
                 # 2. Remove entry from modes.json
                 modes = [m for m in modes if m["id"] != fest_id]

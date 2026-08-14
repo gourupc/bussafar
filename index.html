@@ -838,7 +838,7 @@
       if ('mediaSession' in navigator) {
         let displayTitle = track.title + (isSlowed ? ' (Slowed & Reverb)' : '');
         let displayArtist = track.artist;
-        if (currentMode === 'club') {
+        if (currentMode !== 'bus') {
           displayArtist = '';
           displayTitle = displayTitle
             .replace(/\s*-\s*Dj.*/gi, '')
@@ -887,7 +887,7 @@
       const track = tracks[currentTrackIdx];
       
       let displayTitle = track.title + (isSlowed ? ' (Slowed & Reverb)' : '');
-      if (currentMode === 'club') {
+      if (currentMode !== 'bus') {
         document.getElementById('t-artist').style.display = 'none';
         displayTitle = displayTitle
           .replace(/\s*-\s*Dj.*/gi, '')

@@ -306,7 +306,11 @@ def main():
                         "desh bhakti hindi songs",
                         "desh bhakti geet",
                         "patriotic bollywood hits",
-                        "desh bhakti song"
+                        "desh bhakti song",
+                        "har ghar tiranga songs",
+                        "15 august songs bollywood",
+                        "desh bhakti geet hindi audio",
+                        "desh bhakti gana hits"
                     ])
                 elif name_clean in devotional_themes:
                     queries_to_run.extend([
@@ -316,7 +320,10 @@ def main():
                         f"bhajan shree {name_clean}",
                         f"popular {name_clean} geet",
                         f"devotional {name_clean} tracks",
-                        f"{name_clean} popular bhajan"
+                        f"{name_clean} popular bhajan",
+                        f"{name_clean} bhakti geet",
+                        f"{name_clean} bhajan aarti audio",
+                        f"shree {name_clean} hits"
                     ])
                 elif name_clean == 'holi':
                     queries_to_run.extend([
@@ -326,7 +333,10 @@ def main():
                         "holi geet hits",
                         "holi dhol hits",
                         "holi hindi songs",
-                        "holi top hits"
+                        "holi top hits",
+                        "holi festival songs hindi",
+                        "holi classic hits",
+                        "holi dance songs bollywood"
                     ])
                 else:
                     # Default localized variations
@@ -337,14 +347,17 @@ def main():
                         f"best {name_clean} tracks",
                         f"popular {name_clean} songs",
                         f"{name_clean} hit tracks",
-                        f"{name_clean} celebration songs"
+                        f"{name_clean} celebration songs",
+                        f"traditional {name_clean} songs",
+                        f"{name_clean} audio songs",
+                        f"{name_clean} classic hits"
                     ])
                 
                 raw_matches = []
                 for q in queries_to_run:  # Run all specified query variations
                     raw_matches.extend(scrape_youtube_playlist(q))
                 
-                # Filter out Jukeboxes, Remixes, Shorts, and duplicates (strictly blocking dance/covers/school/live performances)
+                # Filter out Jukeboxes, Remixes, Shorts, and duplicates (strictly blocking dance/covers/school/live performances/AI/listicles)
                 banned_terms = [
                     'mashup', 'mash up', 'remix', 'mix', 'jukebox', 'nonstop', 'non-stop', 
                     'vdj', 'dj', 'visual', 'playlist', 'full album', 'compilation', 
@@ -353,7 +366,10 @@ def main():
                     'dance', 'choreography', 'cover by', 'school performance', 'kids performance',
                     'performance in', 'reaction', 'karaoke', 'lesson', 'tutorial',
                     'live performance', 'live concert', 'live stage', 'live show', 'concert', 
-                    'live sing', 'stage performance', 'live version'
+                    'live sing', 'stage performance', 'live version',
+                    'ai version', 'ai cover', 'ai generated', 'ai song', 'ai music',
+                    'top 5', 'top 10', 'top 12', 'top 15', 'top 20', 'top 25', 'top 30', 'top 50', 'top 100',
+                    'most iconic', 'iconic songs', 'songs you need', 'iconic patriotic'
                 ]
                 
                 # Sort raw matches by views count descending FIRST, so that we always keep the official/highest-view version of each song!
@@ -369,7 +385,9 @@ def main():
                     
                     title_lower = r['title'].lower()
                     has_banned = any(term in title_lower for term in banned_terms)
-                    if not has_banned and len(r['title']) < 180:
+                    # Check for standalone "ai" word using regex to prevent false positives on words like "main", "zindagi", etc.
+                    has_ai = bool(re.search(r'\bai\b', title_lower))
+                    if not has_banned and not has_ai and len(r['title']) < 180:
                         # Apply smart title similarity de-duplication
                         if not is_duplicate_title(r['title'], seen_titles):
                             seen_ids.add(yt_id)

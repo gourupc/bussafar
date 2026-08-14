@@ -202,12 +202,15 @@ def scrape_youtube_playlist(query, limit=35):
     # Sort results by views count (highest first!) to get the biggest hits
     results.sort(key=lambda x: x.get('views', 0), reverse=True)
 
-    # De-duplicate by yt_id
+    # De-duplicate by yt_id and filter out mashups/remixes/jukeboxes
     unique_results = []
     seen_ids = set()
+    banned_terms = ['mashup', 'mash up', 'remix', 'mix', 'jukebox', 'nonstop', 'non-stop', 'vdj', 'dj', 'visual', 'playlist', 'full album']
     for r in results:
+        title_lower = r['title'].lower()
+        has_banned = any(term in title_lower for term in banned_terms)
         # Filter out obvious non-music results or channel/user items
-        if r['yt_id'] not in seen_ids and len(r['title']) < 180:
+        if not has_banned and r['yt_id'] not in seen_ids and len(r['title']) < 180:
             seen_ids.add(r['yt_id'])
             unique_results.append(r)
             

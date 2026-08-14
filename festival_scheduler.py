@@ -124,11 +124,31 @@ def get_youtube_video_id_for_loop(query):
     # Fallback to a high-quality aesthetic ambient background loop (rainy bus driver)
     return "busdriver.mp4"
 
+def transliterate_devnagari(text):
+    mapping = {
+        'अ': 'a', 'आ': 'aa', 'इ': 'i', 'ई': 'ee', 'उ': 'u', 'ऊ': 'oo', 'ऋ': 'ri',
+        'ए': 'e', 'ऐ': 'ai', 'ओ': 'o', 'औ': 'au',
+        'क': 'k', 'ख': 'kh', 'ग': 'g', 'घ': 'gh', 'ङ': 'n',
+        'च': 'ch', 'छ': 'chh', 'ज': 'j', 'झ': 'jh', 'ञ': 'n',
+        'ट': 't', 'ठ': 'th', 'ड': 'd', 'ढ': 'dh', 'ण': 'n',
+        'त': 't', 'थ': 'th', 'द': 'd', 'ध': 'dh', 'न': 'n',
+        'प': 'p', 'फ': 'ph', 'ब': 'b', 'भ': 'bh', 'म': 'm',
+        'य': 'y', 'r': 'r', 'ल': 'l', 'व': 'v', 'श': 'sh', 'ष': 'sh', 'स': 's', 'ह': 'h',
+        'ा': 'a', 'ि': 'i', 'ी': 'ee', 'ु': 'u', 'ू': 'oo', 'े': 'e', 'ै': 'ai', 'ो': 'o', 'ौ': 'au',
+        'ं': 'n', 'ः': 'h', 'ँ': 'n', '्': ''
+    }
+    res = []
+    for char in text:
+        res.append(mapping.get(char, char))
+    return "".join(res)
+
 def clean_words(title):
     import re
-    t = str(title).lower()
+    # Transliterate Devnagari characters to English sounds
+    t = transliterate_devnagari(str(title))
+    t = t.lower()
     # Normalize spelling variations to prevent duplicates with different spelling
-    t = t.replace('ae', 'aye').replace('desh', 'des')
+    t = t.replace('ae', 'aye').replace('desh', 'des').replace('bhee', 'bhi').replace('jan', 'jaan')
     words = re.findall(r'\b[a-z]{3,}\b', t)
     # Filter out generic listicle, video, and search-related terms
     filter_out = {

@@ -422,7 +422,16 @@ def main():
                     has_banned = any(term in title_lower for term in banned_terms)
                     # Check for standalone "ai" word using regex to prevent false positives on words like "main", "zindagi", etc.
                     has_ai = bool(re.search(r'\bai\b', title_lower))
-                    if not has_banned and not has_ai and len(r['title']) < 180:
+                    
+                    # Safe popularity check: must have at least 2,000 views to filter out home videos/spam
+                    is_popular = r.get('views', 0) >= 2000
+                    
+                    # Channel/uploader blocklist to filter out non-music accounts (dance classes, tutorials, covers)
+                    artist_lower = r.get('artist', '').lower()
+                    artist_banned_terms = ['dance', 'choreo', 'vlog', 'reaction', 'guitar', 'piano', 'tutorial', 'lesson', 'gaming', 'karaoke']
+                    artist_ok = not any(term in artist_lower for term in artist_banned_terms)
+
+                    if not has_banned and not has_ai and is_popular and artist_ok and len(r['title']) < 180:
                         # Apply smart title similarity de-duplication
                         if not is_duplicate_title(r['title'], seen_titles):
                             seen_ids.add(yt_id)

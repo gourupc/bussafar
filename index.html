@@ -803,6 +803,11 @@
       const activeMode = modes.find(m => m.id === currentMode);
       const isLocalMp4 = activeMode ? activeMode.video_src.endsWith('.mp4') : true;
 
+      if (event.data === YT.PlayerState.ENDED) {
+        nextTrack();
+        return;
+      }
+
       if (event.data === YT.PlayerState.PLAYING) {
         updatePlayIcon(true);
         startProgressBar();

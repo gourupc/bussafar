@@ -2,8 +2,8 @@
   {
     "id": "independenceday",
     "name": "Independence Day",
-    "name_hindi": "स्वतंत्रता दिवस",
-    "emoji": "🇮🇳",
+    "name_hindi": "\u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930\u0924\u093e \u0926\u093f\u0935\u0938",
+    "emoji": "\ud83c\uddee\ud83c\uddf3",
     "date": "2026-08-15",
     "days_active": 1,
     "theme": {
@@ -15,10 +15,115 @@
     "search_query": "patriotic bollywood songs mashup"
   },
   {
+    "id": "rakshabandhan",
+    "name": "Raksha Bandhan",
+    "name_hindi": "\u0930\u0915\u094d\u0937\u093e\u092c\u0902\u0927\u0928",
+    "emoji": "\ud83e\udd1d",
+    "date": "2026-08-28",
+    "days_active": 1,
+    "theme": {
+      "accent": "#ec4899",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#ec4899",
+      "glass_bg": "rgba(20, 10, 15, 0.70)"
+    },
+    "search_query": "raksha bandhan bollywood songs mix"
+  },
+  {
+    "id": "janmashtami",
+    "name": "Janmashtami",
+    "name_hindi": "\u091c\u0928\u094d\u092e\u093e\u0937\u094d\u091f\u092e\u0940",
+    "emoji": "\ud83e\ude88",
+    "date": "2026-09-04",
+    "days_active": 1,
+    "theme": {
+      "accent": "#3b82f6",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#3b82f6",
+      "glass_bg": "rgba(10, 15, 25, 0.70)"
+    },
+    "search_query": "krishna bhajan lofi beats mashup"
+  },
+  {
+    "id": "ganeshchaturthi",
+    "name": "Ganesh Chaturthi",
+    "name_hindi": "\u0917\u0923\u0947\u0936 \u091a\u0924\u0941\u0930\u094d\u0925\u0940",
+    "emoji": "\ud83d\udc18",
+    "date": "2026-09-15",
+    "days_active": 1,
+    "theme": {
+      "accent": "#f97316",
+      "glow_orange": "#f97316",
+      "glow_indigo": "#eab308",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "search_query": "ganesha songs dj remix mashup"
+  },
+  {
+    "id": "navratri",
+    "name": "Navratri",
+    "name_hindi": "\u0928\u0935\u0930\u093e\u0924\u094d\u0930\u093f",
+    "emoji": "\ud83d\udd31",
+    "date": "2026-10-11",
+    "days_active": 9,
+    "theme": {
+      "accent": "#ef4444",
+      "glow_orange": "#f97316",
+      "glow_indigo": "#ef4444",
+      "glass_bg": "rgba(25, 10, 10, 0.75)"
+    },
+    "search_query": "garba dandiya non stop gujarati bollywood mix"
+  },
+  {
+    "id": "dussehra",
+    "name": "Dussehra",
+    "name_hindi": "\u0926\u0936\u0939\u0930\u093e",
+    "emoji": "\ud83c\udff9",
+    "date": "2026-10-20",
+    "days_active": 1,
+    "theme": {
+      "accent": "#eab308",
+      "glow_orange": "#ef4444",
+      "glow_indigo": "#eab308",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "search_query": "ram bhajan ramayan songs lofi"
+  },
+  {
+    "id": "karwachauth",
+    "name": "Karwa Chauth",
+    "name_hindi": "\u0915\u0930\u0935\u093e \u091a\u094c\u0925",
+    "emoji": "\ud83c\udf19",
+    "date": "2026-10-29",
+    "days_active": 1,
+    "theme": {
+      "accent": "#f43f5e",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#f43f5e",
+      "glass_bg": "rgba(25, 10, 15, 0.75)"
+    },
+    "search_query": "romantic hindi songs lofi chill playlist"
+  },
+  {
+    "id": "dhanteras",
+    "name": "Dhanteras",
+    "name_hindi": "\u0927\u0928\u0924\u0947\u0930\u0938",
+    "emoji": "\ud83e\ude99",
+    "date": "2026-11-06",
+    "days_active": 1,
+    "theme": {
+      "accent": "#eab308",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#ea580c",
+      "glass_bg": "rgba(20, 18, 10, 0.70)"
+    },
+    "search_query": "lakshmi ganesh aarti bhajan mix"
+  },
+  {
     "id": "diwali",
     "name": "Diwali",
-    "name_hindi": "दिवाली",
-    "emoji": "🪔",
+    "name_hindi": "\u0926\u093f\u0935\u093e\u0932\u0940",
+    "emoji": "\ud83e\ude94",
     "date": "2026-11-08",
     "days_active": 3,
     "theme": {
@@ -28,5 +133,260 @@
       "glass_bg": "rgba(20, 15, 10, 0.70)"
     },
     "search_query": "diwali festive bollywood songs bhajan lofi"
+  },
+  {
+    "id": "bhaidooj",
+    "name": "Bhai Dooj",
+    "name_hindi": "\u092d\u093e\u0908 \u0926\u0942\u091c",
+    "emoji": "\ud83d\udc6b",
+    "date": "2026-11-10",
+    "days_active": 1,
+    "theme": {
+      "accent": "#f43f5e",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#f43f5e",
+      "glass_bg": "rgba(20, 10, 15, 0.70)"
+    },
+    "search_query": "brother sister love bollywood songs mix"
+  },
+  {
+    "id": "chhathpuja",
+    "name": "Chhath Puja",
+    "name_hindi": "\u091b\u0920 \u092a\u0942\u091c\u093e",
+    "emoji": "\u2600\ufe0f",
+    "date": "2026-11-15",
+    "days_active": 2,
+    "theme": {
+      "accent": "#fbbf24",
+      "glow_orange": "#ea580c",
+      "glow_indigo": "#eab308",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "search_query": "chhath puja bhojpuri geet sharda sinha"
+  },
+  {
+    "id": "childrensday",
+    "name": "Children's Day",
+    "name_hindi": "\u092c\u093e\u0932 \u0926\u093f\u0935\u0938",
+    "emoji": "\ud83e\uddf8",
+    "date": "2026-11-14",
+    "days_active": 1,
+    "theme": {
+      "accent": "#06b6d4",
+      "glow_orange": "#06b6d4",
+      "glow_indigo": "#ec4899",
+      "glass_bg": "rgba(10, 20, 20, 0.70)"
+    },
+    "search_query": "bachpan ke din old bollywood child songs"
+  },
+  {
+    "id": "christmas",
+    "name": "Christmas",
+    "name_hindi": "\u0915\u094d\u0930\u093f\u0938\u092e\u0938",
+    "emoji": "\ud83c\udf84",
+    "date": "2026-12-25",
+    "days_active": 1,
+    "theme": {
+      "accent": "#10b981",
+      "glow_orange": "#ef4444",
+      "glow_indigo": "#10b981",
+      "glass_bg": "rgba(10, 20, 15, 0.75)"
+    },
+    "search_query": "christmas carols lofi chill beats"
+  },
+  {
+    "id": "newyearseve",
+    "name": "New Year's Eve",
+    "name_hindi": "\u0928\u090f \u0938\u093e\u0932 \u0915\u0940 \u092a\u0942\u0930\u094d\u0935 \u0938\u0902\u0927\u094d\u092f\u093e",
+    "emoji": "\ud83c\udf86",
+    "date": "2026-12-31",
+    "days_active": 1,
+    "theme": {
+      "accent": "#a855f7",
+      "glow_orange": "#ec4899",
+      "glow_indigo": "#06b6d4",
+      "glass_bg": "rgba(15, 5, 25, 0.80)"
+    },
+    "search_query": "new year party dance songs mashup"
+  },
+  {
+    "id": "newyearsday",
+    "name": "New Year's Day",
+    "name_hindi": "\u0928\u0935 \u0935\u0930\u094d\u0937",
+    "emoji": "\ud83c\udf89",
+    "date": "2027-01-01",
+    "days_active": 1,
+    "theme": {
+      "accent": "#06b6d4",
+      "glow_orange": "#a855f7",
+      "glow_indigo": "#06b6d4",
+      "glass_bg": "rgba(10, 15, 20, 0.75)"
+    },
+    "search_query": "happy new year chill lofi morning mix"
+  },
+  {
+    "id": "lohri",
+    "name": "Lohri",
+    "name_hindi": "\u0932\u094b\u0939\u0921\u093c\u0940",
+    "emoji": "\ud83d\udd25",
+    "date": "2027-01-13",
+    "days_active": 1,
+    "theme": {
+      "accent": "#ea580c",
+      "glow_orange": "#f97316",
+      "glow_indigo": "#ef4444",
+      "glass_bg": "rgba(20, 10, 10, 0.70)"
+    },
+    "search_query": "punjabi folk lohri festival songs"
+  },
+  {
+    "id": "makarsankranti",
+    "name": "Makar Sankranti",
+    "name_hindi": "\u092e\u0915\u0930 \u0938\u0902\u0915\u094d\u0930\u093e\u0902\u0924\u093f",
+    "emoji": "\ud83e\ude81",
+    "date": "2027-01-14",
+    "days_active": 1,
+    "theme": {
+      "accent": "#06b6d4",
+      "glow_orange": "#eab308",
+      "glow_indigo": "#06b6d4",
+      "glass_bg": "rgba(10, 18, 20, 0.70)"
+    },
+    "search_query": "uttarayan gujarati kai po che songs"
+  },
+  {
+    "id": "pongal",
+    "name": "Pongal",
+    "name_hindi": "\u092a\u094b\u0902\u0917\u0932",
+    "emoji": "\ud83c\udf3e",
+    "date": "2027-01-14",
+    "days_active": 4,
+    "theme": {
+      "accent": "#10b981",
+      "glow_orange": "#eab308",
+      "glow_indigo": "#10b981",
+      "glass_bg": "rgba(12, 20, 15, 0.70)"
+    },
+    "search_query": "pongal tamil festival songs mix"
+  },
+  {
+    "id": "republicday",
+    "name": "Republic Day",
+    "name_hindi": "\u0917\u0923\u0924\u0902\u0924\u094d\u0930 \u0926\u093f\u0935\u0938",
+    "emoji": "\ud83c\udf96\ufe0f",
+    "date": "2027-01-26",
+    "days_active": 1,
+    "theme": {
+      "accent": "#ff9933",
+      "glow_orange": "#ff9933",
+      "glow_indigo": "#138808",
+      "glass_bg": "rgba(15, 20, 15, 0.75)"
+    },
+    "search_query": "patriotic desh bhakti songs mix"
+  },
+  {
+    "id": "vasantpanchami",
+    "name": "Vasant Panchami",
+    "name_hindi": "\u092c\u0938\u0902\u0924 \u092a\u0902\u091a\u092e\u0940",
+    "emoji": "\ud83c\udfbb",
+    "date": "2027-02-11",
+    "days_active": 1,
+    "theme": {
+      "accent": "#eab308",
+      "glow_orange": "#eab308",
+      "glow_indigo": "#ffffff",
+      "glass_bg": "rgba(20, 20, 15, 0.70)"
+    },
+    "search_query": "saraswati vandana puja aarti songs"
+  },
+  {
+    "id": "mahashivaratri",
+    "name": "Maha Shivaratri",
+    "name_hindi": "\u092e\u0939\u093e\u0936\u093f\u0935\u0930\u093e\u0924\u094d\u0930\u093f",
+    "emoji": "\ud83d\udd31",
+    "date": "2027-03-06",
+    "days_active": 1,
+    "theme": {
+      "accent": "#818cf8",
+      "glow_orange": "#a855f7",
+      "glow_indigo": "#4f46e5",
+      "glass_bg": "rgba(15, 10, 25, 0.75)"
+    },
+    "search_query": "shiv shankar bhajan damru lofi mix"
+  },
+  {
+    "id": "holikadahan",
+    "name": "Holika Dahan",
+    "name_hindi": "\u0939\u094b\u0932\u093f\u0915\u093e \u0926\u0939\u0928",
+    "emoji": "\ud83d\udd25",
+    "date": "2027-03-21",
+    "days_active": 1,
+    "theme": {
+      "accent": "#ea580c",
+      "glow_orange": "#ea580c",
+      "glow_indigo": "#f97316",
+      "glass_bg": "rgba(20, 10, 10, 0.70)"
+    },
+    "search_query": "holika dahan bhajan songs"
+  },
+  {
+    "id": "holi",
+    "name": "Holi",
+    "name_hindi": "\u0939\u094b\u0932\u0940",
+    "emoji": "\ud83c\udfa8",
+    "date": "2027-03-22",
+    "days_active": 2,
+    "theme": {
+      "accent": "#ec4899",
+      "glow_orange": "#06b6d4",
+      "glow_indigo": "#ec4899",
+      "glass_bg": "rgba(25, 15, 20, 0.75)"
+    },
+    "search_query": "holi mashup non stop bollywood color songs"
+  },
+  {
+    "id": "gudipadwa",
+    "name": "Gudi Padwa",
+    "name_hindi": "\u0917\u0941\u0921\u093c\u0940 \u092a\u0921\u093c\u0935\u093e",
+    "emoji": "\ud83d\udea9",
+    "date": "2027-03-29",
+    "days_active": 1,
+    "theme": {
+      "accent": "#10b981",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#10b981",
+      "glass_bg": "rgba(12, 20, 15, 0.70)"
+    },
+    "search_query": "marathi gudi padwa festival geet"
+  },
+  {
+    "id": "baisakhi",
+    "name": "Baisakhi",
+    "name_hindi": "\u092c\u0948\u0938\u093e\u0916\u0940",
+    "emoji": "\ud83c\udf3e",
+    "date": "2027-04-13",
+    "days_active": 1,
+    "theme": {
+      "accent": "#f59e0b",
+      "glow_orange": "#f59e0b",
+      "glow_indigo": "#ea580c",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "search_query": "bhangra non stop punjabi dhol mix"
+  },
+  {
+    "id": "ambedkarjayanti",
+    "name": "Ambedkar Jayanti",
+    "name_hindi": "\u0905\u092e\u094d\u092c\u0947\u0921\u0915\u0930 \u091c\u092f\u0902\u0924\u0940",
+    "emoji": "\ud83c\udfdb\ufe0f",
+    "date": "2027-04-14",
+    "days_active": 1,
+    "theme": {
+      "accent": "#3b82f6",
+      "glow_orange": "#3b82f6",
+      "glow_indigo": "#ffffff",
+      "glass_bg": "rgba(10, 15, 25, 0.70)"
+    },
+    "search_query": "bhim song bhimraya songs mix"
   }
 ]

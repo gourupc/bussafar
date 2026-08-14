@@ -21,45 +21,49 @@
     }
     html, body { width:100%; height:100%; overflow:hidden; background:#000; font-family:'Inter',sans-serif; }
 
-    /* CLUB VIBE NEON THEME */
-    body.club-theme {
-      --accent: #d946ef;
-      --glass-bg: rgba(15, 5, 25, 0.80);
-    }
-    body.club-theme .glow-orange {
-      background: radial-gradient(circle, #d946ef 0%, transparent 70%) !important;
-    }
-    body.club-theme .glow-indigo {
-      background: radial-gradient(circle, #06b6d4 0%, transparent 70%) !important;
-    }
+    /* DYNAMIC CLASS OVERRIDES FOR SEGMENTED SWITCHER ACTIVE STATE */
     body.club-theme .mode-btn.active {
       background: var(--accent);
       color: #000 !important;
       box-shadow: 0 2px 10px rgba(217,70,239,0.35);
-    }
-
-    /* OPEN MIC AMBER/GOLD THEME */
-    body.mic-theme {
-      --accent: #f59e0b;
-      --glass-bg: rgba(20, 15, 10, 0.70);
-    }
-    body.mic-theme .glow-orange {
-      background: radial-gradient(circle, #f59e0b 0%, transparent 70%) !important;
-    }
-    body.mic-theme .glow-indigo {
-      background: radial-gradient(circle, #f43f5e 0%, transparent 70%) !important;
     }
     body.mic-theme .mode-btn.active {
       background: var(--accent);
       color: #000 !important;
       box-shadow: 0 2px 10px rgba(245,158,11,0.35);
     }
+    /* Fallback glow styling for newly registered dynamic themes */
+    .mode-btn.active {
+      background: var(--accent);
+      color: #000 !important;
+      font-weight: 600;
+      box-shadow: 0 2px 10px var(--accent);
+    }
 
-    /* VIDEO BACKGROUND */
+    /* VIDEO BACKGROUND (LOCAL MP4) */
     #bg-video {
       position:fixed; inset:0; width:100%; height:100%;
       object-fit:cover; z-index:0;
       filter:brightness(0.70) saturate(1.15);
+      display: block;
+    }
+
+    /* VIDEO BACKGROUND (YOUTUBE STREAM) */
+    #bg-yt-container {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; display: none;
+      filter: brightness(0.65) saturate(1.15);
+      background: #000;
+    }
+    #bg-yt-container iframe {
+      width: 100vw;
+      height: 56.25vw; /* 16:9 ratio */
+      min-height: 100vh;
+      min-width: 177.77vh; /* 16:9 ratio */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     /* OVERLAYS */
@@ -76,8 +80,8 @@
 
     /* GLOWS */
     .glow { position:fixed; border-radius:50%; filter:blur(90px); opacity:.16; z-index:1; pointer-events:none; animation:floatGlow 9s ease-in-out infinite alternate; }
-    .glow-orange { width:520px; height:520px; background:radial-gradient(circle,#f97316 0%,transparent 70%); bottom:-80px; left:-60px; }
-    .glow-indigo  { width:420px; height:420px; background:radial-gradient(circle,#818cf8 0%,transparent 70%); top:-60px; right:-40px; animation-duration:11s; animation-direction:alternate-reverse; }
+    .glow-orange { width:520px; height:520px; background:radial-gradient(circle,#f97316 0%,transparent 70%); bottom:-80px; left:-60px; transition: background 0.8s ease; }
+    .glow-indigo  { width:420px; height:420px; background:radial-gradient(circle,#818cf8 0%,transparent 70%); top:-60px; right:-40px; animation-duration:11s; animation-direction:alternate-reverse; transition: background 0.8s ease; }
     @keyframes floatGlow { from{transform:translate(0,0) scale(1);} to{transform:translate(30px,20px) scale(1.08);} }
 
     /* HUD */
@@ -98,6 +102,7 @@
       -webkit-backdrop-filter: blur(14px);
       z-index: 100;
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: background 0.3s;
     }
     .mode-btn {
       background: none;
@@ -116,18 +121,12 @@
     .mode-btn:hover {
       color: #fff;
     }
-    .mode-btn.active {
-      background: var(--accent);
-      color: #000 !important;
-      font-weight: 600;
-      box-shadow: 0 2px 10px rgba(30,215,96,0.35);
-    }
 
     /* ADMIN SHORTCUT BUTTON */
     #admin-toggle-btn {
       position: absolute;
       top: 22px;
-      right: 350px; /* Positioned left of switcher */
+      right: 380px; /* Shifted left to make space for dynamic switcher tabs */
       display: flex;
       align-items: center;
       gap: 5px;
@@ -382,10 +381,15 @@
 </head>
 <body>
 
-  <!-- Background Video -->
+  <!-- Background Video (Local MP4) -->
   <video id="bg-video" loop muted playsinline>
     <source src="busdriver.mp4" type="video/mp4" />
   </video>
+
+  <!-- Background Video (YouTube Stream) -->
+  <div id="bg-yt-container">
+    <div id="bg-yt-player"></div>
+  </div>
 
   <div class="overlay-top"></div>
   <div class="overlay-bottom"></div>
@@ -400,12 +404,8 @@
 
   <div id="hud">
 
-    <!-- Segmented Mode Switcher (Top Right) -->
-    <div id="mode-switcher">
-      <button class="mode-btn active" id="btn-bus" onclick="setMode('bus')"><span>🚌</span> <span class="btn-text">Bus Safar</span></button>
-      <button class="mode-btn" id="btn-club" onclick="setMode('club')"><span>🪩</span> <span class="btn-text">Club Vibe</span></button>
-      <button class="mode-btn" id="btn-mic" onclick="setMode('mic')"><span>🎤</span> <span class="btn-text">Open Mic</span></button>
-    </div>
+    <!-- Segmented Mode Switcher (Top Right - Dynamic) -->
+    <div id="mode-switcher"></div>
 
     <!-- Admin Shortcut (Top Right) -->
     <div id="admin-toggle-btn" onclick="openAdminModal()">
@@ -510,16 +510,18 @@
     }
     setInterval(updateCount, 3200);
 
-    /* ── Tracklist Data ── */
+    /* ── Tracklist Data & Dynamic Config ── */
+    let modes = [];
     let tracks = [];
     let currentTrackIdx = 0;
     let ytPlayer = null;
+    let bgYtPlayer = null;
     let progressInterval = null;
     let isSlowed = false;
     let isShuffle = true;
     let playlistQueue = [];
     let queueIndex = 0;
-    let currentMode = 'bus'; // 'bus', 'club', 'mic'
+    let currentMode = 'bus'; // default fallback ID
 
     function buildShuffleQueue(firstIndex = 0) {
       if (tracks.length === 0) return;
@@ -539,14 +541,108 @@
       queueIndex = 0;
     }
 
-    function setMode(mode) {
-      currentMode = mode;
-      
-      // Update active switcher buttons styling
-      document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById('btn-' + mode).classList.add('active');
+    async function loadModesConfig() {
+      try {
+        const res = await fetch('modes.json?v=' + Date.now());
+        modes = await res.json();
+        
+        // Dynamically build Segmented Switcher buttons
+        const switcher = document.getElementById('mode-switcher');
+        switcher.innerHTML = '';
+        modes.forEach((m, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'mode-btn' + (idx === 0 ? ' active' : '');
+          btn.id = 'btn-' + m.id;
+          btn.onclick = () => setMode(m.id);
+          btn.innerHTML = `<span>${m.icon}</span> <span class="btn-text">${m.title}</span>`;
+          switcher.appendChild(btn);
+        });
 
-      // Reset slowed mode when changing themes
+        if (modes.length > 0) {
+          setMode(modes[0].id, false);
+          fetchTracksForMode(modes[0]);
+        }
+      } catch (e) {
+        console.error('Error loading modes config:', e);
+      }
+    }
+
+    function setMode(modeId, triggerFetch = true) {
+      const mode = modes.find(m => m.id === modeId);
+      if (!mode) return;
+      currentMode = modeId;
+      
+      // Update switcher active states
+      document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('btn-' + modeId);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Update theme styling
+      document.body.classList.remove('club-theme', 'mic-theme');
+      if (modeId === 'club') {
+        document.body.classList.add('club-theme');
+      } else if (modeId === 'mic') {
+        document.body.classList.add('mic-theme');
+      }
+
+      // Update dynamic style tokens
+      const root = document.documentElement;
+      root.style.setProperty('--accent', mode.theme.accent);
+      root.style.setProperty('--glass-bg', mode.theme.glass_bg);
+
+      // Update background glows
+      const glowOrange = document.querySelector('.glow-orange');
+      const glowIndigo = document.querySelector('.glow-indigo');
+      if (glowOrange) {
+        glowOrange.style.background = `radial-gradient(circle, ${mode.theme.glow_orange} 0%, transparent 70%)`;
+      }
+      if (glowIndigo) {
+        glowIndigo.style.background = `radial-gradient(circle, ${mode.theme.glow_indigo} 0%, transparent 70%)`;
+      }
+
+      // Update main title (Hindi translation)
+      document.getElementById('main-title').textContent = mode.title_hindi;
+      
+      // Update background video (handles local MP4 and YouTube video stream loop!)
+      const bgVideo = document.getElementById('bg-video');
+      const bgYtContainer = document.getElementById('bg-yt-container');
+
+      if (mode.video_src.endsWith('.mp4')) {
+        // Use local MP4 player
+        if (bgYtContainer) bgYtContainer.style.display = 'none';
+        if (bgYtPlayer && bgYtPlayer.pauseVideo) bgYtPlayer.pauseVideo();
+
+        if (bgVideo) {
+          bgVideo.style.display = 'block';
+          bgVideo.src = mode.video_src;
+          bgVideo.load();
+          if (ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+            bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
+          }
+        }
+      } else {
+        // Use YouTube Video Stream background
+        if (bgVideo) {
+          bgVideo.style.display = 'none';
+          bgVideo.pause();
+        }
+        if (bgYtContainer) bgYtContainer.style.display = 'block';
+
+        if (bgYtPlayer && bgYtPlayer.loadVideoById) {
+          bgYtPlayer.loadVideoById({
+            videoId: mode.video_src,
+            startSeconds: 0
+          });
+          bgYtPlayer.mute();
+          if (ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+            bgYtPlayer.playVideo();
+          } else {
+            bgYtPlayer.pauseVideo();
+          }
+        }
+      }
+
+      // Reset slowed mode
       isSlowed = false;
       const slowedBtn = document.getElementById('slowed-btn');
       if (slowedBtn) {
@@ -555,43 +651,34 @@
       }
       applyPlaybackRate();
 
-      // Show/Hide slowed button container based on mode (Hide for club, Show for bus and mic)
+      // Show/Hide slowed button container based on mode
       const fxRow = document.getElementById('fx-row');
       if (fxRow) {
-        fxRow.style.display = (currentMode === 'bus') ? 'flex' : 'none';
+        fxRow.style.display = mode.show_slowed ? 'flex' : 'none';
       }
 
-      // Update UI theme styling
-      document.body.classList.remove('club-theme', 'mic-theme');
-      if (currentMode === 'club') {
-        document.body.classList.add('club-theme');
-      } else if (currentMode === 'mic') {
-        document.body.classList.add('mic-theme');
+      if (triggerFetch) {
+        fetchTracksForMode(mode);
       }
-      
-      // Update main title (Hindi translation)
-      const titles = {
-        'bus': 'बस सफर',
-        'club': 'क्लब वाइब',
-        'mic': 'ओपन माइक'
-      };
-      document.getElementById('main-title').textContent = titles[currentMode];
-      
-      // Update background video
-      const bgVideo = document.getElementById('bg-video');
-      if (bgVideo) {
-        const videos = {
-          'bus': 'busdriver.mp4',
-          'club': 'club.mp4',
-          'mic': 'mic.mp4'
-        };
-        bgVideo.src = videos[currentMode];
-        bgVideo.load();
-        bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
+    }
+
+    async function fetchTracksForMode(mode) {
+      try {
+        const res = await fetch(mode.playlist_file + '?v=' + Date.now());
+        tracks = await res.json();
+        if (tracks.length > 0) {
+          let startIdx = 0;
+          if (mode.id === 'bus') {
+            startIdx = tracks.findIndex(t => t.title && t.title.toLowerCase().includes('ek ajnabee haseena se'));
+            if (startIdx === -1) startIdx = 0;
+          }
+          buildShuffleQueue(startIdx);
+          loadTrack(startIdx, false);
+        }
+      } catch (e) {
+        document.getElementById('t-title').textContent = "Failed to load playlist";
+        console.error('Error fetching tracks:', e);
       }
-      
-      // Reload corresponding playlist and start track 0
-      fetchTracks();
     }
 
     function toggleSlowed() {
@@ -621,6 +708,7 @@
 
     /* Initialize YouTube Player API */
     function onYouTubeIframeAPIReady() {
+      // 1. Primary Music Player (hidden)
       ytPlayer = new YT.Player('yt-player', {
         height: '100',
         width: '100',
@@ -635,6 +723,31 @@
           'onReady': onPlayerReady,
           'onStateChange': onPlayerStateChange,
           'onError': onPlayerError
+        }
+      });
+
+      // 2. Background Loop Video Player (full screen)
+      bgYtPlayer = new YT.Player('bg-yt-player', {
+        height: '100%',
+        width: '100%',
+        playerVars: {
+          'autoplay': 0,
+          'controls': 0,
+          'rel': 0,
+          'showinfo': 0,
+          'disablekb': 1,
+          'mute': 1,
+          'loop': 1
+        },
+        events: {
+          'onReady': (e) => {
+            e.target.mute();
+          },
+          'onStateChange': (e) => {
+            if (e.data === YT.PlayerState.ENDED) {
+              e.target.playVideo();
+            }
+          }
         }
       });
     }
@@ -653,20 +766,35 @@
 
     function onPlayerStateChange(event) {
       const bgVideo = document.getElementById('bg-video');
-      if (event.data === YT.PlayerState.ENDED) {
-        nextTrack();
-      } else if (event.data === YT.PlayerState.PLAYING) {
+      const activeMode = modes.find(m => m.id === currentMode);
+      const isLocalMp4 = activeMode ? activeMode.video_src.endsWith('.mp4') : true;
+
+      if (event.data === YT.PlayerState.PLAYING) {
         updatePlayIcon(true);
         startProgressBar();
         applyPlaybackRate();
-        if (bgVideo && bgVideo.paused) {
-          bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
+        
+        if (isLocalMp4) {
+          if (bgVideo && bgVideo.paused) {
+            bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
+          }
+        } else {
+          if (bgYtPlayer && bgYtPlayer.playVideo) {
+            bgYtPlayer.playVideo();
+          }
         }
       } else {
         updatePlayIcon(false);
         stopProgressBar();
-        if (bgVideo && !bgVideo.paused) {
-          bgVideo.pause();
+        
+        if (isLocalMp4) {
+          if (bgVideo && !bgVideo.paused) {
+            bgVideo.pause();
+          }
+        } else {
+          if (bgYtPlayer && bgYtPlayer.pauseVideo) {
+            bgYtPlayer.pauseVideo();
+          }
         }
       }
     }
@@ -676,7 +804,7 @@
       if ('mediaSession' in navigator) {
         let displayTitle = track.title + (isSlowed ? ' (Slowed & Reverb)' : '');
         let displayArtist = track.artist;
-        if (currentMode === 'club' || currentMode === 'mic') {
+        if (currentMode === 'club') {
           displayArtist = '';
           displayTitle = displayTitle
             .replace(/\s*-\s*Dj.*/gi, '')
@@ -691,10 +819,14 @@
             .replace(/\s*\[[^\]]+\]/gi, '')
             .trim();
         }
+        
+        const activeMode = modes.find(m => m.id === currentMode);
+        const albumName = activeMode ? activeMode.title_hindi : 'बस सफर';
+        
         navigator.mediaSession.metadata = new MediaMetadata({
           title: displayTitle,
           artist: displayArtist,
-          album: (currentMode === 'club') ? 'क्लब वाइब' : (currentMode === 'mic' ? 'ओपन माइक' : 'बस सफर'),
+          album: albumName,
           artwork: [
             { src: 'https://open.spotifycdn.com/cdn/images/tracklist-placeholder.b256dae9.webp', sizes: '256x256', type: 'image/webp' }
           ]
@@ -721,7 +853,7 @@
       const track = tracks[currentTrackIdx];
       
       let displayTitle = track.title + (isSlowed ? ' (Slowed & Reverb)' : '');
-      if (currentMode === 'club' || currentMode === 'mic') {
+      if (currentMode === 'club') {
         document.getElementById('t-artist').style.display = 'none';
         displayTitle = displayTitle
           .replace(/\s*-\s*Dj.*/gi, '')
@@ -854,37 +986,13 @@
       }
     }
 
-    /* Fetch tracks dynamically based on Mode */
-    async function fetchTracks() {
-      try {
-        const playlistFiles = {
-          'bus': 'tracks.json',
-          'club': 'club_tracks.json',
-          'mic': 'mic_tracks.json'
-        };
-        const res = await fetch(playlistFiles[currentMode] + '?v=' + Date.now());
-        tracks = await res.json();
-        if (tracks.length > 0) {
-          let startIdx = 0;
-          if (currentMode === 'bus') {
-            startIdx = tracks.findIndex(t => t.title && t.title.toLowerCase().includes('ek ajnabee haseena se'));
-            if (startIdx === -1) startIdx = 0;
-          }
-          buildShuffleQueue(startIdx);
-          loadTrack(startIdx, false);
-        }
-      } catch (e) {
-        document.getElementById('t-title').textContent = "Failed to load playlist";
-        console.error('Error fetching tracks:', e);
-      }
-    }
-
     /* ══ WEB ADMIN SHORTCUT GATEWAY ══ */
     function openAdminModal() {
       const modal = document.getElementById('admin-modal');
       modal.style.display = 'flex';
-      const names = { 'bus': 'Bus Safar', 'club': 'Club Vibe', 'mic': 'Open Mic' };
-      document.getElementById('modal-title-text').textContent = 'Add to ' + names[currentMode];
+      const activeMode = modes.find(m => m.id === currentMode);
+      const titleText = activeMode ? activeMode.title : 'Bus Safar';
+      document.getElementById('modal-title-text').textContent = 'Add to ' + titleText;
     }
 
     function closeAdminModal() {
@@ -937,15 +1045,16 @@
         console.warn('oEmbed metadata fetch failed, using fallback names:', e);
       }
 
-      const playlistFiles = {
-        'bus': 'tracks.json',
-        'club': 'club_tracks.json',
-        'mic': 'mic_tracks.json'
-      };
+      const activeMode = modes.find(m => m.id === currentMode);
+      if (!activeMode) {
+        alert('Invalid player mode.');
+        submitBtn.disabled = false;
+        return;
+      }
       
       const owner = 'gourupc';
       const repo = 'bussafar';
-      const filepath = playlistFiles[currentMode];
+      const filepath = activeMode.playlist_file;
       const githubApiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filepath}`;
 
       try {
@@ -974,7 +1083,6 @@
 
         // Step 3: PUT updated contents to GitHub
         const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentTracks, null, 2))));
-        const names = { 'bus': 'Bus Safar', 'club': 'Club Vibe', 'mic': 'Open Mic' };
         const putRes = await fetch(githubApiUrl, {
           method: 'PUT',
           headers: {
@@ -982,7 +1090,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: `Add "${songTitle}" to ${names[currentMode]} via Web Admin`,
+            message: `Add "${songTitle}" to ${activeMode.title} via Web Admin`,
             content: updatedBase64,
             sha: fileSha
           })
@@ -992,7 +1100,7 @@
           alert(`Successfully added "${songTitle}"! The website will update in a few seconds.`);
           closeAdminModal();
           // Reload tracks list instantly
-          fetchTracks();
+          fetchTracksForMode(activeMode);
         } else {
           const errData = await putRes.json();
           throw new Error(errData.message || 'Write failed.');
@@ -1055,7 +1163,7 @@
       togglePlay();
     });
 
-    fetchTracks();
+    loadModesConfig();
   </script>
 </body>
 </html>

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "independenceday",
+    "name": "Independence Day",
+    "name_hindi": "स्वतंत्रता दिवस",
+    "emoji": "🇮🇳",
+    "date": "2026-08-15",
+    "days_active": 1,
+    "theme": {
+      "accent": "#ff9933",
+      "glow_orange": "#ff9933",
+      "glow_indigo": "#138808",
+      "glass_bg": "rgba(15, 20, 15, 0.75)"
+    },
+    "search_query": "patriotic bollywood songs mashup"
+  },
+  {
+    "id": "diwali",
+    "name": "Diwali",
+    "name_hindi": "दिवाली",
+    "emoji": "🪔",
+    "date": "2026-11-08",
+    "days_active": 3,
+    "theme": {
+      "accent": "#fbbf24",
+      "glow_orange": "#ea580c",
+      "glow_indigo": "#be185d",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "search_query": "diwali festive bollywood songs bhajan lofi"
+  }
+]

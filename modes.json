@@ -1,0 +1,62 @@
+[
+  {
+    "id": "bus",
+    "title": "Bus Safar",
+    "title_hindi": "\u092c\u0938 \u0938\u092b\u0930",
+    "icon": "\ud83d\ude8c",
+    "theme": {
+      "accent": "#1ed760",
+      "glow_orange": "#f97316",
+      "glow_indigo": "#818cf8",
+      "glass_bg": "rgba(10, 10, 20, 0.65)"
+    },
+    "video_src": "busdriver.mp4",
+    "playlist_file": "tracks.json",
+    "show_slowed": true
+  },
+  {
+    "id": "club",
+    "title": "Club Vibe",
+    "title_hindi": "\u0915\u094d\u0932\u092c \u0935\u093e\u0907\u092c",
+    "icon": "\ud83e\udea9",
+    "theme": {
+      "accent": "#d946ef",
+      "glow_orange": "#d946ef",
+      "glow_indigo": "#06b6d4",
+      "glass_bg": "rgba(15, 5, 25, 0.80)"
+    },
+    "video_src": "club.mp4",
+    "playlist_file": "club_tracks.json",
+    "show_slowed": false
+  },
+  {
+    "id": "mic",
+    "title": "Open Mic",
+    "title_hindi": "\u0913\u092a\u0928 \u092e\u093e\u0907\u0915",
+    "icon": "\ud83c\udfa4",
+    "theme": {
+      "accent": "#f59e0b",
+      "glow_orange": "#f59e0b",
+      "glow_indigo": "#f43f5e",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "video_src": "mic.mp4",
+    "playlist_file": "mic_tracks.json",
+    "show_slowed": false
+  },
+  {
+    "id": "independenceday",
+    "title": "Independence Day",
+    "title_hindi": "\u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930\u0924\u093e \u0926\u093f\u0935\u0938",
+    "icon": "\ud83c\uddee\ud83c\uddf3",
+    "theme": {
+      "accent": "#ff9933",
+      "glow_orange": "#ff9933",
+      "glow_indigo": "#138808",
+      "glass_bg": "rgba(15, 20, 15, 0.75)"
+    },
+    "video_src": "Rr3xLzUpcfM",
+    "playlist_file": "independenceday_tracks.json",
+    "show_slowed": false
+  }
+]

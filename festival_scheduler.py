@@ -124,6 +124,30 @@ def get_youtube_video_id_for_loop(query):
     # Fallback to a high-quality aesthetic ambient background loop (rainy bus driver)
     return "busdriver.mp4"
 
+def clean_title_for_comparison(title):
+    import re
+    t = str(title).lower()
+    # Replace 'ae' with 'aye' to match common spelling variations (e.g. Ae Watan vs Aye Watan)
+    t = t.replace('ae', 'aye')
+    t = re.sub(r'[^a-z0-9]', '', t)
+    return t
+
+def is_duplicate_title(new_title, existing_titles):
+    new_clean = clean_title_for_comparison(new_title)
+    if len(new_clean) < 8:
+        return False
+    for ext in existing_titles:
+        ext_clean = clean_title_for_comparison(ext)
+        if len(ext_clean) < 8:
+            continue
+        # Check prefix matching (first 12 characters)
+        if new_clean[:12] == ext_clean[:12]:
+            return True
+        # Check if one clean title is entirely contained in the other
+        if new_clean in ext_clean or ext_clean in new_clean:
+            return True
+    return False
+
 def parse_duration(duration_text):
     if not duration_text:
         return 0
@@ -320,18 +344,24 @@ def main():
                 for q in queries_to_run:  # Run all specified query variations
                     raw_matches.extend(scrape_youtube_playlist(q))
                 
-                # Filter out Jukeboxes, Remixes, Shorts, and duplicates (strictly blocking dance/covers/school performances)
+                # Filter out Jukeboxes, Remixes, Shorts, and duplicates (strictly blocking dance/covers/school/live performances)
                 banned_terms = [
                     'mashup', 'mash up', 'remix', 'mix', 'jukebox', 'nonstop', 'non-stop', 
                     'vdj', 'dj', 'visual', 'playlist', 'full album', 'compilation', 
                     'collection', '& more', 'and more', 'songs collection', 'full jukebox', 
                     'special 2026', 'special 2025', 'special 2024',
                     'dance', 'choreography', 'cover by', 'school performance', 'kids performance',
-                    'performance in', 'reaction', 'karaoke', 'lesson', 'tutorial'
+                    'performance in', 'reaction', 'karaoke', 'lesson', 'tutorial',
+                    'live performance', 'live concert', 'live stage', 'live show', 'concert', 
+                    'live sing', 'stage performance', 'live version'
                 ]
                 
+                # Sort raw matches by views count descending FIRST, so that we always keep the official/highest-view version of each song!
+                raw_matches.sort(key=lambda x: x.get('views', 0), reverse=True)
+
                 scraped_tracks = []
                 seen_ids = set()
+                seen_titles = []
                 for r in raw_matches:
                     yt_id = r.get('yt_id')
                     if not yt_id or yt_id in seen_ids:
@@ -340,8 +370,11 @@ def main():
                     title_lower = r['title'].lower()
                     has_banned = any(term in title_lower for term in banned_terms)
                     if not has_banned and len(r['title']) < 180:
-                        seen_ids.add(yt_id)
-                        scraped_tracks.append(r)
+                        # Apply smart title similarity de-duplication
+                        if not is_duplicate_title(r['title'], seen_titles):
+                            seen_ids.add(yt_id)
+                            seen_titles.append(r['title'])
+                            scraped_tracks.append(r)
                 
                 # Sort the entire list by total view count (highest first!)
                 scraped_tracks.sort(key=lambda x: x.get('views', 0), reverse=True)

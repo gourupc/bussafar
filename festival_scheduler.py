@@ -3,7 +3,59 @@ import json
 import urllib.request
 import urllib.parse
 import re
+import time
 from datetime import datetime, timedelta
+
+def generate_ai_video(prompt, token):
+    print(f"Triggering Replicate AI Video generation for prompt: '{prompt}'")
+    headers = {
+        "Authorization": f"Token {token}",
+        "Content-Type": "application/json"
+    }
+    
+    # Call Replicate predictions API (using LTX-Video, a fast, high-quality open-source text-to-video model)
+    url = "https://api.replicate.com/v1/predictions"
+    data = {
+        # LTX-Video model version on Replicate
+        "version": "087b7a1f59e6d0a47cb02dc9dcb6ea580c87b8d2507a27a1102db7b6d40bd672",
+        "input": {
+            "prompt": prompt + ", looping seamless, lofi ambient animation, high quality, 1080p",
+            "width": 768,
+            "height": 512,
+            "num_frames": 49,
+            "fps": 12
+        }
+    }
+    
+    try:
+        req = urllib.request.Request(url, data=json.dumps(data).encode(), headers=headers)
+        res = urllib.request.urlopen(req)
+        prediction = json.loads(res.read().decode())
+        pred_id = prediction["id"]
+        
+        # Poll prediction status until finished (max 6 minutes)
+        status_url = f"https://api.replicate.com/v1/predictions/{pred_id}"
+        for i in range(36):
+            time.sleep(10)
+            status_req = urllib.request.Request(status_url, headers=headers)
+            status_res = urllib.request.urlopen(status_req)
+            status_data = json.loads(status_res.read().decode())
+            status = status_data["status"]
+            print(f"Prediction {pred_id} status: {status}")
+            
+            if status == "succeeded":
+                output = status_data.get("output")
+                if isinstance(output, list) and output:
+                    return output[0]
+                elif isinstance(output, str):
+                    return output
+                break
+            elif status in ["failed", "canceled"]:
+                print(f"Replicate generation failed: {status_data.get('error')}")
+                break
+    except Exception as e:
+        print(f"Replicate API error: {e}")
+    return None
 
 def get_youtube_video_id_for_loop(query):
     print(f"Searching YouTube for background loop video: '{query}'")
@@ -144,6 +196,24 @@ def main():
                 
                 # 3. Find background video loop or use pre-configured URL (e.g. Unsplash)
                 bg_loop_id = f.get("video_src")
+                
+                # Check for Replicate AI Video Generation Token
+                replicate_token = os.getenv("REPLICATE_API_TOKEN")
+                if replicate_token:
+                    # Attempt to generate video via Replicate AI
+                    generated_url = generate_ai_video(f.get("video_query", f"{f['name']} aesthetic lofi loop"), replicate_token)
+                    if generated_url:
+                        print(f"Successfully generated AI video: {generated_url}")
+                        # Download generated MP4 and save locally
+                        try:
+                            mp4_filename = f"{fest_id}.mp4"
+                            mp4_path = os.path.join(repo_dir, mp4_filename)
+                            print(f"Downloading generated video to: {mp4_filename}")
+                            urllib.request.urlretrieve(generated_url, mp4_path)
+                            bg_loop_id = mp4_filename
+                        except Exception as e:
+                            print(f"Failed to download generated AI video: {e}")
+
                 if not bg_loop_id:
                     bg_loop_id = get_youtube_video_id_for_loop(f.get("video_query", f"{f['name']} aesthetic lofi loop"))
                 

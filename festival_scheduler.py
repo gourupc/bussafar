@@ -124,27 +124,36 @@ def get_youtube_video_id_for_loop(query):
     # Fallback to a high-quality aesthetic ambient background loop (rainy bus driver)
     return "busdriver.mp4"
 
-def clean_title_for_comparison(title):
+def clean_words(title):
     import re
     t = str(title).lower()
-    # Replace 'ae' with 'aye' to match common spelling variations (e.g. Ae Watan vs Aye Watan)
-    t = t.replace('ae', 'aye')
-    t = re.sub(r'[^a-z0-9]', '', t)
-    return t
+    # Normalize spelling variations to prevent duplicates with different spelling
+    t = t.replace('ae', 'aye').replace('desh', 'des')
+    words = re.findall(r'\b[a-z]{3,}\b', t)
+    # Filter out generic listicle, video, and search-related terms
+    filter_out = {
+        'song', 'video', 'hindi', 'bollywood', 'patriotic', 'independence', 'republic', 
+        'special', 'lyrical', 'full', 'classic', 'music', 'audio', 'cover', 'instrumental', 
+        'theme', 'lofi', 'reverb', 'slowed', 'version', 'karaoke'
+    }
+    return set(w for w in words if w not in filter_out)
 
 def is_duplicate_title(new_title, existing_titles):
-    new_clean = clean_title_for_comparison(new_title)
-    if len(new_clean) < 8:
+    new_words = clean_words(new_title)
+    if len(new_words) < 2:
         return False
     for ext in existing_titles:
-        ext_clean = clean_title_for_comparison(ext)
-        if len(ext_clean) < 8:
+        ext_words = clean_words(ext)
+        if len(ext_words) < 2:
             continue
-        # Check prefix matching (first 12 characters)
-        if new_clean[:12] == ext_clean[:12]:
+        # Check word overlap intersection
+        common = new_words.intersection(ext_words)
+        # If they share 3 or more distinct words, they are the same song!
+        if len(common) >= 3:
             return True
-        # Check if one clean title is entirely contained in the other
-        if new_clean in ext_clean or ext_clean in new_clean:
+        # If they share all words of the shorter word set (for very short titles)
+        min_len = min(len(new_words), len(ext_words))
+        if min_len >= 2 and len(common) == min_len:
             return True
     return False
 
@@ -310,7 +319,13 @@ def main():
                         "har ghar tiranga songs",
                         "15 august songs bollywood",
                         "desh bhakti geet hindi audio",
-                        "desh bhakti gana hits"
+                        "desh bhakti gana hits",
+                        "desh bhakti gana audio",
+                        "15 august songs lyrics",
+                        "vande mataram lyrics song",
+                        "bharat desh bhakti songs",
+                        "indian national songs hindi",
+                        "desh bhakti geet purane"
                     ])
                 elif name_clean in devotional_themes:
                     queries_to_run.extend([

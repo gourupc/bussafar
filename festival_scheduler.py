@@ -186,7 +186,7 @@ def find_videos_in_json(obj, results):
 
                 # Enforce individual song duration limit (90 seconds to 420 seconds / 7 minutes)
                 # This guarantees that we skip short YouTube clips/Shorts and long 30-60min Jukeboxes/Compilations!
-                if 90 <= duration_sec <= 420:
+                if 90 <= duration_sec <= 600:
                     if len(video_id) == 11 and title:
                         results.append({
                             'title': title,

@@ -345,7 +345,11 @@ def main():
                         "vande mataram lyrics song",
                         "bharat desh bhakti songs",
                         "indian national songs hindi",
-                        "desh bhakti geet purane"
+                        "desh bhakti geet purane",
+                        "har karam apna karenge song",
+                        "bharat maa desh bhakti hits",
+                        "desh bhakti geet mp3 tracks",
+                        "dil diya hai jaan bhi denge original"
                     ])
                 elif name_clean in devotional_themes:
                     queries_to_run.extend([
@@ -431,7 +435,14 @@ def main():
                     artist_banned_terms = ['dance', 'choreo', 'vlog', 'reaction', 'guitar', 'piano', 'tutorial', 'lesson', 'gaming', 'karaoke']
                     artist_ok = not any(term in artist_lower for term in artist_banned_terms)
 
-                    if not has_banned and not has_ai and is_popular and artist_ok and len(r['title']) < 180:
+                    # Strictly block specific non-movie/incorrect video IDs requested by the user
+                    banned_ids = {'K8wc_cWpcCU', 'CJw1iIF_AC0', 'LsIRHfR02jI', 'MgmyXpWOQM4'}
+                    is_banned_id = yt_id in banned_ids
+
+                    # Check for Bengali or other regional script characters to keep only Hindi/English titles
+                    has_regional_script = bool(re.search(r'[\u0980-\u09ff]', r['title']))
+
+                    if not has_banned and not has_ai and is_popular and artist_ok and not is_banned_id and not has_regional_script and len(r['title']) < 180:
                         # Apply smart title similarity de-duplication
                         if not is_duplicate_title(r['title'], seen_titles):
                             seen_ids.add(yt_id)

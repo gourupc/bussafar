@@ -124,6 +124,19 @@ def get_youtube_video_id_for_loop(query):
     # Fallback to a high-quality aesthetic ambient background loop (rainy bus driver)
     return "busdriver.mp4"
 
+def parse_duration(duration_text):
+    if not duration_text:
+        return 0
+    try:
+        parts = str(duration_text).split(':')
+        if len(parts) == 2:
+            return int(parts[0]) * 60 + int(parts[1])
+        elif len(parts) == 3:
+            return int(parts[0]) * 3600 + int(parts[1]) * 60 + int(parts[2])
+    except Exception:
+        pass
+    return 0
+
 def parse_view_count(view_text):
     if not view_text:
         return 0
@@ -167,14 +180,21 @@ def find_videos_in_json(obj, results):
                 
                 views = parse_view_count(view_text)
 
-                if len(video_id) == 11 and title:
-                    results.append({
-                        'title': title,
-                        'artist': artist,
-                        'yt_id': video_id,
-                        'yt_slowed_id': video_id,
-                        'views': views
-                    })
+                # Extract and parse duration
+                duration_text = obj.get('lengthText', {}).get('simpleText', '')
+                duration_sec = parse_duration(duration_text)
+
+                # Enforce individual song duration limit (90 seconds to 420 seconds / 7 minutes)
+                # This guarantees that we skip short YouTube clips/Shorts and long 30-60min Jukeboxes/Compilations!
+                if 90 <= duration_sec <= 420:
+                    if len(video_id) == 11 and title:
+                        results.append({
+                            'title': title,
+                            'artist': artist,
+                            'yt_id': video_id,
+                            'yt_slowed_id': video_id,
+                            'views': views
+                        })
             except Exception:
                 pass
         else:
@@ -205,7 +225,7 @@ def scrape_youtube_playlist(query, limit=35):
     # De-duplicate by yt_id and filter out mashups/remixes/jukeboxes
     unique_results = []
     seen_ids = set()
-    banned_terms = ['mashup', 'mash up', 'remix', 'mix', 'jukebox', 'nonstop', 'non-stop', 'vdj', 'dj', 'visual', 'playlist', 'full album']
+    banned_terms = ['mashup', 'mash up', 'remix', 'mix', 'jukebox', 'nonstop', 'non-stop', 'vdj', 'dj', 'visual', 'playlist', 'full album', 'compilation', 'collection', '& more', 'and more', 'songs collection', 'full jukebox', 'special 2026', 'special 2025', 'special 2024']
     for r in results:
         title_lower = r['title'].lower()
         has_banned = any(term in title_lower for term in banned_terms)

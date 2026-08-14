@@ -433,6 +433,7 @@
     <div id="clock-wrap" onclick="handleClockTap()" style="cursor:pointer;">
       <div id="clock">12:00 PM</div>
       <div id="date-display">Monday, 10 Aug 2026</div>
+      <div id="weather-display" style="font-size:10px; color:var(--muted); margin-top:3px; letter-spacing:.04em; text-shadow:0 1px 6px rgba(0,0,0,.6); display:none;"></div>
     </div>
 
     <!-- Online badge -->
@@ -1195,6 +1196,42 @@
       }
       togglePlay();
     });
+
+    async function loadLiveWeather() {
+      const weatherDisp = document.getElementById('weather-display');
+      try {
+        // Fetch location via IP Geolocation (No key required)
+        const ipRes = await fetch('https://ipapi.co/json/');
+        if (!ipRes.ok) throw new Error('IP API failed');
+        const loc = await ipRes.json();
+        
+        if (loc.city && loc.latitude && loc.longitude) {
+          // Fetch current weather from Open-Meteo (No key required)
+          const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${loc.latitude}&longitude=${loc.longitude}&current_weather=true`;
+          const weatherRes = await fetch(weatherUrl);
+          if (!weatherRes.ok) throw new Error('Weather API failed');
+          const wData = await weatherRes.json();
+          
+          const temp = Math.round(wData.current_weather.temperature);
+          const code = wData.current_weather.weathercode;
+          
+          // Map weather codes to emojis
+          let emoji = '☀️';
+          if (code >= 1 && code <= 3) emoji = '🌤️';
+          else if (code >= 45 && code <= 48) emoji = '🌫️';
+          else if (code >= 51 && code <= 67) emoji = '🌧️';
+          else if (code >= 71 && code <= 77) emoji = '🌨️';
+          else if (code >= 80 && code <= 82) emoji = '🌦️';
+          else if (code >= 95 && code <= 99) emoji = '⛈️';
+          
+          weatherDisp.innerHTML = `📍 ${loc.city} • ${emoji} ${temp}°C`;
+          weatherDisp.style.display = 'block';
+        }
+      } catch (e) {
+        console.warn('Weather fetch failed, hiding widget:', e);
+      }
+    }
+    loadLiveWeather();
 
     loadModesConfig();
   </script>

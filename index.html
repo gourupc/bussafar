@@ -1045,6 +1045,48 @@
       return (match && match[2].length === 11) ? match[2] : url.trim();
     }
 
+    function cleanWords(title) {
+      let t = String(title).toLowerCase();
+      const mapping = {
+        'अ': 'a', 'आ': 'aa', 'इ': 'i', 'ई': 'ee', 'उ': 'u', 'ऊ': 'oo', 'ऋ': 'ri',
+        'ए': 'e', 'ऐ': 'ai', 'ओ': 'o', 'औ': 'au',
+        'क': 'k', 'ख': 'kh', 'ग': 'g', 'घ': 'gh', 'ङ': 'n',
+        'च': 'ch', 'छ': 'chh', 'ज': 'j', 'झ': 'jh', 'ञ': 'n',
+        'ट': 't', 'ठ': 'th', 'ड': 'd', 'ढ': 'dh', 'ण': 'n',
+        'त': 't', 'थ': 'th', 'द': 'd', 'ध': 'dh', 'न': 'n',
+        'प': 'p', 'फ': 'ph', 'ब': 'b', 'भ': 'bh', 'म': 'm',
+        'य': 'y', 'र': 'r', 'ल': 'l', 'व': 'v', 'श': 'sh', 'ष': 'sh', 'स': 's', 'ह': 'h',
+        'ा': 'a', 'ि': 'i', 'ी': 'ee', 'ु': 'u', 'ू': 'oo', 'े': 'e', 'ै': 'ai', 'ो': 'o', 'ौ': 'au',
+        'ं': 'n', 'ः': 'h', 'ँ': 'n', '्': ''
+      };
+      let translit = '';
+      for (let i = 0; i < t.length; i++) {
+        translit += mapping[t[i]] || t[i];
+      }
+      translit = translit.replace(/ae/g, 'aye').replace(/desh/g, 'des').replace(/bhee/g, 'bhi').replace(/jan/g, 'jaan');
+      const words = translit.match(/\b[a-z]{3,}\b/g) || [];
+      const filterOut = new Set([
+        'song', 'video', 'hindi', 'bollywood', 'patriotic', 'independence', 'republic', 
+        'special', 'lyrical', 'full', 'classic', 'music', 'audio', 'cover', 'instrumental', 
+        'theme', 'lofi', 'reverb', 'slowed', 'version', 'karaoke'
+      ]);
+      return new Set(words.filter(w => !filterOut.has(w)));
+    }
+
+    function isDuplicateTitle(newTitle, existingTitles) {
+      const newWords = cleanWords(newTitle);
+      if (newWords.size < 2) return false;
+      for (const ext of existingTitles) {
+        const extWords = cleanWords(ext);
+        if (extWords.size < 2) continue;
+        const common = new Set([...newWords].filter(w => extWords.has(w)));
+        if (common.size >= 3) return true;
+        const minLen = Math.min(newWords.size, extWords.size);
+        if (minLen >= 2 && common.size === minLen) return true;
+      }
+      return false;
+    }
+
     async function submitNewTrack() {
       const submitBtn = document.getElementById('modal-submit');
       const ytUrl = document.getElementById('adm-yt-url').value;
@@ -1109,6 +1151,24 @@
         const fileData = await getRes.json();
         const fileSha = fileData.sha;
         const currentTracks = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+
+        // Duplicate YouTube link check
+        const hasDuplicateId = currentTracks.some(t => t.yt_id === videoId || t.yt_slowed_id === videoId);
+        if (hasDuplicateId) {
+          alert('Error: This song/video is already present in the playlist.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Add Song';
+          return;
+        }
+
+        // Title similarity de-duplication check
+        const existingTitles = currentTracks.map(t => t.title);
+        if (isDuplicateTitle(songTitle, existingTitles)) {
+          alert(`Error: A duplicate version of this song ("${songTitle}") is already present in the playlist.`);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Add Song';
+          return;
+        }
 
         // Step 2: Append new track
         const newTrack = {

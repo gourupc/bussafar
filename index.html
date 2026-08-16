@@ -652,9 +652,7 @@
           bgVideo.style.display = 'block';
           bgVideo.src = mode.video_src;
           bgVideo.load();
-          if (ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
-            bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
-          }
+          bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
         }
       } else {
         // Use YouTube Video Stream background
@@ -668,11 +666,7 @@
             startSeconds: 0
           });
           bgYtPlayer.mute();
-          if (ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
-            bgYtPlayer.playVideo();
-          } else {
-            bgYtPlayer.pauseVideo();
-          }
+          bgYtPlayer.playVideo();
         }
       }
 
@@ -776,6 +770,14 @@
         events: {
           'onReady': (e) => {
             e.target.mute();
+            const activeMode = modes.find(m => m.id === currentMode);
+            if (activeMode && !activeMode.video_src.endsWith('.mp4') && !activeMode.video_src.endsWith('.png') && !activeMode.video_src.endsWith('.jpg')) {
+              e.target.loadVideoById({
+                videoId: activeMode.video_src,
+                startSeconds: 0
+              });
+              e.target.playVideo();
+            }
           },
           'onStateChange': (e) => {
             if (e.data === YT.PlayerState.ENDED) {
@@ -799,10 +801,6 @@
     }
 
     function onPlayerStateChange(event) {
-      const bgVideo = document.getElementById('bg-video');
-      const activeMode = modes.find(m => m.id === currentMode);
-      const isLocalMp4 = activeMode ? activeMode.video_src.endsWith('.mp4') : true;
-
       if (event.data === YT.PlayerState.ENDED) {
         nextTrack();
         return;
@@ -812,29 +810,9 @@
         updatePlayIcon(true);
         startProgressBar();
         applyPlaybackRate();
-        
-        if (isLocalMp4) {
-          if (bgVideo && bgVideo.paused) {
-            bgVideo.play().catch(e => console.log('Video autoplay blocked:', e));
-          }
-        } else {
-          if (bgYtPlayer && bgYtPlayer.playVideo) {
-            bgYtPlayer.playVideo();
-          }
-        }
       } else {
         updatePlayIcon(false);
         stopProgressBar();
-        
-        if (isLocalMp4) {
-          if (bgVideo && !bgVideo.paused) {
-            bgVideo.pause();
-          }
-        } else {
-          if (bgYtPlayer && bgYtPlayer.pauseVideo) {
-            bgYtPlayer.pauseVideo();
-          }
-        }
       }
     }
 

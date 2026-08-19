@@ -53,8 +53,16 @@ def main():
         print('No existing tracks.json cache found:', e)
 
     print('Fetching tracks from Spotify public embed page...')
-    spotify_tracks = get_spotify_tracks_public()
+    try:
+        spotify_tracks = get_spotify_tracks_public()
+    except Exception as e:
+        print(f'Error fetching Spotify tracks: {e}. Aborting sync to protect local data.')
+        return
+
     print(f'Found {len(spotify_tracks)} tracks in Spotify playlist.')
+    if not spotify_tracks or len(spotify_tracks) == 0:
+        print('Warning: Retrieved 0 tracks from Spotify. Aborting sync to prevent emptying tracks.json.')
+        return
 
     final_tracks = []
     for track in spotify_tracks:

@@ -940,6 +940,19 @@
             videoId: targetVideoId,
             startSeconds: startSec
           });
+          // Play background video synchronously inside the user gesture call stack (bypasses Safari restriction)
+          const bgVideo = document.getElementById('bg-video');
+          const activeMode = modes.find(m => m.id === currentMode);
+          const isLocalMp4 = activeMode ? activeMode.video_src.endsWith('.mp4') : true;
+          if (isLocalMp4) {
+            if (bgVideo && bgVideo.paused) {
+              bgVideo.play().catch(e => console.log('Video play blocked:', e));
+            }
+          } else {
+            if (bgYtPlayer && bgYtPlayer.playVideo) {
+              bgYtPlayer.playVideo();
+            }
+          }
         } else {
           ytPlayer.cueVideoById({
             videoId: targetVideoId,
@@ -953,10 +966,29 @@
     function togglePlay() {
       if (!ytPlayer || tracks.length === 0) return;
       const state = ytPlayer.getPlayerState();
+      
+      const bgVideo = document.getElementById('bg-video');
+      const activeMode = modes.find(m => m.id === currentMode);
+      const isLocalMp4 = activeMode ? activeMode.video_src.endsWith('.mp4') : true;
+
       if (state === YT.PlayerState.PLAYING) {
         ytPlayer.pauseVideo();
+        if (isLocalMp4) {
+          if (bgVideo && !bgVideo.paused) bgVideo.pause();
+        } else {
+          if (bgYtPlayer && bgYtPlayer.pauseVideo) bgYtPlayer.pauseVideo();
+        }
       } else {
         ytPlayer.playVideo();
+        if (isLocalMp4) {
+          if (bgVideo && bgVideo.paused) {
+            bgVideo.play().catch(e => console.log('Video play blocked:', e));
+          }
+        } else {
+          if (bgYtPlayer && bgYtPlayer.playVideo) {
+            bgYtPlayer.playVideo();
+          }
+        }
       }
     }
 

@@ -284,7 +284,7 @@
     }
 
     /* SLOWED & REVERB TOGGLE */
-    #fx-row { display:flex; justify-content:center; }
+    #fx-row { display:flex; justify-content:center; gap: 8px; }
     .pill-btn {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -416,6 +416,7 @@
   <!-- Hidden YouTube Player Iframe -->
   <div id="yt-player-container">
     <div id="yt-player"></div>
+    <div id="rain-player"></div>
   </div>
 
   <div id="hud">
@@ -479,6 +480,7 @@
       </div>
       <div id="fx-row">
         <button id="slowed-btn" class="pill-btn" onclick="toggleSlowed()">🌙 Slowed & Reverb</button>
+        <button id="rain-btn" class="pill-btn" onclick="toggleRain()">🌧️ Rain Mode</button>
       </div>
     </div>
 
@@ -533,6 +535,8 @@
     let currentTrackIdx = 0;
     let ytPlayer = null;
     let bgYtPlayer = null;
+    let rainPlayer = null;
+    let isRain = false;
     let progressInterval = null;
     let isSlowed = false;
     let isShuffle = true;
@@ -689,6 +693,17 @@
       }
       applyPlaybackRate();
 
+      // Reset rain mode
+      isRain = false;
+      if (rainPlayer && rainPlayer.pauseVideo) {
+        rainPlayer.pauseVideo();
+      }
+      const rainBtn = document.getElementById('rain-btn');
+      if (rainBtn) {
+        rainBtn.classList.remove('active');
+        rainBtn.innerHTML = '🌧️ Rain Mode';
+      }
+
       // Show/Hide slowed button container based on mode
       const fxRow = document.getElementById('fx-row');
       if (fxRow) {
@@ -727,6 +742,13 @@
         btn.innerHTML = isSlowed ? '✨ Slowed & Reverb (ON)' : '🌙 Slowed & Reverb';
       }
       applyPlaybackRate();
+      
+      // If manually turned off, turn off Rain Mode too
+      if (!isSlowed && isRain) {
+        toggleRain();
+        return;
+      }
+
       if (tracks.length > 0) {
         let isPlaying = false;
         let curTime = 0;
@@ -735,6 +757,52 @@
           curTime = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
         }
         loadTrack(currentTrackIdx, isPlaying, curTime);
+      }
+    }
+
+    function toggleRain() {
+      if (!rainPlayer) return;
+      isRain = !isRain;
+
+      const btn = document.getElementById('rain-btn');
+      if (btn) {
+        btn.classList.toggle('active', isRain);
+        btn.innerHTML = isRain ? '🌧️ Rain Mode (ON)' : '🌧️ Rain Mode';
+      }
+
+      const isPlaying = ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING;
+      if (isRain) {
+        if (isPlaying) {
+          rainPlayer.playVideo();
+        }
+        // Enable slowed mode as requested
+        isSlowed = true;
+        const slowedBtn = document.getElementById('slowed-btn');
+        if (slowedBtn) {
+          slowedBtn.classList.add('active');
+          slowedBtn.innerHTML = '✨ Slowed & Reverb (ON)';
+        }
+        applyPlaybackRate();
+      } else {
+        if (rainPlayer.pauseVideo) rainPlayer.pauseVideo();
+        // Disable slowed mode
+        isSlowed = false;
+        const slowedBtn = document.getElementById('slowed-btn');
+        if (slowedBtn) {
+          slowedBtn.classList.remove('active');
+          slowedBtn.innerHTML = '🌙 Slowed & Reverb';
+        }
+        applyPlaybackRate();
+      }
+
+      if (tracks.length > 0) {
+        let isPlayingState = false;
+        let curTime = 0;
+        if (ytPlayer && ytPlayer.getPlayerState) {
+          isPlayingState = (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING);
+          curTime = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
+        }
+        loadTrack(currentTrackIdx, isPlayingState, curTime);
       }
     }
 
@@ -801,6 +869,33 @@
           }
         }
       });
+
+      // 3. Hidden Rain Player (background audio loop)
+      rainPlayer = new YT.Player('rain-player', {
+        height: '100',
+        width: '100',
+        videoId: 'PWq9oL_BIY0',
+        playerVars: {
+          'autoplay': 0,
+          'controls': 0,
+          'rel': 0,
+          'showinfo': 0,
+          'disablekb': 1,
+          'mute': 0,
+          'loop': 1,
+          'playlist': 'PWq9oL_BIY0'
+        },
+        events: {
+          'onReady': (e) => {
+            e.target.setVolume(35);
+          },
+          'onStateChange': (e) => {
+            if (e.data === YT.PlayerState.ENDED) {
+              e.target.playVideo();
+            }
+          }
+        }
+      });
     }
 
     function onPlayerReady(event) {
@@ -839,6 +934,11 @@
             bgYtPlayer.playVideo();
           }
         }
+
+        // Cozy Rain mode sync: Play rain sound if enabled!
+        if (isRain && rainPlayer && rainPlayer.playVideo) {
+          rainPlayer.playVideo();
+        }
       } else {
         updatePlayIcon(false);
         stopProgressBar();
@@ -851,6 +951,11 @@
           if (bgYtPlayer && bgYtPlayer.pauseVideo) {
             bgYtPlayer.pauseVideo();
           }
+        }
+
+        // Cozy Rain mode sync: Pause rain sound when music is paused!
+        if (rainPlayer && rainPlayer.pauseVideo) {
+          rainPlayer.pauseVideo();
         }
       }
     }
@@ -953,6 +1058,10 @@
               bgYtPlayer.playVideo();
             }
           }
+          // Synchronous play for rain player if enabled
+          if (isRain && rainPlayer && rainPlayer.playVideo) {
+            rainPlayer.playVideo();
+          }
         } else {
           ytPlayer.cueVideoById({
             videoId: targetVideoId,
@@ -978,6 +1087,10 @@
         } else {
           if (bgYtPlayer && bgYtPlayer.pauseVideo) bgYtPlayer.pauseVideo();
         }
+        // Synchronous pause for rain player
+        if (rainPlayer && rainPlayer.pauseVideo) {
+          rainPlayer.pauseVideo();
+        }
       } else {
         ytPlayer.playVideo();
         if (isLocalMp4) {
@@ -988,6 +1101,10 @@
           if (bgYtPlayer && bgYtPlayer.playVideo) {
             bgYtPlayer.playVideo();
           }
+        }
+        // Synchronous play for rain player if enabled
+        if (isRain && rainPlayer && rainPlayer.playVideo) {
+          rainPlayer.playVideo();
         }
       }
     }

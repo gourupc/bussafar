@@ -742,12 +742,6 @@
         btn.innerHTML = isSlowed ? '✨ Slowed & Reverb (ON)' : '🌙 Slowed & Reverb';
       }
       applyPlaybackRate();
-      
-      // If manually turned off, turn off Rain Mode too
-      if (!isSlowed && isRain) {
-        toggleRain();
-        return;
-      }
 
       if (tracks.length > 0) {
         let isPlaying = false;
@@ -775,34 +769,8 @@
         if (isPlaying) {
           rainPlayer.playVideo();
         }
-        // Enable slowed mode as requested
-        isSlowed = true;
-        const slowedBtn = document.getElementById('slowed-btn');
-        if (slowedBtn) {
-          slowedBtn.classList.add('active');
-          slowedBtn.innerHTML = '✨ Slowed & Reverb (ON)';
-        }
-        applyPlaybackRate();
       } else {
         if (rainPlayer.pauseVideo) rainPlayer.pauseVideo();
-        // Disable slowed mode
-        isSlowed = false;
-        const slowedBtn = document.getElementById('slowed-btn');
-        if (slowedBtn) {
-          slowedBtn.classList.remove('active');
-          slowedBtn.innerHTML = '🌙 Slowed & Reverb';
-        }
-        applyPlaybackRate();
-      }
-
-      if (tracks.length > 0) {
-        let isPlayingState = false;
-        let curTime = 0;
-        if (ytPlayer && ytPlayer.getPlayerState) {
-          isPlayingState = (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING);
-          curTime = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
-        }
-        loadTrack(currentTrackIdx, isPlayingState, curTime);
       }
     }
 

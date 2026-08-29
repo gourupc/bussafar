@@ -43,20 +43,5 @@
     "video_src": "mic.mp4",
     "playlist_file": "mic_tracks.json",
     "show_slowed": false
-  },
-  {
-    "id": "rakshabandhan",
-    "title": "Raksha Bandhan",
-    "title_hindi": "\u0930\u0915\u094d\u0937\u093e\u092c\u0902\u0927\u0928",
-    "icon": "\ud83e\udd1d",
-    "theme": {
-      "accent": "#ec4899",
-      "glow_orange": "#fbbf24",
-      "glow_indigo": "#ec4899",
-      "glass_bg": "rgba(20, 10, 15, 0.70)"
-    },
-    "video_src": "xhCYwduZOkk",
-    "playlist_file": "rakshabandhan_tracks.json",
-    "show_slowed": false
   }
 ]

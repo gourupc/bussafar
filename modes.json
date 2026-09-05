@@ -43,20 +43,5 @@
     "video_src": "mic.mp4",
     "playlist_file": "mic_tracks.json",
     "show_slowed": false
-  },
-  {
-    "id": "janmashtami",
-    "title": "Janmashtami",
-    "title_hindi": "\u091c\u0928\u094d\u092e\u093e\u0937\u094d\u091f\u092e\u0940",
-    "icon": "\ud83e\ude88",
-    "theme": {
-      "accent": "#3b82f6",
-      "glow_orange": "#fbbf24",
-      "glow_indigo": "#3b82f6",
-      "glass_bg": "rgba(10, 15, 25, 0.70)"
-    },
-    "video_src": "Lxcnd-MUCDY",
-    "playlist_file": "janmashtami_tracks.json",
-    "show_slowed": false
   }
 ]

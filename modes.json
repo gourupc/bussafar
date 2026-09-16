@@ -43,20 +43,5 @@
     "video_src": "mic.mp4",
     "playlist_file": "mic_tracks.json",
     "show_slowed": false
-  },
-  {
-    "id": "ganeshchaturthi",
-    "title": "Ganesh Chaturthi",
-    "title_hindi": "\u0917\u0923\u0947\u0936 \u091a\u0924\u0941\u0930\u094d\u0925\u0940",
-    "icon": "\ud83d\udc18",
-    "theme": {
-      "accent": "#f97316",
-      "glow_orange": "#f97316",
-      "glow_indigo": "#eab308",
-      "glass_bg": "rgba(20, 15, 10, 0.70)"
-    },
-    "video_src": "azvcCw7UQV4",
-    "playlist_file": "ganeshchaturthi_tracks.json",
-    "show_slowed": false
   }
 ]

@@ -43,5 +43,20 @@
     "video_src": "mic.mp4",
     "playlist_file": "mic_tracks.json",
     "show_slowed": false
+  },
+  {
+    "id": "navratri",
+    "title": "Navratri",
+    "title_hindi": "\u0928\u0935\u0930\u093e\u0924\u094d\u0930\u093f",
+    "icon": "\ud83d\udd31",
+    "theme": {
+      "accent": "#ef4444",
+      "glow_orange": "#f97316",
+      "glow_indigo": "#ef4444",
+      "glass_bg": "rgba(25, 10, 10, 0.75)"
+    },
+    "video_src": "EoZ3mp0oq-Q",
+    "playlist_file": "navratri_tracks.json",
+    "show_slowed": false
   }
 ]

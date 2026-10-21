@@ -43,20 +43,5 @@
     "video_src": "mic.mp4",
     "playlist_file": "mic_tracks.json",
     "show_slowed": false
-  },
-  {
-    "id": "dussehra",
-    "title": "Dussehra",
-    "title_hindi": "\u0926\u0936\u0939\u0930\u093e",
-    "icon": "\ud83c\udff9",
-    "theme": {
-      "accent": "#eab308",
-      "glow_orange": "#ef4444",
-      "glow_indigo": "#eab308",
-      "glass_bg": "rgba(20, 15, 10, 0.70)"
-    },
-    "video_src": "v1f-buaYCVY",
-    "playlist_file": "dussehra_tracks.json",
-    "show_slowed": false
   }
 ]

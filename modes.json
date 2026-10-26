@@ -43,5 +43,20 @@
     "video_src": "mic.mp4",
     "playlist_file": "mic_tracks.json",
     "show_slowed": false
+  },
+  {
+    "id": "karwachauth",
+    "title": "Karwa Chauth",
+    "title_hindi": "\u0915\u0930\u0935\u093e \u091a\u094c\u0925",
+    "icon": "\ud83c\udf19",
+    "theme": {
+      "accent": "#f43f5e",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#f43f5e",
+      "glass_bg": "rgba(25, 10, 15, 0.75)"
+    },
+    "video_src": "pGm44V-rwXA",
+    "playlist_file": "karwachauth_tracks.json",
+    "show_slowed": false
   }
 ]

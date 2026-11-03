@@ -43,5 +43,20 @@
     "video_src": "mic.mp4",
     "playlist_file": "mic_tracks.json",
     "show_slowed": false
+  },
+  {
+    "id": "dhanteras",
+    "title": "Dhanteras",
+    "title_hindi": "\u0927\u0928\u0924\u0947\u0930\u0938",
+    "icon": "\ud83e\ude99",
+    "theme": {
+      "accent": "#eab308",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#ea580c",
+      "glass_bg": "rgba(20, 18, 10, 0.70)"
+    },
+    "video_src": "wQby7Va1vbk",
+    "playlist_file": "dhanteras_tracks.json",
+    "show_slowed": false
   }
 ]

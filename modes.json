@@ -58,5 +58,20 @@
     "video_src": "wQby7Va1vbk",
     "playlist_file": "dhanteras_tracks.json",
     "show_slowed": false
+  },
+  {
+    "id": "diwali",
+    "title": "Diwali",
+    "title_hindi": "\u0926\u093f\u0935\u093e\u0932\u0940",
+    "icon": "\ud83e\ude94",
+    "theme": {
+      "accent": "#fbbf24",
+      "glow_orange": "#ea580c",
+      "glow_indigo": "#be185d",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "video_src": "DbOpJDKpmHw",
+    "playlist_file": "diwali_tracks.json",
+    "show_slowed": false
   }
 ]

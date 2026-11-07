@@ -45,21 +45,6 @@
     "show_slowed": false
   },
   {
-    "id": "dhanteras",
-    "title": "Dhanteras",
-    "title_hindi": "\u0927\u0928\u0924\u0947\u0930\u0938",
-    "icon": "\ud83e\ude99",
-    "theme": {
-      "accent": "#eab308",
-      "glow_orange": "#fbbf24",
-      "glow_indigo": "#ea580c",
-      "glass_bg": "rgba(20, 18, 10, 0.70)"
-    },
-    "video_src": "wQby7Va1vbk",
-    "playlist_file": "dhanteras_tracks.json",
-    "show_slowed": false
-  },
-  {
     "id": "diwali",
     "title": "Diwali",
     "title_hindi": "\u0926\u093f\u0935\u093e\u0932\u0940",
@@ -72,6 +57,21 @@
     },
     "video_src": "DbOpJDKpmHw",
     "playlist_file": "diwali_tracks.json",
+    "show_slowed": false
+  },
+  {
+    "id": "bhaidooj",
+    "title": "Bhai Dooj",
+    "title_hindi": "\u092d\u093e\u0908 \u0926\u0942\u091c",
+    "icon": "\ud83d\udc6b",
+    "theme": {
+      "accent": "#f43f5e",
+      "glow_orange": "#fbbf24",
+      "glow_indigo": "#f43f5e",
+      "glass_bg": "rgba(20, 10, 15, 0.70)"
+    },
+    "video_src": "35vLf0KIR0A",
+    "playlist_file": "bhaidooj_tracks.json",
     "show_slowed": false
   }
 ]

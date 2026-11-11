@@ -45,33 +45,18 @@
     "show_slowed": false
   },
   {
-    "id": "diwali",
-    "title": "Diwali",
-    "title_hindi": "\u0926\u093f\u0935\u093e\u0932\u0940",
-    "icon": "\ud83e\ude94",
+    "id": "childrensday",
+    "title": "Children's Day",
+    "title_hindi": "\u092c\u093e\u0932 \u0926\u093f\u0935\u0938",
+    "icon": "\ud83e\uddf8",
     "theme": {
-      "accent": "#fbbf24",
-      "glow_orange": "#ea580c",
-      "glow_indigo": "#be185d",
-      "glass_bg": "rgba(20, 15, 10, 0.70)"
+      "accent": "#06b6d4",
+      "glow_orange": "#06b6d4",
+      "glow_indigo": "#ec4899",
+      "glass_bg": "rgba(10, 20, 20, 0.70)"
     },
-    "video_src": "DbOpJDKpmHw",
-    "playlist_file": "diwali_tracks.json",
-    "show_slowed": false
-  },
-  {
-    "id": "bhaidooj",
-    "title": "Bhai Dooj",
-    "title_hindi": "\u092d\u093e\u0908 \u0926\u0942\u091c",
-    "icon": "\ud83d\udc6b",
-    "theme": {
-      "accent": "#f43f5e",
-      "glow_orange": "#fbbf24",
-      "glow_indigo": "#f43f5e",
-      "glass_bg": "rgba(20, 10, 15, 0.70)"
-    },
-    "video_src": "35vLf0KIR0A",
-    "playlist_file": "bhaidooj_tracks.json",
+    "video_src": "75O3pChKjjw",
+    "playlist_file": "childrensday_tracks.json",
     "show_slowed": false
   }
 ]

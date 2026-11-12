@@ -58,5 +58,20 @@
     "video_src": "75O3pChKjjw",
     "playlist_file": "childrensday_tracks.json",
     "show_slowed": false
+  },
+  {
+    "id": "chhathpuja",
+    "title": "Chhath Puja",
+    "title_hindi": "\u091b\u0920 \u092a\u0942\u091c\u093e",
+    "icon": "\u2600\ufe0f",
+    "theme": {
+      "accent": "#fbbf24",
+      "glow_orange": "#ea580c",
+      "glow_indigo": "#eab308",
+      "glass_bg": "rgba(20, 15, 10, 0.70)"
+    },
+    "video_src": "79Z3xXhnUJQ",
+    "playlist_file": "chhathpuja_tracks.json",
+    "show_slowed": false
   }
 ]
